@@ -4,10 +4,11 @@
 <meta charset="UTF-8">
 <title>Hololive Arcane Packs</title>
 <style>
+
 body {
   margin: 0; padding: 20px;
   font-family: 'Segoe UI', sans-serif;
-  background: linear-gradient(#1a0033, #000022);
+  background: #1a0033;
   color: #eee;
   text-align: center;
 }
@@ -108,13 +109,6 @@ h1 {
               0 0 60px rgba(251, 255, 0, 0.8);
 }
 
-.flying-card.collab, .card.collab {
-  border: 5px solid #00ffff;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.7),
-              0 0 30px #00ffff,
-              0 0 60px rgba(0, 255, 255, 0.8);
-}
-
 .flying-card:hover, .card:hover {
   transform: translateY(-15px) scale(1.08);
   box-shadow: 0 20px 50px rgba(0,0,0,0.8);
@@ -130,12 +124,6 @@ h1 {
   box-shadow: 0 20px 50px rgba(0,0,0,0.8),
               0 0 40px #ff00ff,
               0 0 80px rgba(255, 0, 255, 0.95);
-}
-
-.flying-card.collab:hover, .card.collab:hover {
-  box-shadow: 0 20px 50px rgba(0,0,0,0.8),
-              0 0 40px #00ffff,
-              0 0 80px rgba(0, 255, 255, 0.95);
 }
 
 .flying-card .image-container {
@@ -274,11 +262,6 @@ h1 {
   box-shadow: 0 0 25px #ff00ff;
 }
 
-.library-card.collab {
-  border: 4px solid #00ffff;
-  box-shadow: 0 0 25px #00ffff;
-}
-
 .library-card:hover {
   transform: scale(1.08);
 }
@@ -336,7 +319,6 @@ h1 {
   }
   .library-card.rare .label      { color: #ffd700; }
   .library-card.legendary .label { color: #ff00ff; }
-  .library-card.collab .label    { color: #00ffff; }
   .library-card .count {
     position: absolute; top: 6px; right: 6px;
     background: rgba(255,215,0,0.9); color: #000;
@@ -348,6 +330,7 @@ h1 {
 
 <div class="sidebar">
   <button onclick="openLibrary()">📚 Library</button>
+  <button onclick="resetProgress()" style="background: #cc0000; margin-top: 10px;">Reset Progress</button>
 </div>
 
 <h1>Hololive Packs</h1>
@@ -357,7 +340,7 @@ h1 {
 </div>
 
 <p>Packs opened: <strong><span id="packsOpened">0</span></strong> | 
-Cards Collected: <strong><span id="collectionCount">0</span></strong> / <span id="totalCards">88</span></p>
+Cards Collected: <strong><span id="collectionCount">0</span></strong> / <span id="totalCards">90</span></p>
 
 <div class="cards-container" id="cardsContainer"></div>
 
@@ -377,128 +360,214 @@ Cards Collected: <strong><span id="collectionCount">0</span></strong> / <span id
 <!-- Library Modal -->
 <div class="library-modal" id="libraryModal">
   <div class="library-content">
-    <h2>📚 Collection Library <span id="libraryProgress">(0 / 44)</span></h2>
+    <h2>📚 Collection Library <span id="libraryProgress">(0 / 90)</span></h2>
     <button onclick="closeLibrary()" style="float:right; margin-top:-10px;">Close</button>
     <div class="library-grid" id="libraryGrid"></div>
   </div>
 </div>
 
 <script>
+// ==================== SAVE & LOAD SYSTEM ====================
+const SAVE_KEY = 'hololivePacksSave_v1';   // Change version if you update the structure later
+
+function saveGame() {
+    const saveData = {
+        packsOpened: packsOpened,
+        collection: collection
+    };
+    localStorage.setItem(SAVE_KEY, JSON.stringify(saveData));
+}
+
+function loadGame() {
+    const saved = localStorage.getItem(SAVE_KEY);
+    if (!saved) return false;
+
+    try {
+        const data = JSON.parse(saved);
+        
+        if (data.packsOpened !== undefined) {
+            packsOpened = data.packsOpened;
+            document.getElementById('packsOpened').textContent = packsOpened;
+        }
+        
+        if (data.collection) {
+            collection = data.collection;
+            updateCollectionCount();
+        }
+        return true;
+    } catch (e) {
+        console.error("Failed to load save:", e);
+        return false;
+    }
+}
+
+function resetProgress() {
+    if (confirm("Delete ALL progress and start over?")) {
+        localStorage.removeItem(SAVE_KEY);
+        collection = {};
+        packsOpened = 0;
+        document.getElementById('packsOpened').textContent = '0';
+        document.getElementById('collectionCount').textContent = '0';
+        updateCollectionCount();
+        saveGame(); // optional
+    }
+}
+
 // ==================== CHARACTERS (22) ====================
 const characters = [
   { id: 1, name: "Hakos Baelz",
-    normal: "baelz_normal.jpg", rare: "baelz_rare.jpg",
+    normal: "baelz_normal.jpg", rare: "baelz_rare.jpg", legendary: "baelz_legendary.jpg",
     normalStory: "The Embodiment of Chaos. A chaotic rat who brings fun and disorder everywhere she goes. Expect the unexpected when Bae is around!",
     rareStory: "In her rare form, Baelz has fully embraced pure chaos. Her laughter echoes through dimensions as she rewrites reality for entertainment."
   },
   { id: 2, name: "Mori Calliope",
-    normal: "calliope_normal.jpg", rare: "calliope_rare.jpg",
+    normal: "calliope_normal.jpg", rare: "calliope_rare.jpg", legendary: "calliope_legendary.jpg",
     normalStory: "The Grim Reaper's first apprentice and underground rap sensation. Death has never looked this cool.",
     rareStory: "As the fully awakened reaper, Calliope commands death itself with her scythe and bars."
   },
   { id: 3, name: "Takanashi Kiara",
-    normal: "kiara_normal.jpg", rare: "kiara_rare.jpg",
+    normal: "kiara_normal.jpg", rare: "kiara_rare.jpg", legendary: "kiara_legendary.jpg",
     normalStory: "A phoenix idol running a fast food empire in her dreams. She always comes back stronger.",
     rareStory: "Fully ignited phoenix mode. Her flames of passion burn so brightly that even death can't hold her."
   },
   { id: 4, name: "Ouro Kronii",
-    normal: "kronii_normal.jpg", rare: "kronii_rare.jpg",
+    normal: "kronii_normal.jpg", rare: "kronii_rare.jpg", legendary: "kronii_legendary.jpg",
     normalStory: "Warden of Time. She controls time itself, yet still struggles with deadlines.",
     rareStory: "The true Warden of Time. She can pause, rewind, or fast-forward reality at will."
   },
   { id: 5, name: "IRyS",
-    normal: "irys_normal.jpg", rare: "irys_rare.jpg",
+    normal: "irys_normal.jpg", rare: "irys_rare.jpg", legendary: "irys_legendary.jpg",
     normalStory: "A hopeful songbird from another dimension. Her voice carries the power to heal broken hearts.",
     rareStory: "In her radiant form, IRyS becomes pure hope incarnate."
   },
   { id: 6, name: "Shiori Novella",
-    normal: "shiori_normal.jpg", rare: "shiori_rare.jpg",
+    normal: "shiori_normal.jpg", rare: "shiori_rare.jpg", legendary: "shiori_legendary.jpg",
     normalStory: "The Archivist of Forbidden Knowledge. She knows secrets never meant to be discovered.",
     rareStory: "Having read every forbidden tome, Shiori now holds dangerous knowledge that could unravel reality."
   },
   { id: 7, name: "Raora Panthera",
-    normal: "raora_normal.jpg", rare: "raora_rare.jpg",
+    normal: "raora_normal.jpg", rare: "raora_rare.jpg", legendary: "raora_legendary.jpg", 
     normalStory: "Stylish Italian panther artist. Always elegant and ready to paint the town.",
     rareStory: "Master artist in her prime. Every stroke brings emotions to life."
   },
   { id: 8, name: "Hoshimachi Suisei",
-    normal: "suisei_normal.jpg", rare: "suisei_rare.jpg",
+    normal: "suisei_normal.jpg", rare: "suisei_rare.jpg", legendary: "suisei_legendary.jpg",
     normalStory: "The Comet Idol. Her singing can pierce the heavens and her aim is even deadlier.",
     rareStory: "The Stellar Comet. Her voice and comet strikes have reached legendary status."
   },
   { id: 9, name: "Houshou Marine",
-    normal: "marine_normal.jpg", rare: "marine_rare.jpg",
+    normal: "marine_normal.jpg", rare: "marine_rare.jpg", legendary: "marine_legendary.jpg",
     normalStory: "The energetic pirate captain who seeks treasure, adventure, and simp tax.",
     rareStory: "Captain of the seas in her ultimate form. Her charisma and greed know no bounds."
   },
   { id: 10, name: "Nekomata Okayu",
-    normal: "okayu_normal.jpg", rare: "okayu_rare.jpg",
+    normal: "okayu_normal.jpg", rare: "okayu_rare.jpg", legendary: "okayu_legendary.jpg",
     normalStory: "The lazy but powerful cat who loves onigiri and long naps.",
     rareStory: "Fully awakened cat spirit. Her power is as immense as her love for food and sleep."
   },
   { id: 11, name: "Shiranui Flare",
-    normal: "flare_normal.jpg", rare: "flare_rare.jpg",
+    normal: "flare_normal.jpg", rare: "flare_rare.jpg", legendary: "flare_legendary.jpg",
     normalStory: "Kind-hearted half-elf dark elf archer who loves saying 'Ara ara~'.",
     rareStory: "The legendary dark elf archer. Her arrows never miss and her kindness never wavers."
   },
   { id: 12, name: "Kaela Kovalskia",
-    normal: "kaela_normal.jpg", rare: "kaela_rare.jpg",
+    normal: "kaela_normal.jpg", rare: "kaela_rare.jpg", legendary: "kaela_legendary.jpg",
     normalStory: "The enigmatic singer with a voice that can move mountains.",
     rareStory: "The celestial singer. Her voice has the power to heal and destroy."
   },
   { id: 13, name: "Oozora Subaru",
-    normal: "subaru_normal.jpg", rare: "subaru_rare.jpg",
+    normal: "subaru_normal.jpg", rare: "subaru_rare.jpg", legendary: "subaru_legendary.jpg",
     normalStory: "The energetic pirate captain who seeks treasure, adventure, and simp tax.",
     rareStory: "Captain of the seas in her ultimate form. Her charisma and greed know no bounds."
   },
   { id: 14, name: "Nakiri Ayame",
-    normal: "ayame_normal.jpg", rare: "ayame_rare.jpg",
+    normal: "ayame_normal.jpg", rare: "ayame_rare.jpg", legendary: "ayame_legendary.jpg",
     normalStory: "The gentle guardian of the forest, wielding the power of nature.",
     rareStory: "The mighty forest spirit. Her connection to nature is unmatched."
   },
   { id: 15, name: "Inugami Korone",
-    normal: "korone_normal.jpg", rare: "korone_rare.jpg",
+    normal: "korone_normal.jpg", rare: "korone_rare.jpg", legendary: "korone_legendary.jpg",
     normalStory: "The energetic and mischievous fox spirit who loves causing chaos.",
     rareStory: "The powerful fox spirit. Her antics are legendary."
   },
   { id: 16, name: "Tokoyami Towa",
-    normal: "towa_normal.jpg", rare: "towa_rare.jpg",
+    normal: "towa_normal.jpg", rare: "towa_rare.jpg", legendary: "towa_legendary.jpg",
     normalStory: "The gentle and kind-hearted mermaid who loves the ocean and its creatures.",
     rareStory: "The powerful mermaid queen. Her voice can calm the storms and her compassion knows no bounds."
   },
   { id: 17, name: "Shishiro Botan",
-    normal: "botan_normal.jpg", rare: "botan_rare.jpg",
+    normal: "botan_normal.jpg", rare: "botan_rare.jpg", legendary: "botan_legendary.jpg",
     normalStory: "The gentle and kind-hearted rabbit spirit who loves gardening and peaceful moments.",
     rareStory: "The mighty rabbit spirit. Her wisdom and grace are unmatched."
   },
   { id: 18, name: "Omaru Polka",
-    normal: "omaru_normal.jpg", rare: "omaru_rare.jpg",
+    normal: "omaru_normal.jpg", rare: "omaru_rare.jpg", legendary: "omaru_legendary.jpg",
     normalStory: "The energetic and cheerful dragon girl who loves music and dancing.",
     rareStory: "The powerful dragon girl. Her presence fills the air with magic and joy."
   },
   { id: 19, name: "Takane Lui",
-    normal: "lui_normal.jpg", rare: "lui_rare.jpg",
+    normal: "lui_normal.jpg", rare: "lui_rare.jpg", legendary: "lui_legendary.jpg",
     normalStory: "The gentle and kind-hearted bird spirit who loves singing and flying.",
     rareStory: "The mighty bird spirit. Her songs can move the heavens and her compassion knows no bounds."
   },
   { id: 20, name: "Hakui Koyori",
-    normal: "koyori_normal.jpg", rare: "koyori_rare.jpg",
+    normal: "koyori_normal.jpg", rare: "koyori_rare.jpg", legendary: "koyori_legendary.jpg",
     normalStory: "The gentle and kind-hearted cat spirit who loves tea and quiet moments.",
     rareStory: "The powerful cat spirit. Her grace and wisdom are unmatched."
   },
   { id: 21, name: "Kazuma Iroha",
-    normal: "iroha_normal.jpg", rare: "iroha_rare.jpg",
+    normal: "iroha_normal.jpg", rare: "iroha_rare.jpg", legendary: "iroha_legendary.jpg",
     normalStory: "The gentle and kind-hearted rabbit spirit who loves gardening and peaceful moments.",
     rareStory: "The mighty rabbit spirit. Her wisdom and grace are unmatched."
   },
   { id: 22, name: "Juufuutei Raden",
-    normal: "raden_normal.jpg", rare: "raden_rare.jpg",
+    normal: "raden_normal.jpg", rare: "raden_rare.jpg", legendary: "raden_legendary.jpg",
+    normalStory: "The gentle and kind-hearted dragon spirit who loves music and dancing.",
+    rareStory: "The powerful dragon spirit. Her presence fills the air with magic and joy."
+  },
+  { id: 23, name: "Ishmael",
+    normal: "ishmael_normal.jpg", rare: "ishmael_rare.jpg", legendary: "ishmael_legendary.jpg",
+    normalStory: "The gentle and kind-hearted dragon spirit who loves music and dancing.",
+    rareStory: "The powerful dragon spirit. Her presence fills the air with magic and joy."
+  },
+  { id: 24, name: "Ryoshuu",
+    normal: "ryoshu_normal.jpg", rare: "ryoshu_rare.jpg", legendary: "ryoshu_legendary.jpg",
+    normalStory: "The gentle and kind-hearted dragon spirit who loves music and dancing.",
+    rareStory: "The powerful dragon spirit. Her presence fills the air with magic and joy."
+  },
+  { id: 25, name: "Faust",
+    normal: "faust_normal.jpg", rare: "faust_rare.jpg", legendary: "faust_legendary.jpg",
+    normalStory: "The gentle and kind-hearted dragon spirit who loves music and dancing.",
+    rareStory: "The powerful dragon spirit. Her presence fills the air with magic and joy."
+  },
+  { id: 26, name: "Don Quixote",
+    normal: "don_quixote_normal.jpg", rare: "don_quixote_rare.jpg", legendary: "don_quixote_legendary.jpg",
+    normalStory: "The gentle and kind-hearted dragon spirit who loves music and dancing.",
+    rareStory: "The powerful dragon spirit. Her presence fills the air with magic and joy."
+  },
+  { id: 27, name: "Outis",
+    normal: "outis_normal.jpg", rare: "outis_rare.jpg", legendary: "outis_legendary.jpg",
+    normalStory: "The gentle and kind-hearted dragon spirit who loves music and dancing.",
+    rareStory: "The powerful dragon spirit. Her presence fills the air with magic and joy."
+  },
+  { id: 28, name: "Tifa Lockhart",
+    normal: "tifa_normal.jpg", rare: "tifa_rare.jpg", legendary: "tifa_legendary.jpg",
+    normalStory: "The gentle and kind-hearted dragon spirit who loves music and dancing.",
+    rareStory: "The powerful dragon spirit. Her presence fills the air with magic and joy."
+  },
+  { id: 29, name: "Y'shtola Rhul",
+    normal: "yshtola_normal.jpg", rare: "yshtola_rare.jpg", legendary: "yshtola_legendary.jpg",
+    normalStory: "The gentle and kind-hearted dragon spirit who loves music and dancing.",
+    rareStory: "The powerful dragon spirit. Her presence fills the air with magic and joy."
+  },
+  { id: 30, name: "Alisaie Leveilleur",
+    normal: "alisae_normal.jpg", rare: "alisae_rare.jpg", legendary: "alisae_legendary.jpg",
     normalStory: "The gentle and kind-hearted dragon spirit who loves music and dancing.",
     rareStory: "The powerful dragon spirit. Her presence fills the air with magic and joy."
   },
 ];
 
-const TOTAL_UNIQUE_CARDS = 44; // 22 characters × 2 main variants (Basic + Rare). Adjust if needed.
+const TOTAL_UNIQUE_CARDS = 90; // 30 characters × 3 main variants (Basic + Rare + Legendary). Adjust if needed.
 
 let collection = {};        // { fullId: count }
 let packsOpened = 0;
@@ -515,6 +584,9 @@ const libraryGrid = document.getElementById('libraryGrid');
 
 let currentCard = null;
 
+// Load saved progress on page load
+loadGame();
+
 // ==================== GET RANDOM CARD ====================
 function getRandomCard() {
   const char = characters[Math.floor(Math.random() * characters.length)];
@@ -526,19 +598,15 @@ function getRandomCard() {
 
   if (roll < 0.04) {           // 4% Legendary
     type = 'legendary';
-    image = char.rare;
-    story = char.rareStory;
+    image = char.legendary;
+    story = char.legendaryStory;
   } else if (roll < 0.18) {    // 14% Rare
     type = 'rare';
     image = char.rare;
     story = char.rareStory;
-  } else if (roll < 0.23) {    // 5% Collab
-    type = 'collab';
-    image = char.rare;
-    story = char.rareStory;
   }
 
-  const offset = type === 'collab' ? 300 : type === 'legendary' ? 200 : type === 'rare' ? 100 : 0;
+  const offset = type === 'legendary' ? 200 : type === 'rare' ? 100 : 0;
   const fullId = char.id + offset;
 
   return { ...char, type, image, story, fullId };
@@ -590,8 +658,7 @@ document.getElementById('packArea').addEventListener('click', () => {
         <div class="card-name">
           ${cardData.name}<br>
           <small>
-            ${cardData.type === 'collab' ? '✦ Collab' : 
-              cardData.type === 'legendary' ? '◆ Legendary' : 
+              ${cardData.type === 'legendary' ? '◆ Legendary' : 
               cardData.type === 'rare' ? '★ Rare' : ''}
           </small>
         </div>
@@ -621,6 +688,7 @@ document.getElementById('packArea').addEventListener('click', () => {
     });
 
     updateCollectionCount();
+    saveGame();
 
     setTimeout(() => {
       packEl.classList.remove('opening');
@@ -632,13 +700,14 @@ document.getElementById('packArea').addEventListener('click', () => {
 function updateCollectionCount() {
   const uniqueCollected = Object.keys(collection).length;
   document.getElementById('collectionCount').textContent = uniqueCollected;
+  saveGame();
 }
 
 // ==================== CARD MODAL ====================
 function showCard(card) {
   currentCard = card;
   modalCard.innerHTML = `<img src="images/${card.image}" alt="${card.name}">`;
-  modalName.textContent = `${card.name} — ${card.type === 'collab' ? 'Collab' : card.type === 'legendary' ? 'Legendary' : card.type === 'rare' ? 'Rare' : 'Basic'}`;
+  modalName.textContent = `${card.name} — ${card.type === 'legendary' ? 'Legendary' : card.type === 'rare' ? 'Rare' : 'Basic'}`;
   storyEl.textContent = '';
   modal.style.display = 'flex';
 }
@@ -666,7 +735,6 @@ function openLibrary() {
     appendLibraryCard(char, 'basic', collection[char.id] || 0);
     appendLibraryCard(char, 'rare', collection[char.id + 100] || 0);
     appendLibraryCard(char, 'legendary', collection[char.id + 200] || 0);
-    appendLibraryCard(char, 'collab', collection[char.id + 300] || 0);
   });
 
   const uniqueCollected = Object.keys(collection).length;
@@ -675,9 +743,9 @@ function openLibrary() {
 }
 
 function appendLibraryCard(char, type, count) {
-  const offset = type === 'collab' ? 300 : type === 'legendary' ? 200 : type === 'rare' ? 100 : 0;
+  const offset = type === 'legendary' ? 200 : type === 'rare' ? 100 : 0;
   const fullId = char.id + offset;
-  const imageFile = type === 'collab' || type === 'legendary' || type === 'rare' ? char.rare : char.normal;
+  const imageFile = type === 'legendary' ? char.legendary : type === 'rare' ? char.rare : char.normal;
 
   const isOwned = count > 0;
 
@@ -685,7 +753,7 @@ function appendLibraryCard(char, type, count) {
   div.className = `library-card ${type} ${isOwned ? '' : 'locked'}`;
   div.innerHTML = `
     <img src="${isOwned ? 'images/' + imageFile : 'images/locked.png'}" alt="${char.name}">
-    <div class="label">${char.name} ${type === 'collab' ? '✦ Collab' : type === 'legendary' ? '◆ Legendary' : type === 'rare' ? '★ Rare' : 'Basic'}</div>
+    <div class="label">${char.name} ${type === 'legendary' ? '◆ Legendary' : type === 'rare' ? '★ Rare' : 'Basic'}</div>
     ${count > 0 ? `<div class="count">×${count}</div>` : ''}
   `;
 
@@ -695,7 +763,7 @@ function appendLibraryCard(char, type, count) {
         ...char,
         type: type,
         image: imageFile,
-        story: type === 'collab' || type === 'legendary' || type === 'rare' ? char.rareStory : char.normalStory
+        story: type === 'legendary' ? char.legendaryStory : type === 'rare' ? char.rareStory : char.normalStory
       };
       showCard(cardData);
       closeLibrary();
