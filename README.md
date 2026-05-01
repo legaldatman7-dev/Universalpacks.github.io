@@ -4,57 +4,303 @@
 <meta charset="UTF-8">
 <title>Hololive Arcane Packs</title>
 <style>
-  body {
-    margin: 0; padding: 20px;
-    font-family: 'Segoe UI', sans-serif;
-    background: linear-gradient(#1a0033, #000022);
-    color: #eee;
-    text-align: center;
-  }
-  h1 { color: #ff99ff; text-shadow: 0 0 15px #ff66cc; }
+body {
+  margin: 0; padding: 20px;
+  font-family: 'Segoe UI', sans-serif;
+  background: linear-gradient(#1a0033, #000022);
+  color: #eee;
+  text-align: center;
+}
 
-  .sidebar { position: fixed; left: 20px; top: 50%; transform: translateY(-50%); z-index: 50; }
-  .sidebar button {
-    padding: 14px 24px; font-size: 18px; background: #6600aa; color: white;
-    border: none; border-radius: 10px; cursor: pointer;
-  }
-  .sidebar button:hover { background: #aa00ff; }
+h1 { 
+  color: #ff99ff; 
+  text-shadow: 0 0 20px #ff66cc;
+  font-size: 48px;
+  margin: 20px 0 10px;
+}
 
-  .pack-area { margin: 40px auto; width: 200px; cursor: pointer; position: relative; }
-  .pack {
-    width: 200px; height: 280px;
-    background: linear-gradient(135deg, #6600cc, #ff00aa);
-    border: 10px solid gold;
-    border-radius: 20px;
-    box-shadow: 0 15px 40px rgba(255,0,200,0.6);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 32px; font-weight: bold; color: white;
-  }
-  .pack.shaking { animation: shake 0.5s linear infinite; }
-  .pack.opening { animation: packRip 1.1s forwards; }
-  @keyframes shake { 0%,100%{transform:rotate(-8deg);} 50%{transform:rotate(8deg);} }
-  @keyframes packRip { 0%{transform:scale(1);} 60%{transform:scale(1.2) rotate(20deg);} 100%{transform:scale(0.5) rotate(-40deg); opacity:0;} }
+.sidebar button {
+  padding: 16px 28px; 
+  font-size: 19px; 
+  background: linear-gradient(#8800cc, #aa00ff);
+  color: white;
+  border: none; 
+  border-radius: 12px; 
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(170, 0, 255, 0.4);
+  transition: all 0.3s;
+}
 
-  .cards-container {
-    display: flex; flex-wrap: wrap; gap: 18px; justify-content: center; margin: 30px 0;
-  }
-  .card {
-    width: 170px; height: 240px; background: #111; border-radius: 14px;
-    overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.8);
-    cursor: pointer; transition: 0.3s;
-  }
-  .card:hover { transform: translateY(-18px) scale(1.1); }
+.sidebar button:hover {
+  background: linear-gradient(#aa00ff, #cc33ff);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 25px rgba(170, 0, 255, 0.6);
+}
 
-  .card.basic     { border: 3px solid #aaa; }
-  .card.rare      { border: 5px solid #ffd700; box-shadow: 0 0 30px #ffcc00; }
-  .card.legendary { border: 6px solid #ff00ff; box-shadow: 0 0 40px #ff00ff; }
-  .card.collab    { border: 6px solid #00ffff; box-shadow: 0 0 40px #00ffff; }
+/* Stats */
+.stats {
+  font-size: 20px;
+  margin: 15px 0 30px;
+  text-shadow: 0 0 10px rgba(255,153,255,0.5);
+}
 
-  .card img { width: 100%; height: 190px; object-fit: cover; }
-  .card-name {
-    padding: 10px 6px; font-size: 15px; font-weight: bold;
-    background: rgba(0,0,0,0.75);
-  }
+/* Pack Area */
+.pack-area {
+  margin: 40px auto;
+  width: 220px;
+  position: relative;
+  height: 340px;
+}
+
+.pack {
+  width: 220px; 
+  height: 300px;
+  background: linear-gradient(135deg, #6600cc, #ff00aa);
+  border: 12px solid gold;
+  border-radius: 24px;
+  box-shadow: 0 20px 50px rgba(255,0,200,0.7);
+  display: flex; 
+  align-items: center; 
+  justify-content: center;
+  font-size: 34px; 
+  font-weight: bold; 
+  color: white;
+  position: relative;
+  z-index: 10;
+  cursor: pointer;
+  user-select: none;
+}
+
+.pack:hover {
+  box-shadow: 0 25px 60px rgba(255,100,220,0.8);
+}
+
+.flying-card, .card {
+  width: 170px;
+  height: 240px;
+  border-radius: 14px;
+  overflow: hidden;
+  position: relative;
+  background: #111;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+}
+
+/* Rarity Glows */
+.flying-card.basic, .card.basic {
+  border: 3px solid #aaaaaa;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.7),
+              0 0 15px rgba(170, 170, 170, 0.6);
+}
+
+.flying-card.rare, .card.rare {
+  border: 4px solid #ff00f2;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.7),
+              0 0 25px #ff00d4,
+              0 0 45px rgba(255, 0, 234, 0.7);
+}
+
+.flying-card.legendary, .card.legendary {
+  border: 5px solid #fffb00;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.7),
+              0 0 30px #fbff00,
+              0 0 60px rgba(251, 255, 0, 0.8);
+}
+
+.flying-card.collab, .card.collab {
+  border: 5px solid #00ffff;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.7),
+              0 0 30px #00ffff,
+              0 0 60px rgba(0, 255, 255, 0.8);
+}
+
+.flying-card:hover, .card:hover {
+  transform: translateY(-15px) scale(1.08);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+}
+
+.flying-card.rare:hover, .card.rare:hover {
+  box-shadow: 0 20px 50px rgba(0,0,0,0.8),
+              0 0 35px #ffd700,
+              0 0 70px rgba(255, 215, 0, 0.9);
+}
+
+.flying-card.legendary:hover, .card.legendary:hover {
+  box-shadow: 0 20px 50px rgba(0,0,0,0.8),
+              0 0 40px #ff00ff,
+              0 0 80px rgba(255, 0, 255, 0.95);
+}
+
+.flying-card.collab:hover, .card.collab:hover {
+  box-shadow: 0 20px 50px rgba(0,0,0,0.8),
+              0 0 40px #00ffff,
+              0 0 80px rgba(0, 255, 255, 0.95);
+}
+
+.flying-card .image-container {
+  width: 100%;
+  height: 190px;
+  background: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.flying-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;           /* ← This is the key change */
+  background: #111;
+  padding: 4px;
+  box-sizing: border-box;
+}
+
+.flying-card .card-name {
+  padding: 12px 8px;
+  font-size: 14.5px;
+  font-weight: bold;
+  background: rgba(0,0,0,0.85);
+  text-align: center;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1.25;
+}
+
+.flying-card.show {
+  opacity: 1;
+  pointer-events: auto;
+  transition: all 0.9s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.flying-card .card-name, .card .card-name {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.92));
+  padding: 20px 12px 14px;
+  font-size: 15px;
+  font-weight: bold;
+  color: white;
+  text-align: center;
+  text-shadow: 0 2px 6px rgba(0,0,0,0.95);
+  line-height: 1.25;
+  z-index: 10;
+}
+
+.cards-container {
+  display: flex; flex-wrap: wrap; gap: 18px; justify-content: center; margin: 30px 0;
+}
+
+.card-name small {
+  display: block;
+  font-size: 13px;
+  opacity: 0.95;
+  margin-top: 3px;
+}
+
+.card {
+  width: 170px; 
+  height: 240px; 
+  background: #111; 
+  border: gold 14px solid;
+  overflow: hidden; 
+  box-shadow: 0 12px 30px gold;
+  cursor: pointer; 
+  transition: all 0.3s;
+  display: flex;
+  flex-direction: column;
+}
+
+.card .image-container {
+  width: 100%;
+  height: 190px;
+  background: #111;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+.card img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;           /* ← Key fix */
+  background: #111;
+  padding: 4px;
+  box-sizing: border-box;
+}
+
+.card .card-name {
+  padding: 12px 8px;
+  font-size: 15px;
+  font-weight: bold;
+  background: rgba(0,0,0,0.75);
+  text-align: center;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Library cards */
+.library-card {
+  width: 160px;
+  height: 225px;
+  border-radius: 12px;
+  overflow: hidden;
+  position: relative;
+  background: #111;
+  transition: all 0.2s;
+}
+
+.library-card.basic {
+  border: 2px solid #aaaaaa;
+}
+
+.library-card.rare {
+  border: 3px solid #ffd700;
+  box-shadow: 0 0 20px #ffd700;
+}
+
+.library-card.legendary {
+  border: 4px solid #ff00ff;
+  box-shadow: 0 0 25px #ff00ff;
+}
+
+.library-card.collab {
+  border: 4px solid #00ffff;
+  box-shadow: 0 0 25px #00ffff;
+}
+
+.library-card:hover {
+  transform: scale(1.08);
+}
+
+.library-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  background: #0a0a0a;
+}
+
+.library-card .label {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(transparent, rgba(0,0,0,0.9));
+  padding: 12px 6px 10px;
+  font-size: 13px;
+  text-align: center;
+  text-shadow: 0 1px 3px black;
+}
 
   .modal, .library-modal {
     display: none; position: fixed; inset: 0;
@@ -111,7 +357,7 @@
 </div>
 
 <p>Packs opened: <strong><span id="packsOpened">0</span></strong> | 
-Cards Collected: <strong><span id="collectionCount">0</span></strong> / <span id="totalCards">44</span></p>
+Cards Collected: <strong><span id="collectionCount">0</span></strong> / <span id="totalCards">88</span></p>
 
 <div class="cards-container" id="cardsContainer"></div>
 
@@ -252,10 +498,11 @@ const characters = [
   },
 ];
 
-const TOTAL_UNIQUE_CARDS = characters.length * 4;   // Currently 44
+const TOTAL_UNIQUE_CARDS = 44; // 22 characters × 2 main variants (Basic + Rare). Adjust if needed.
 
-let collection = new Set();     // Now stores unique fullIds (e.g. 1, 105, 204...)
+let collection = {};        // { fullId: count }
 let packsOpened = 0;
+let flyingCards = [];       // Track current flying cards to remove them
 
 const packEl = document.getElementById('pack');
 const cardsContainer = document.getElementById('cardsContainer');
@@ -268,12 +515,54 @@ const libraryGrid = document.getElementById('libraryGrid');
 
 let currentCard = null;
 
-// ==================== PACK OPENING WITH ANIMATION ====================
+// ==================== GET RANDOM CARD ====================
+function getRandomCard() {
+  const char = characters[Math.floor(Math.random() * characters.length)];
+  const roll = Math.random();
+
+  let type = 'basic';
+  let image = char.normal;
+  let story = char.normalStory;
+
+  if (roll < 0.04) {           // 4% Legendary
+    type = 'legendary';
+    image = char.rare;
+    story = char.rareStory;
+  } else if (roll < 0.18) {    // 14% Rare
+    type = 'rare';
+    image = char.rare;
+    story = char.rareStory;
+  } else if (roll < 0.23) {    // 5% Collab
+    type = 'collab';
+    image = char.rare;
+    story = char.rareStory;
+  }
+
+  const offset = type === 'collab' ? 300 : type === 'legendary' ? 200 : type === 'rare' ? 100 : 0;
+  const fullId = char.id + offset;
+
+  return { ...char, type, image, story, fullId };
+}
+
+// ==================== CLEAR PREVIOUS CARDS ====================
+function clearPreviousCards() {
+  flyingCards.forEach(card => {
+    if (card.parentNode) card.parentNode.removeChild(card);
+  });
+  flyingCards = [];
+}
+
+// ==================== PACK OPENING ====================
 document.getElementById('packArea').addEventListener('click', () => {
   if (packEl.classList.contains('shaking') || packEl.classList.contains('opening')) return;
 
   packsOpened++;
   document.getElementById('packsOpened').textContent = packsOpened;
+
+  clearPreviousCards();                    // ← NEW: Remove old cards
+
+  const packRect = packEl.getBoundingClientRect();
+  const containerRect = cardsContainer.getBoundingClientRect();
 
   packEl.classList.add('shaking');
 
@@ -281,79 +570,75 @@ document.getElementById('packArea').addEventListener('click', () => {
     packEl.classList.remove('shaking');
     packEl.classList.add('opening');
 
+    const newCards = [];
+    for (let i = 0; i < 5; i++) {
+      const cardData = getRandomCard();
+      
+      if (!collection[cardData.fullId]) collection[cardData.fullId] = 0;
+      collection[cardData.fullId]++;
+
+      newCards.push(cardData);
+    }
+
+    // Create flying cards (flying down)
+    newCards.forEach((cardData, index) => {
+      const flying = document.createElement('div');
+      flying.className = `flying-card ${cardData.type || 'basic'}`;
+      
+      flying.innerHTML = `
+        <img src="images/${cardData.image}" alt="${cardData.name}">
+        <div class="card-name">
+          ${cardData.name}<br>
+          <small>
+            ${cardData.type === 'collab' ? '✦ Collab' : 
+              cardData.type === 'legendary' ? '◆ Legendary' : 
+              cardData.type === 'rare' ? '★ Rare' : ''}
+          </small>
+        </div>
+      `;
+
+      flying.style.left = `${-2000}px`;
+      flying.style.top = `${0}px`;
+
+      cardsContainer.appendChild(flying);
+      flyingCards.push(flying);
+
+      setTimeout(() => {
+        const offsetX = (index - 2) * 10;
+        const finalLeft = 0 + offsetX;
+        const finalTop = 0;
+
+        flying.style.left = `${finalLeft}px`;
+        flying.style.top = `${finalTop}px`;
+        flying.style.transform = `scale(1) rotate(${Math.random()*10 - 5}deg)`;
+        flying.classList.add('show');
+
+        setTimeout(() => {
+          flying.style.pointerEvents = 'auto';
+          flying.onclick = () => showCard(cardData);
+        }, 1100);
+      }, 180 + index * 90);
+    });
+
+    updateCollectionCount();
+
     setTimeout(() => {
-      cardsContainer.innerHTML = '';
-
-      for (let i = 0; i < 5; i++) {
-        const card = getRandomCard();
-        collection.add(card.fullId);        // ← New: just add to Set
-        renderCard(card);
-      }
-
-      updateCollectionCount();
       packEl.classList.remove('opening');
-    }, 900);
-  }, 700);
+    }, 1500);
+
+  }, 600);
 });
 
-function getRandomCard() {
-  const char = characters[Math.floor(Math.random() * characters.length)];
-  const roll = Math.random();
-
-  let type = 'basic';
-  if (roll < 0.02) type = 'collab';
-  else if (roll < 0.07) type = 'legendary';
-  else if (roll < 0.29) type = 'rare';
-
-  const offset = type === 'collab' ? 300 : type === 'legendary' ? 200 : type === 'rare' ? 100 : 0;
-  const fullId = char.id + offset;
-
-  const image = type === 'collab' ? (char.collab) :
-                type === 'legendary' ? (char.legendary) :
-                type === 'rare' ? char.rare : char.normal;
-
-  const story = type === 'collab' ? (char.collabStory) :
-                type === 'legendary' ? (char.legendaryStory) :
-                type === 'rare' ? char.rareStory : char.normalStory;
-
-  return {
-    ...char,
-    type: type,
-    fullId: fullId,
-    image: image,
-    story: story || "A mysterious Hololive talent."
-  };
-}
-
-function renderCard(card) {
-  const div = document.createElement('div');
-  let cls = 'basic';
-  if (card.type === 'rare') cls = 'rare';
-  else if (card.type === 'legendary') cls = 'legendary';
-  else if (card.type === 'collab') cls = 'collab';
-
-  div.className = `card ${cls}`;
-  div.innerHTML = `
-    <img src="images/${card.image}" alt="${card.name}">
-    <div class="card-name">${card.name} 
-      ${card.type === 'collab' ? '✦ Collab' : card.type === 'legendary' ? '◆ Legendary' : card.type === 'rare' ? '★ Rare' : ''}
-    </div>
-  `;
-  div.onclick = () => showCard(card);
-  cardsContainer.appendChild(div);
-}
-
 function updateCollectionCount() {
-  const uniqueSeen = collection.size;
-  document.getElementById('collectionCount').textContent = uniqueSeen;
-  document.getElementById('totalCards').textContent = TOTAL_UNIQUE_CARDS;
+  const uniqueCollected = Object.keys(collection).length;
+  document.getElementById('collectionCount').textContent = uniqueCollected;
 }
 
-// ==================== CARD VIEW ====================
+// ==================== CARD MODAL ====================
 function showCard(card) {
   currentCard = card;
   modalCard.innerHTML = `<img src="images/${card.image}" alt="${card.name}">`;
-  modalName.textContent = `${card.name} — ${card.type === 'collab' ? 'Collab' : card.type === 'legendary' ? 'Legendary' : card.type === 'rare' ? 'Rare Alt' : 'Basic'}`;
+  modalName.textContent = `${card.name} — ${card.type === 'collab' ? 'Collab' : card.type === 'legendary' ? 'Legendary' : card.type === 'rare' ? 'Rare' : 'Basic'}`;
   storyEl.textContent = '';
   modal.style.display = 'flex';
 }
@@ -373,39 +658,33 @@ function closeModal() {
   modal.style.display = 'none';
 }
 
-// ==================== LIBRARY (Fixed) ====================
+// ==================== LIBRARY ====================
 function openLibrary() {
   libraryGrid.innerHTML = '';
 
   characters.forEach(char => {
-    // Basic
     appendLibraryCard(char, 'basic', collection[char.id] || 0);
-    // Rare
     appendLibraryCard(char, 'rare', collection[char.id + 100] || 0);
-    // Legendary
     appendLibraryCard(char, 'legendary', collection[char.id + 200] || 0);
-    // Collab
     appendLibraryCard(char, 'collab', collection[char.id + 300] || 0);
   });
 
-  const totalCollected = Object.values(collection).reduce((a, b) => a + b, 0);
-  document.getElementById('libraryProgress').textContent = `(${totalCollected} / ${TOTAL_UNIQUE_CARDS})`;
+  const uniqueCollected = Object.keys(collection).length;
+  document.getElementById('libraryProgress').textContent = `(${uniqueCollected} / ${TOTAL_UNIQUE_CARDS})`;
   libraryModal.style.display = 'flex';
 }
 
 function appendLibraryCard(char, type, count) {
   const offset = type === 'collab' ? 300 : type === 'legendary' ? 200 : type === 'rare' ? 100 : 0;
   const fullId = char.id + offset;
-  const imageFile = type === 'collab' ? (char.collab || char.rare) :
-                    type === 'legendary' ? (char.legendary || char.rare) :
-                    type === 'rare' ? char.rare : char.normal;
+  const imageFile = type === 'collab' || type === 'legendary' || type === 'rare' ? char.rare : char.normal;
 
   const isOwned = count > 0;
 
   const div = document.createElement('div');
   div.className = `library-card ${type} ${isOwned ? '' : 'locked'}`;
   div.innerHTML = `
-    <img src="${isOwned ? 'images/' + imageFile : 'https://via.placeholder.com/160x225/111111/555555?text=?'}">
+    <img src="${isOwned ? 'images/' + imageFile : 'images/locked.png'}" alt="${char.name}">
     <div class="label">${char.name} ${type === 'collab' ? '✦ Collab' : type === 'legendary' ? '◆ Legendary' : type === 'rare' ? '★ Rare' : 'Basic'}</div>
     ${count > 0 ? `<div class="count">×${count}</div>` : ''}
   `;
@@ -416,9 +695,7 @@ function appendLibraryCard(char, type, count) {
         ...char,
         type: type,
         image: imageFile,
-        story: type === 'collab' ? (char.collabStory || char.rareStory) :
-               type === 'legendary' ? (char.legendaryStory || char.rareStory) :
-               type === 'rare' ? char.rareStory : char.normalStory
+        story: type === 'collab' || type === 'legendary' || type === 'rare' ? char.rareStory : char.normalStory
       };
       showCard(cardData);
       closeLibrary();
@@ -439,5 +716,3 @@ document.addEventListener('keydown', e => {
   }
 });
 </script>
-</body>
-</html>
