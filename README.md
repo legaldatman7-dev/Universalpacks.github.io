@@ -254,7 +254,7 @@ const characters = [
 
 const TOTAL_UNIQUE_CARDS = characters.length * 4;   // Currently 44
 
-let collection = {};   // e.g. {"1": 5, "101": 2, "201": 1, "301": 0}
+let collection = new Set();     // Now stores unique fullIds (e.g. 1, 105, 204...)
 let packsOpened = 0;
 
 const packEl = document.getElementById('pack');
@@ -286,7 +286,7 @@ document.getElementById('packArea').addEventListener('click', () => {
 
       for (let i = 0; i < 5; i++) {
         const card = getRandomCard();
-        collection[card.fullId] = (collection[card.fullId] || 0) + 1;
+        collection.add(card.fullId);        // ← New: just add to Set
         renderCard(card);
       }
 
@@ -344,8 +344,8 @@ function renderCard(card) {
 }
 
 function updateCollectionCount() {
-  const totalCollected = Object.values(collection).reduce((a, b) => a + b, 0);
-  document.getElementById('collectionCount').textContent = totalCollected;
+  const uniqueSeen = collection.size;
+  document.getElementById('collectionCount').textContent = uniqueSeen;
   document.getElementById('totalCards').textContent = TOTAL_UNIQUE_CARDS;
 }
 
