@@ -147,14 +147,13 @@
 
     /* Library */
     .library-card {
-        width: 160px;
-        aspect-ratio: 160 / 225;
-        border-radius: 12px;
-        overflow: hidden;
-        position: relative;
+        width: 100%;
+        height: 190px;
         background: #111;
-        transition: 0.3s;
-        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
     }
 
     .library-card img {
@@ -204,14 +203,13 @@
 
     /* Modals */
     .modal, .library-modal {
-        display: none;
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,0.96);
-        z-index: 300;
+        width: 100%;
+        height: 190px;
+        background: #111;
+        display: flex;
         align-items: center;
         justify-content: center;
-        padding: 15px;
+        overflow: hidden;
     }
 
     .modal-content {
