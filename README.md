@@ -1,7 +1,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Pack Opening</title>
+<title>Hololive Arcane Packs</title>
 <style>
 
 body {
@@ -238,14 +238,32 @@ h1 {
 
 /* Library cards */
 .library-card {
-  width: 160px;
-  height: 225px;
-  border-radius: 12px;
-  overflow: hidden;
-  position: relative;
-  background: #111;
-  transition: all 0.2s;
-}
+    width: 160px;
+    height: 225px;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    background: #111;
+    transition: 0.3s;
+  }
+
+  .library-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;     /* Fixed */
+    background: #0a0a0a;
+  }
+
+  .library-card .label {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.9));
+    padding: 14px 8px 10px;
+    font-size: 13px;
+    text-align: center;
+  }
 
 .library-card.basic {
   border: 2px solid #aaaaaa;
@@ -265,64 +283,93 @@ h1 {
   transform: scale(1.08);
 }
 
-.library-card img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  background: #0a0a0a;
-}
-
-.library-card .label {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(transparent, rgba(0,0,0,0.9));
-  padding: 12px 6px 10px;
-  font-size: 13px;
-  text-align: center;
-  text-shadow: 0 1px 3px black;
-}
-
   .modal, .library-modal {
-    display: none; position: fixed; inset: 0;
-    background: rgba(0,0,0,0.95); z-index: 300;
-    align-items: center; justify-content: center;
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.96);
+    z-index: 300;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
   }
+
   .modal-content {
-    display: flex; max-width: 1100px; width: 92%;
-    background: #220033; border-radius: 20px; overflow: hidden;
-  }
-  .modal-card { width: 380px; flex-shrink: 0; }
-  .modal-card img { width: 100%; height: auto; }
-  .story-panel { flex: 1; padding: 35px; text-align: left; background: #110022; }
-  .typewriter { margin-top: 20px; font-size: 17.5px; line-height: 1.65; white-space: pre-wrap; }
+  display: flex;
+  max-width: 1100px;
+  width: 100%;
+  max-height: 85vh;
+  background: #220033;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(255, 0, 200, 0.5);
+  border: 3px solid #ff99ff;
+}
+
+  .modal-card {
+  width: 380px;
+  flex-shrink: 0;
+  background: #111;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+ }
+
+ .modal-card img {
+  max-width: 100%;
+  max-height: 520px;
+  object-fit: contain;
+  border-radius: 12px;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+ }
+
+  .story-panel {
+  flex: 1;
+  padding: 30px;
+  text-align: left;
+  background: #110022;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+ }
 
   .library-content {
-    background: #1a0033; padding: 25px; border-radius: 20px;
-    max-width: 1200px; width: 95%; max-height: 90vh; overflow-y: auto;
+    background: #1a0033;
+    padding: 20px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 1000px;
+    max-height: 92vh;
+    overflow-y: auto;
   }
+
   .library-grid {
-    display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 16px; margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 14px;
+    margin-top: 15px;
   }
+
   .library-card {
-    width: 160px; height: 225px; border-radius: 12px; overflow: hidden;
-    position: relative; cursor: pointer; transition: 0.2s;
+    width: 100%;
+    aspect-ratio: 160 / 225;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
   }
-  .library-card:hover { transform: scale(1.05); }
-  .library-card img { width: 100%; height: 100%; object-fit: cover; }
-  .library-card.locked { filter: brightness(0.25) grayscale(1); border: 3px solid #555; }
-  .library-card .label {
-    position: absolute; bottom: 0; left: 0; right: 0;
-    background: rgba(0,0,0,0.85); padding: 6px; font-size: 13px; text-align: center;
+
+  /* Mobile Adjustments */
+  @media (max-width: 480px) {
+    h1 { font-size: 1.9rem; }
+    .pack { font-size: 28px; height: 280px; }
+    .pack-area { height: 300px; }
+    .flying-card, .card { width: 148px; height: 208px; }
+    .cards-container { gap: 12px; }
+    .card-name { font-size: 13.5px; padding: 14px 6px 10px; }
   }
-  .library-card.rare .label      { color: #ffd700; }
-  .library-card.legendary .label { color: #ff00ff; }
-  .library-card .count {
-    position: absolute; top: 6px; right: 6px;
-    background: rgba(255,215,0,0.9); color: #000;
-    font-size: 12px; font-weight: bold; padding: 2px 8px; border-radius: 10px;
-  }
+
 </style>
 </head>
 <body>
@@ -332,11 +379,14 @@ h1 {
   <button onclick="resetProgress()" style="background: #cc0000; margin-top: 10px;">Reset Progress</button>
 </div>
 
-<h1>Pack Opening</h1>
+<h1>Hololive Packs</h1>
 
 <div class="pack-area" id="packArea">
   <div class="pack" id="pack">OPEN PACK</div>
 </div>
+
+<p>Packs opened: <strong><span id="packsOpened">0</span></strong> | 
+Cards Collected: <strong><span id="collectionCount">0</span></strong> / <span id="totalCards">90</span></p>
 
 <div class="cards-container" id="cardsContainer"></div>
 
