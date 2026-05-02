@@ -1,449 +1,353 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <title>Hololive Arcane Packs</title>
 <style>
+    :root {
+        --accent: #ff66cc;
+    }
 
-body {
-  margin: 0; padding: 20px;
-  font-family: 'Segoe UI', sans-serif;
-  background: #1a0033;
-  color: #eee;
-  text-align: center;
-}
+    body {
+        margin: 0; 
+        padding: 20px;
+        font-family: 'Segoe UI', sans-serif;
+        background: #1a0033;
+        color: #eee;
+        text-align: center;
+    }
 
-h1 { 
-  color: #ff99ff; 
-  text-shadow: 0 0 20px #ff66cc;
-  font-size: 48px;
-  margin: 20px 0 10px;
-}
+    h1 { 
+        color: #ff99ff; 
+        text-shadow: 0 0 20px #ff66cc;
+        font-size: 48px;
+        margin: 20px 0 10px;
+    }
 
-.sidebar button {
-  padding: 16px 28px; 
-  font-size: 19px; 
-  background: linear-gradient(#8800cc, #aa00ff);
-  color: white;
-  border: none; 
-  border-radius: 12px; 
-  cursor: pointer;
-  box-shadow: 0 8px 20px rgba(170, 0, 255, 0.4);
-  transition: all 0.3s;
-}
+    button {
+        padding: 12px 24px; 
+        font-size: 18px; 
+        background: linear-gradient(#8800cc, #aa00ff);
+        color: white;
+        border: none; 
+        border-radius: 12px; 
+        cursor: pointer;
+        box-shadow: 0 8px 20px rgba(170, 0, 255, 0.4);
+        transition: all 0.3s;
+    }
 
-.sidebar button:hover {
-  background: linear-gradient(#aa00ff, #cc33ff);
-  transform: translateY(-3px);
-  box-shadow: 0 12px 25px rgba(170, 0, 255, 0.6);
-}
+    button:hover {
+        background: linear-gradient(#aa00ff, #cc33ff);
+        transform: translateY(-3px);
+        box-shadow: 0 12px 25px rgba(170, 0, 255, 0.6);
+    }
 
-/* Stats */
-.stats {
-  font-size: 20px;
-  margin: 15px 0 30px;
-  text-shadow: 0 0 10px rgba(255,153,255,0.5);
-}
+    .stats {
+        font-size: 20px;
+        margin: 15px 0 30px;
+        text-shadow: 0 0 10px rgba(255,153,255,0.5);
+    }
 
-/* Pack Area */
-.pack-area {
-  margin: 40px auto;
-  width: 220px;
-  position: relative;
-  height: 340px;
-}
+    /* Pack */
+    .pack-area {
+        margin: 40px auto;
+        width: 220px;
+        height: 340px;
+        position: relative;
+    }
 
-.pack {
-  width: 220px; 
-  height: 300px;
-  background: linear-gradient(135deg, #6600cc, #ff00aa);
-  border: 12px solid gold;
-  border-radius: 24px;
-  box-shadow: 0 20px 50px rgba(255,0,200,0.7);
-  display: flex; 
-  align-items: center; 
-  justify-content: center;
-  font-size: 34px; 
-  font-weight: bold; 
-  color: white;
-  position: relative;
-  z-index: 10;
-  cursor: pointer;
-  user-select: none;
-}
+    .pack {
+        width: 220px; 
+        height: 300px;
+        background: linear-gradient(135deg, #6600cc, #ff00aa);
+        border: 12px solid gold;
+        border-radius: 24px;
+        display: flex; 
+        align-items: center; 
+        justify-content: center;
+        font-size: 34px; 
+        font-weight: bold; 
+        color: white;
+        box-shadow: 0 20px 50px rgba(255,0,200,0.7);
+        cursor: pointer;
+        user-select: none;
+        transition: all 0.3s;
+    }
 
-.pack:hover {
-  box-shadow: 0 25px 60px rgba(255,100,220,0.8);
-}
+    .pack:hover {
+        box-shadow: 0 25px 60px rgba(255,100,220,0.8);
+    }
 
-.flying-card, .card {
-  width: 170px;
-  height: 240px;
-  border-radius: 14px;
-  overflow: hidden;
-  position: relative;
-  background: #111;
-  cursor: pointer;
-  transition: all 0.4s ease;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.7);
-}
+    /* Cards */
+    .flying-card, .card {
+        width: 170px;
+        height: 240px;
+        border-radius: 14px;
+        overflow: hidden;
+        background: #111;
+        cursor: pointer;
+        transition: all 0.4s ease;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.7);
+        position: relative;
+    }
 
-/* Rarity Glows */
-.flying-card.basic, .card.basic {
-  border: 3px solid #aaaaaa;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.7),
-              0 0 15px rgba(170, 170, 170, 0.6);
-}
+    .flying-card.basic, .card.basic { border: 3px solid #aaaaaa; }
+    .flying-card.rare, .card.rare { 
+        border: 4px solid #ff00f2;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.7), 0 0 25px #ff00d4;
+    }
+    .flying-card.legendary, .card.legendary { 
+        border: 5px solid #fffb00;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.7), 0 0 30px #fbff00;
+    }
 
-.flying-card.rare, .card.rare {
-  border: 4px solid #ff00f2;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.7),
-              0 0 25px #ff00d4,
-              0 0 45px rgba(255, 0, 234, 0.7);
-}
+    .flying-card:hover, .card:hover {
+        transform: translateY(-15px) scale(1.08);
+    }
 
-.flying-card.legendary, .card.legendary {
-  border: 5px solid #fffb00;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.7),
-              0 0 30px #fbff00,
-              0 0 60px rgba(251, 255, 0, 0.8);
-}
+    .flying-card .image-container,
+    .card .image-container {
+        width: 100%;
+        height: 190px;
+        background: #111;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+    }
 
-.flying-card:hover, .card:hover {
-  transform: translateY(-15px) scale(1.08);
-  box-shadow: 0 20px 50px rgba(0,0,0,0.8);
-}
+    .flying-card img,
+    .card img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        padding: 4px;
+        box-sizing: border-box;
+    }
 
-.flying-card.rare:hover, .card.rare:hover {
-  box-shadow: 0 20px 50px rgba(0,0,0,0.8),
-              0 0 35px #ffd700,
-              0 0 70px rgba(255, 215, 0, 0.9);
-}
+    .card-name {
+        position: absolute;
+        bottom: 0;
+        left: 0; right: 0;
+        background: linear-gradient(transparent, rgba(0,0,0,0.92));
+        padding: 20px 12px 14px;
+        font-size: 15px;
+        font-weight: bold;
+        text-align: center;
+        text-shadow: 0 2px 6px rgba(0,0,0,0.95);
+    }
 
-.flying-card.legendary:hover, .card.legendary:hover {
-  box-shadow: 0 20px 50px rgba(0,0,0,0.8),
-              0 0 40px #ff00ff,
-              0 0 80px rgba(255, 0, 255, 0.95);
-}
+    .cards-container {
+        display: flex; 
+        flex-wrap: wrap; 
+        gap: 18px; 
+        justify-content: center; 
+        margin: 30px 0;
+    }
 
-.flying-card .image-container {
-  width: 100%;
-  height: 190px;
-  background: #111;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  position: relative;
-}
+    /* Library */
+    .library-card {
+        width: 160px;
+        aspect-ratio: 160 / 225;
+        border-radius: 12px;
+        overflow: hidden;
+        position: relative;
+        background: #111;
+        transition: 0.3s;
+        cursor: pointer;
+    }
 
-.flying-card img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;           /* ← This is the key change */
-  background: #111;
-  padding: 4px;
-  box-sizing: border-box;
-}
+    .library-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        background: #0a0a0a;
+    }
 
-.flying-card .card-name {
-  padding: 12px 8px;
-  font-size: 14.5px;
-  font-weight: bold;
-  background: rgba(0,0,0,0.85);
-  text-align: center;
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1.25;
-}
+    .library-card .label {
+        position: absolute;
+        bottom: 0;
+        left: 0; right: 0;
+        background: linear-gradient(transparent, rgba(0,0,0,0.9));
+        padding: 14px 8px 10px;
+        font-size: 13px;
+        text-align: center;
+    }
 
-.flying-card.show {
-  opacity: 1;
-  pointer-events: auto;
-  transition: all 0.9s cubic-bezier(0.23, 1, 0.32, 1);
-}
+    .library-card .count {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        background: rgba(0,0,0,0.8);
+        color: #fff;
+        padding: 2px 8px;
+        border-radius: 12px;
+        font-size: 13px;
+        font-weight: bold;
+        z-index: 10;
+    }
 
-.flying-card .card-name, .card .card-name {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: linear-gradient(transparent, rgba(0,0,0,0.92));
-  padding: 20px 12px 14px;
-  font-size: 15px;
-  font-weight: bold;
-  color: white;
-  text-align: center;
-  text-shadow: 0 2px 6px rgba(0,0,0,0.95);
-  line-height: 1.25;
-  z-index: 10;
-}
+    .library-card.basic { border: 2px solid #aaaaaa; }
+    .library-card.rare { 
+        border: 3px solid #ffd700; 
+        box-shadow: 0 0 20px #ffd700; 
+    }
+    .library-card.legendary { 
+        border: 4px solid #ff00ff; 
+        box-shadow: 0 0 25px #ff00ff; 
+    }
 
-.cards-container {
-  display: flex; flex-wrap: wrap; gap: 18px; justify-content: center; margin: 30px 0;
-}
+    .library-card:hover {
+        transform: scale(1.08);
+    }
 
-.card-name small {
-  display: block;
-  font-size: 13px;
-  opacity: 0.95;
-  margin-top: 3px;
-}
+    /* Modals */
+    .modal, .library-modal {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.96);
+        z-index: 300;
+        align-items: center;
+        justify-content: center;
+        padding: 15px;
+    }
 
-.card {
-  width: 170px; 
-  height: 240px; 
-  background: #111; 
-  border: gold 14px solid;
-  overflow: hidden; 
-  box-shadow: 0 12px 30px gold;
-  cursor: pointer; 
-  transition: all 0.3s;
-  display: flex;
-  flex-direction: column;
-}
+    .modal-content {
+        display: flex;
+        max-width: 1100px;
+        width: 100%;
+        max-height: 85vh;
+        background: #220033;
+        border-radius: 20px;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(255, 0, 200, 0.5);
+        border: 3px solid #ff99ff;
+    }
 
-.card .image-container {
-  width: 100%;
-  height: 190px;
-  background: #111;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  position: relative;
-}
+    .modal-card img {
+        max-width: 100%;
+        max-height: 520px;
+        object-fit: contain;
+        border-radius: 12px;
+    }
 
-.card img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;           /* ← Key fix */
-  background: #111;
-  padding: 4px;
-  box-sizing: border-box;
-}
+    .story-panel {
+        flex: 1;
+        padding: 30px;
+        text-align: left;
+        background: #110022;
+        overflow-y: auto;
+    }
 
-.card .card-name {
-  padding: 12px 8px;
-  font-size: 15px;
-  font-weight: bold;
-  background: rgba(0,0,0,0.75);
-  text-align: center;
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
+    .library-content {
+        background: #1a0033;
+        padding: 20px;
+        border-radius: 20px;
+        width: 100%;
+        max-width: 1000px;
+        max-height: 92vh;
+        overflow-y: auto;
+    }
 
-/* Library cards */
-.library-card {
-    width: 160px;
-    height: 225px;
-    border-radius: 12px;
-    overflow: hidden;
-    position: relative;
-    background: #111;
-    transition: 0.3s;
-  }
+    .library-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 16px;
+        margin-top: 15px;
+    }
 
-  .library-card img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;     /* Fixed */
-    background: #0a0a0a;
-  }
+    .craft-btn {
+        position: absolute;
+        bottom: 8px;
+        left: 50%;
+        transform: translateX(-50%);
+        padding: 6px 14px;
+        font-size: 12px;
+        background: linear-gradient(#00cc66, #00aa55);
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        z-index: 20;
+    }
 
-  .library-card .label {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(transparent, rgba(0,0,0,0.9));
-    padding: 14px 8px 10px;
-    font-size: 13px;
-    text-align: center;
-  }
+    .craft-btn:hover { background: linear-gradient(#00ff88, #00cc66); }
 
-.library-card.basic {
-  border: 2px solid #aaaaaa;
-}
-
-.library-card.rare {
-  border: 3px solid #ffd700;
-  box-shadow: 0 0 20px #ffd700;
-}
-
-.library-card.legendary {
-  border: 4px solid #ff00ff;
-  box-shadow: 0 0 25px #ff00ff;
-}
-
-.library-card:hover {
-  transform: scale(1.08);
-}
-
-  .modal, .library-modal {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.96);
-    z-index: 300;
-    align-items: center;
-    justify-content: center;
-    padding: 15px;
-  }
-
-  .modal-content {
-  display: flex;
-  max-width: 1100px;
-  width: 100%;
-  max-height: 85vh;
-  background: #220033;
-  border-radius: 20px;
-  overflow: hidden;
-  box-shadow: 0 20px 60px rgba(255, 0, 200, 0.5);
-  border: 3px solid #ff99ff;
-}
-
-  .modal-card {
-  width: 380px;
-  flex-shrink: 0;
-  background: #111;
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 20px;
- }
-
- .modal-card img {
-  max-width: 100%;
-  max-height: 520px;
-  object-fit: contain;
-  border-radius: 12px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.8);
- }
-
-  .story-panel {
-  flex: 1;
-  padding: 30px;
-  text-align: left;
-  background: #110022;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
- }
-
-  .library-content {
-    background: #1a0033;
-    padding: 20px;
-    border-radius: 20px;
-    width: 100%;
-    max-width: 1000px;
-    max-height: 92vh;
-    overflow-y: auto;
-  }
-
-  .library-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 14px;
-    margin-top: 15px;
-  }
-
-  .library-card {
-    width: 100%;
-    aspect-ratio: 160 / 225;
-    border-radius: 12px;
-    overflow: hidden;
-    position: relative;
-  }
-
-  /* Mobile Adjustments */
-  @media (max-width: 480px) {
-    h1 { font-size: 1.9rem; }
-    .pack { font-size: 28px; height: 280px; }
-    .pack-area { height: 300px; }
-    .flying-card, .card { width: 148px; height: 208px; }
-    .cards-container { gap: 12px; }
-    .card-name { font-size: 13.5px; padding: 14px 6px 10px; }
-  }
-
+    @media (max-width: 480px) {
+        h1 { font-size: 2rem; }
+        .pack { font-size: 28px; height: 280px; }
+        .flying-card, .card { width: 148px; height: 208px; }
+    }
 </style>
 </head>
 <body>
 
-<div class="sidebar">
-  <button onclick="openLibrary()">📚 Library</button>
-  <button onclick="resetProgress()" style="background: #cc0000; margin-top: 10px;">Reset Progress</button>
+<div>
+    <button onclick="openLibrary()">📚 Library</button>
+    <button onclick="resetProgress()" style="background: #cc0000; margin-left: 10px;">Reset Progress</button>
 </div>
 
 <h1>Hololive Packs</h1>
 
 <div class="pack-area" id="packArea">
-  <div class="pack" id="pack">OPEN PACK</div>
+    <div class="pack" id="pack">OPEN PACK</div>
 </div>
 
-<p>Packs opened: <strong><span id="packsOpened">0</span></strong> | 
-Cards Collected: <strong><span id="collectionCount">0</span></strong> / <span id="totalCards">90</span></p>
+<p class="stats">
+    Packs opened: <strong><span id="packsOpened">0</span></strong> | 
+    Cards Collected: <strong><span id="collectionCount">0</span></strong> / <span id="totalCards">90</span>
+</p>
 
 <div class="cards-container" id="cardsContainer"></div>
 
-<!-- Card View Modal -->
+<!-- Card Modal -->
 <div class="modal" id="modal">
-  <div class="modal-content">
-    <div class="modal-card" id="modalCard"></div>
-    <div class="story-panel">
-      <h2 id="modalName"></h2>
-      <button onclick="closeModal()">← Back</button>
-      <button onclick="inspectCard()">Inspect Closely</button>
-      <div id="story" class="typewriter"></div>
+    <div class="modal-content">
+        <div class="modal-card" id="modalCard"></div>
+        <div class="story-panel">
+            <h2 id="modalName"></h2>
+            <button onclick="closeModal()">← Back</button>
+            <button onclick="inspectCard()">Inspect Closely</button>
+            <div id="story" class="typewriter"></div>
+        </div>
     </div>
-  </div>
 </div>
 
 <!-- Library Modal -->
 <div class="library-modal" id="libraryModal">
-  <div class="library-content">
-    <h2>📚 Collection Library <span id="libraryProgress">(0 / 90)</span></h2>
-    <button onclick="closeLibrary()" style="float:right; margin-top:-10px;">Close</button>
-    <div class="library-grid" id="libraryGrid"></div>
-  </div>
+    <div class="library-content">
+        <h2>📚 Collection Library <span id="libraryProgress">(0 / 90)</span></h2>
+        <button onclick="closeLibrary()" style="float:right;">Close</button>
+        <button onclick="showCraftingHelp()" style="margin: 10px 0;">ℹ️ How Crafting Works</button>
+        
+        <div class="library-grid" id="libraryGrid"></div>
+    </div>
 </div>
 
 <script>
-// ==================== SAVE & LOAD SYSTEM ====================
-const SAVE_KEY = 'hololivePacksSave_v1';   // Change version if you update the structure later
+// ==================== SAVE & LOAD ====================
+const SAVE_KEY = 'hololivePacksSave_v2';
+
+let collection = {};        // { fullId: count }
+let packsOpened = 0;
 
 function saveGame() {
-    const saveData = {
-        packsOpened: packsOpened,
-        collection: collection
-    };
-    localStorage.setItem(SAVE_KEY, JSON.stringify(saveData));
+    localStorage.setItem(SAVE_KEY, JSON.stringify({ packsOpened, collection }));
 }
 
 function loadGame() {
     const saved = localStorage.getItem(SAVE_KEY);
-    if (!saved) return false;
-
+    if (!saved) return;
+    
     try {
         const data = JSON.parse(saved);
-        
-        if (data.packsOpened !== undefined) {
-            packsOpened = data.packsOpened;
-            document.getElementById('packsOpened').textContent = packsOpened;
-        }
-        
-        if (data.collection) {
-            collection = data.collection;
-            updateCollectionCount();
-        }
-        return true;
+        packsOpened = data.packsOpened || 0;
+        collection = data.collection || {};
+        document.getElementById('packsOpened').textContent = packsOpened;
+        updateCollectionCount();
     } catch (e) {
-        console.error("Failed to load save:", e);
-        return false;
+        console.error("Save load failed", e);
     }
 }
 
@@ -453,13 +357,11 @@ function resetProgress() {
         collection = {};
         packsOpened = 0;
         document.getElementById('packsOpened').textContent = '0';
-        document.getElementById('collectionCount').textContent = '0';
         updateCollectionCount();
-        saveGame(); // optional
     }
 }
 
-// ==================== CHARACTERS (22) ====================
+// ==================== CHARACTERS ====================
 const characters = [
   { id: 1, name: "Hakos Baelz",
     normal: "baelz_normal.jpg", rare: "baelz_rare.jpg", legendary: "baelz_legendary.jpg",
@@ -612,13 +514,32 @@ const characters = [
     rareStory: "The powerful dragon spirit. Her presence fills the air with magic and joy."
   },
 ];
+// ==================== CARD LOGIC ====================
+const TOTAL_UNIQUE_CARDS = 90;
 
-const TOTAL_UNIQUE_CARDS = 90; // 30 characters × 3 main variants (Basic + Rare + Legendary). Adjust if needed.
+function getRandomCard() {
+    const char = characters[Math.floor(Math.random() * characters.length)];
+    const roll = Math.random();
+    
+    let type = 'basic', image = char.normal, story = char.normalStory;
+    
+    if (roll < 0.04) {
+        type = 'legendary';
+        image = char.legendary;
+        story = char.legendaryStory || char.rareStory;
+    } else if (roll < 0.18) {
+        type = 'rare';
+        image = char.rare;
+        story = char.rareStory;
+    }
+    
+    const offset = type === 'legendary' ? 200 : type === 'rare' ? 100 : 0;
+    const fullId = char.id + offset;
+    
+    return { ...char, type, image, story, fullId };
+}
 
-let collection = {};        // { fullId: count }
-let packsOpened = 0;
-let flyingCards = [];       // Track current flying cards to remove them
-
+// ==================== DOM ELEMENTS ====================
 const packEl = document.getElementById('pack');
 const cardsContainer = document.getElementById('cardsContainer');
 const modal = document.getElementById('modal');
@@ -629,204 +550,193 @@ const libraryModal = document.getElementById('libraryModal');
 const libraryGrid = document.getElementById('libraryGrid');
 
 let currentCard = null;
+let flyingCards = [];
 
-// Load saved progress on page load
+// Load game
 loadGame();
-
-// ==================== GET RANDOM CARD ====================
-function getRandomCard() {
-  const char = characters[Math.floor(Math.random() * characters.length)];
-  const roll = Math.random();
-
-  let type = 'basic';
-  let image = char.normal;
-  let story = char.normalStory;
-
-  if (roll < 0.04) {           // 4% Legendary
-    type = 'legendary';
-    image = char.legendary;
-    story = char.legendaryStory;
-  } else if (roll < 0.18) {    // 14% Rare
-    type = 'rare';
-    image = char.rare;
-    story = char.rareStory;
-  }
-
-  const offset = type === 'legendary' ? 200 : type === 'rare' ? 100 : 0;
-  const fullId = char.id + offset;
-
-  return { ...char, type, image, story, fullId };
-}
-
-// ==================== CLEAR PREVIOUS CARDS ====================
-function clearPreviousCards() {
-  flyingCards.forEach(card => {
-    if (card.parentNode) card.parentNode.removeChild(card);
-  });
-  flyingCards = [];
-}
 
 // ==================== PACK OPENING ====================
 document.getElementById('packArea').addEventListener('click', () => {
-  if (packEl.classList.contains('shaking') || packEl.classList.contains('opening')) return;
+    if (packEl.classList.contains('shaking')) return;
 
-  packsOpened++;
-  document.getElementById('packsOpened').textContent = packsOpened;
+    packsOpened++;
+    document.getElementById('packsOpened').textContent = packsOpened;
 
-  clearPreviousCards();                    // ← NEW: Remove old cards
+    // Clear old flying cards
+    flyingCards.forEach(c => c.remove());
+    flyingCards = [];
 
-  const packRect = packEl.getBoundingClientRect();
-  const containerRect = cardsContainer.getBoundingClientRect();
-
-  packEl.classList.add('shaking');
-
-  setTimeout(() => {
-    packEl.classList.remove('shaking');
-    packEl.classList.add('opening');
-
-    const newCards = [];
-    for (let i = 0; i < 5; i++) {
-      const cardData = getRandomCard();
-      
-      if (!collection[cardData.fullId]) collection[cardData.fullId] = 0;
-      collection[cardData.fullId]++;
-
-      newCards.push(cardData);
-    }
-
-    // Create flying cards (flying down)
-    newCards.forEach((cardData, index) => {
-      const flying = document.createElement('div');
-      flying.className = `flying-card ${cardData.type || 'basic'}`;
-      
-      flying.innerHTML = `
-        <img src="images/${cardData.image}" alt="${cardData.name}">
-        <div class="card-name">
-          ${cardData.name}<br>
-          <small>
-              ${cardData.type === 'legendary' ? '◆ Legendary' : 
-              cardData.type === 'rare' ? '★ Rare' : ''}
-          </small>
-        </div>
-      `;
-
-      flying.style.left = `${-2000}px`;
-      flying.style.top = `${0}px`;
-
-      cardsContainer.appendChild(flying);
-      flyingCards.push(flying);
-
-      setTimeout(() => {
-        const offsetX = (index - 2) * 10;
-        const finalLeft = 0 + offsetX;
-        const finalTop = 0;
-
-        flying.style.left = `${finalLeft}px`;
-        flying.style.top = `${finalTop}px`;
-        flying.style.transform = `scale(1) rotate(${Math.random()*10 - 5}deg)`;
-        flying.classList.add('show');
-
-        setTimeout(() => {
-          flying.style.pointerEvents = 'auto';
-          flying.onclick = () => showCard(cardData);
-        }, 1100);
-      }, 180 + index * 90);
-    });
-
-    updateCollectionCount();
-    saveGame();
+    packEl.classList.add('shaking');
 
     setTimeout(() => {
-      packEl.classList.remove('opening');
-    }, 1500);
+        packEl.classList.remove('shaking');
+        packEl.classList.add('opening');
 
-  }, 600);
+        const newCards = [];
+        for (let i = 0; i < 5; i++) {
+            const cardData = getRandomCard();
+            collection[cardData.fullId] = (collection[cardData.fullId] || 0) + 1;
+            newCards.push(cardData);
+        }
+
+        // Create flying cards
+        newCards.forEach((cardData, index) => {
+            const flying = document.createElement('div');
+            flying.className = `flying-card ${cardData.type}`;
+            flying.innerHTML = `
+                <img src="images/${cardData.image}" alt="${cardData.name}">
+                <div class="card-name">
+                    ${cardData.name}<br>
+                    <small>${cardData.type === 'legendary' ? '◆ Legendary' : cardData.type === 'rare' ? '★ Rare' : ''}</small>
+                </div>
+            `;
+            
+            flying.style.position = '0px';
+            flying.style.left = '-2000px';
+            cardsContainer.appendChild(flying);
+            flyingCards.push(flying);
+
+            setTimeout(() => {
+                flying.style.transition = 'all 0.9s cubic-bezier(0.23, 1, 0.32, 1)';
+                flying.style.left = `${(index - 2) * 100}px`;
+                flying.style.top = '0px';
+                flying.classList.add('show');
+                
+                setTimeout(() => flying.onclick = () => showCard(cardData), 1100);
+            }, 180 + index * 90);
+        });
+
+        updateCollectionCount();
+        saveGame();
+
+        setTimeout(() => packEl.classList.remove('opening'), 1500);
+    }, 600);
 });
 
 function updateCollectionCount() {
-  const uniqueCollected = Object.keys(collection).length;
-  document.getElementById('collectionCount').textContent = uniqueCollected;
-  saveGame();
+    const count = Object.keys(collection).length;
+    document.getElementById('collectionCount').textContent = count;
+    saveGame();
 }
 
-// ==================== CARD MODAL ====================
+// ==================== MODALS ====================
 function showCard(card) {
-  currentCard = card;
-  modalCard.innerHTML = `<img src="images/${card.image}" alt="${card.name}">`;
-  modalName.textContent = `${card.name} — ${card.type === 'legendary' ? 'Legendary' : card.type === 'rare' ? 'Rare' : 'Basic'}`;
-  storyEl.textContent = '';
-  modal.style.display = 'flex';
+    currentCard = card;
+    modalCard.innerHTML = `<img src="images/${card.image}" alt="${card.name}">`;
+    modalName.textContent = `${card.name} — ${card.type.charAt(0).toUpperCase() + card.type.slice(1)}`;
+    storyEl.textContent = '';
+    modal.style.display = 'flex';
 }
 
 function inspectCard() {
-  if (!currentCard) return;
-  storyEl.textContent = '';
-  let i = 0;
-  const text = currentCard.story;
-  const int = setInterval(() => {
-    if (i < text.length) storyEl.textContent += text[i++];
-    else clearInterval(int);
-  }, 35);
+    if (!currentCard) return;
+    storyEl.textContent = '';
+    let i = 0;
+    const text = currentCard.story;
+    const interval = setInterval(() => {
+        if (i < text.length) storyEl.textContent += text[i++];
+        else clearInterval(interval);
+    }, 35);
 }
 
 function closeModal() {
-  modal.style.display = 'none';
+    modal.style.display = 'none';
 }
 
 // ==================== LIBRARY ====================
 function openLibrary() {
-  libraryGrid.innerHTML = '';
+    libraryGrid.innerHTML = '';
 
-  characters.forEach(char => {
-    appendLibraryCard(char, 'basic', collection[char.id] || 0);
-    appendLibraryCard(char, 'rare', collection[char.id + 100] || 0);
-    appendLibraryCard(char, 'legendary', collection[char.id + 200] || 0);
-  });
+    characters.forEach(char => {
+        appendLibraryCard(char, 'basic', collection[char.id] || 0);
+        appendLibraryCard(char, 'rare', collection[char.id + 100] || 0);
+        appendLibraryCard(char, 'legendary', collection[char.id + 200] || 0);
+    });
 
-  const uniqueCollected = Object.keys(collection).length;
-  document.getElementById('libraryProgress').textContent = `(${uniqueCollected} / ${TOTAL_UNIQUE_CARDS})`;
-  libraryModal.style.display = 'flex';
+    document.getElementById('libraryProgress').textContent = 
+        `(${Object.keys(collection).length} / ${TOTAL_UNIQUE_CARDS})`;
+    
+    libraryModal.style.display = 'flex';
 }
 
 function appendLibraryCard(char, type, count) {
-  const offset = type === 'legendary' ? 200 : type === 'rare' ? 100 : 0;
-  const fullId = char.id + offset;
-  const imageFile = type === 'legendary' ? char.legendary : type === 'rare' ? char.rare : char.normal;
+    const offset = type === 'legendary' ? 200 : type === 'rare' ? 100 : 0;
+    const fullId = char.id + offset;
+    const imageFile = type === 'legendary' ? char.legendary : type === 'rare' ? char.rare || char.normal : char.normal;
 
-  const isOwned = count > 0;
+    const div = document.createElement('div');
+    div.className = `library-card ${type}`;
 
-  const div = document.createElement('div');
-  div.className = `library-card ${type} ${isOwned ? '' : 'locked'}`;
-  div.innerHTML = `
-    <img src="${isOwned ? 'images/' + imageFile : 'images/locked.png'}" alt="${char.name}">
-    <div class="label">${char.name} ${type === 'legendary' ? '◆ Legendary' : type === 'rare' ? '★ Rare' : 'Basic'}</div>
-    ${count > 0 ? `<div class="count">×${count}</div>` : ''}
-  `;
+    let html = `
+        <img src="${count > 0 ? 'images/' + imageFile : 'https://via.placeholder.com/160x225/111111/555555?text=?'}">
+        <div class="label">${char.name}<br><small>${type === 'legendary' ? '◆ Legendary' : type === 'rare' ? '★ Rare' : 'Basic'}</small></div>
+    `;
 
-  if (isOwned) {
-    div.onclick = () => {
-      const cardData = {
-        ...char,
-        type: type,
-        image: imageFile,
-        story: type === 'legendary' ? char.legendaryStory : type === 'rare' ? char.rareStory : char.normalStory
-      };
-      showCard(cardData);
-      closeLibrary();
-    };
-  }
-  libraryGrid.appendChild(div);
+    if (count > 0) {
+        html += `<div class="count">×${count}</div>`;
+    }
+
+    // Crafting button
+    if ((type === 'basic' || type === 'rare') && count >= 5) {
+        html += `
+            <button class="craft-btn" onclick="event.stopImmediatePropagation(); craftCard(${char.id}, '${type}')">
+                Craft ↑
+            </button>
+        `;
+    }
+
+    div.innerHTML = html;
+
+    if (count > 0) {
+        div.onclick = () => {
+            const cardData = {
+                ...char,
+                type,
+                image: imageFile,
+                story: type === 'legendary' ? (char.legendaryStory || char.rareStory) : 
+                       type === 'rare' ? char.rareStory : char.normalStory
+            };
+            showCard(cardData);
+            closeLibrary();
+        };
+    }
+
+    libraryGrid.appendChild(div);
+}
+
+function craftCard(charId, currentType) {
+    const currentOffset = currentType === 'basic' ? 0 : 100;
+    const nextOffset = currentType === 'basic' ? 100 : 200;
+    const currentFullId = charId + currentOffset;
+    const nextFullId = charId + nextOffset;
+
+    if ((collection[currentFullId] || 0) < 5) return alert("Need 5 copies to craft!");
+
+    collection[currentFullId] -= 5;
+    if (collection[currentFullId] <= 0) delete collection[currentFullId];
+
+    collection[nextFullId] = (collection[nextFullId] || 0) + 1;
+
+    alert(`✅ Crafted 1 ${currentType === 'basic' ? 'Rare' : 'Legendary'} card!`);
+    openLibrary();
+    updateCollectionCount();
+}
+
+function showCraftingHelp() {
+    alert("Crafting Rules:\n\n• 5 Basic → 1 Rare (same character)\n• 5 Rare → 1 Legendary (same character)");
 }
 
 function closeLibrary() {
-  libraryModal.style.display = 'none';
+    libraryModal.style.display = 'none';
 }
 
-// Escape key
+// Keyboard support
 document.addEventListener('keydown', e => {
-  if (e.key === "Escape") {
-    if (libraryModal.style.display === 'flex') closeLibrary();
-    else if (modal.style.display === 'flex') closeModal();
-  }
+    if (e.key === "Escape") {
+        if (libraryModal.style.display === 'flex') closeLibrary();
+        else if (modal.style.display === 'flex') closeModal();
+    }
 });
 </script>
+</body>
+</html>
