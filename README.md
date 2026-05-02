@@ -160,8 +160,8 @@
     .library-card img {
         width: 100%;
         height: 100%;
-        max-width: fit-content;
-        max-height: fit-content;
+        max-width: 300px;
+        max-height: 300px;
         object-fit: contain;
         padding: 4px;
         box-sizing: border-box;
