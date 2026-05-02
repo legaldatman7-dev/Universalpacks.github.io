@@ -338,9 +338,6 @@ h1 {
   <div class="pack" id="pack">OPEN PACK</div>
 </div>
 
-<p>Packs opened: <strong><span id="packsOpened">0</span></strong> | 
-Cards Collected: <strong><span id="collectionCount">0</span></strong> / <span id="totalCards">90</span></p>
-
 <div class="cards-container" id="cardsContainer"></div>
 
 <!-- Card View Modal -->
