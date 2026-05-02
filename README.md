@@ -161,7 +161,8 @@
         width: 100%;
         height: 100%;
         object-fit: contain;
-        background: #0a0a0a;
+        padding: 4px;
+        box-sizing: border-box;
     }
 
     .library-card .label {
@@ -226,10 +227,11 @@
     }
 
     .modal-card img {
-        max-width: 100%;
-        max-height: 520px;
+        width: 100%;
+        height: 100%;
         object-fit: contain;
-        border-radius: 12px;
+        padding: 4px;
+        box-sizing: border-box;
     }
 
     .story-panel {
