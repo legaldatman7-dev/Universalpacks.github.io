@@ -147,18 +147,21 @@
 
     /* Library */
     .library-card {
-        width: 100%;
-        height: 190px;
-        background: #111;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        width: 160px;
+        aspect-ratio: 160 / 225;
+        border-radius: 12px;
         overflow: hidden;
+        position: relative;
+        background: #111;
+        transition: 0.3s;
+        cursor: pointer;
     }
 
     .library-card img {
         width: 100%;
         height: 100%;
+        max-width: fit-content;
+        max-height: fit-content;
         object-fit: contain;
         padding: 4px;
         box-sizing: border-box;
