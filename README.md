@@ -139,7 +139,7 @@ h1 {
 .flying-card img {
   width: 100%;
   height: 100%;
-  object-fit: contain;           /* ← This is the key change */
+  object-fit: contain;
   background: #111;
   padding: 4px;
   box-sizing: border-box;
@@ -218,7 +218,7 @@ h1 {
 .card img {
   width: 100%;
   height: 100%;
-  object-fit: contain;           /* ← Key fix */
+  object-fit: contain;
   background: #111;
   padding: 4px;
   box-sizing: border-box;
@@ -250,7 +250,7 @@ h1 {
   .library-card img {
     width: 100%;
     height: 100%;
-    object-fit: contain;     /* Fixed */
+    object-fit: contain;
     background: #0a0a0a;
   }
 
@@ -282,8 +282,7 @@ h1 {
 .library-card:hover {
   transform: scale(1.08);
 }
-
-  .modal, .library-modal {
+.modal, .library-modal {
     display: none;
     position: fixed;
     inset: 0;
@@ -293,8 +292,7 @@ h1 {
     justify-content: center;
     padding: 15px;
   }
-
-  .modal-content {
+.modal-content {
   display: flex;
   max-width: 1100px;
   width: 100%;
@@ -305,8 +303,7 @@ h1 {
   box-shadow: 0 20px 60px rgba(255, 0, 200, 0.5);
   border: 3px solid #ff99ff;
 }
-
-  .modal-card {
+.modal-card {
   width: 380px;
   flex-shrink: 0;
   background: #111;
@@ -316,16 +313,14 @@ h1 {
   justify-content: center;
   padding: 20px;
  }
-
- .modal-card img {
+.modal-card img {
   max-width: 100%;
   max-height: 520px;
   object-fit: contain;
   border-radius: 12px;
   box-shadow: 0 10px 30px rgba(0,0,0,0.8);
  }
-
-  .story-panel {
+.story-panel {
   flex: 1;
   padding: 30px;
   text-align: left;
@@ -334,8 +329,7 @@ h1 {
   flex-direction: column;
   overflow-y: auto;
  }
-
-  .library-content {
+.library-content {
     background: #1a0033;
     padding: 20px;
     border-radius: 20px;
@@ -345,14 +339,13 @@ h1 {
     overflow-y: auto;
   }
 
-  .library-grid {
+.library-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
     gap: 14px;
     margin-top: 15px;
   }
-
-  .library-card {
+.library-card {
     width: 100%;
     aspect-ratio: 160 / 225;
     border-radius: 12px;
