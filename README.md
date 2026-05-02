@@ -333,7 +333,7 @@ h1 {
   <button onclick="resetProgress()" style="background: #cc0000; margin-top: 10px;">Reset Progress</button>
 </div>
 
-<h1>Hololive Packs</h1>
+<h1>Pack Opening</h1>
 
 <div class="pack-area" id="packArea">
   <div class="pack" id="pack">OPEN PACK</div>
