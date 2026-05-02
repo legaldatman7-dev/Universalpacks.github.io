@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Hololive Arcane Packs</title>
+<title>Pack Opening</title>
 <style>
 
 body {
