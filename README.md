@@ -294,7 +294,7 @@ h1 {
   }
 .modal-content {
   display: flex;
-  max-width: 1100px;
+  max-width: 500px;
   width: 100%;
   max-height: 85vh;
   background: #220033;
