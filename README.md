@@ -160,11 +160,10 @@
     .library-card img {
         width: 100%;
         height: 100%;
-        max-width: 300px;
-        max-height: 300px;
+        max-width: fit-content;
+        max-height: fit-content;
         object-fit: contain;
-        padding: 4px;
-        box-sizing: border-box;
+        background: #0a0a0a;
     }
 
     .library-card .label {
@@ -206,13 +205,14 @@
 
     /* Modals */
     .modal, .library-modal {
-        width: 100%;
-        height: 190px;
-        background: #111;
-        display: flex;
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.96);
+        z-index: 300;
         align-items: center;
         justify-content: center;
-        overflow: hidden;
+        padding: 15px;
     }
 
     .modal-content {
@@ -228,11 +228,10 @@
     }
 
     .modal-card img {
-        width: 50%;
-        height: 50%;
+        max-width: 100%;
+        max-height: 520px;
         object-fit: contain;
-        padding: 4px;
-        box-sizing: border-box;
+        border-radius: 12px;
     }
 
     .story-panel {
