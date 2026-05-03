@@ -1503,12 +1503,12 @@ function getRandomCard() {
 
     if (roll < 0.04) {                    // 4% Legendary
         type = 'legendary';
-        image = char.legendary || char.rare || char.normal;   // Fallback chain
+        image = char.normal;   // Fallback chain
         story = char.legendaryStory || char.rareStory || char.normalStory;
     } 
     else if (roll < 0.18) {               // 14% Rare (18% - 4%)
         type = 'rare';
-        image = char.rare || char.normal;                     // Fallback to normal
+        image = char.normal;                     // Fallback to normal
         story = char.rareStory || char.normalStory;
     }
     
