@@ -38,21 +38,6 @@
         transition: all 0.3s;
     }
 
-    @media only screen and (max-width: 600px) {
-        button { 
-            font-size: 16px; 
-            padding: 10px 20px; 
-            background: linear-gradient(#aa00ff, #cc33ff);
-            box-shadow: 0 6px 15px rgba(170, 0, 255, 0.4);
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            transform: all 0.3s;
-            position: center; 
-        }
-    }
-
     button:hover {
         background: linear-gradient(#aa00ff, #cc33ff);
         transform: translateY(-3px);
@@ -147,7 +132,7 @@
 
     .flying-card .image-container,
     .card .image-container {
-        width: 75%;
+        width: 100%;
         height: 150px;
         background: #111;
         display: flex;
@@ -164,6 +149,67 @@
         padding: 4px;
         box-sizing: border-box;
     }
+
+    /* Rarity-specific animations */
+.flying-card.basic {
+    animation: basicPop 0.8s ease forwards;
+}
+
+.flying-card.rare {
+    animation: rarePop 1s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.7), 0 0 40px #ff00f2;
+}
+
+.flying-card.legendary {
+    animation: legendaryPop 2.5s cubic-bezier(0.300, 0.100, 0.100, 3.275) forwards;
+    box-shadow: 0 15px 40px rgba(255, 238, 0, 0.8), 0 0 50px #fffb00;
+}
+
+/* Animation Keyframes */
+@keyframes basicPop {
+    0% { transform: translateY(60px) scale(0.4); opacity: 0; }
+    70% { transform: translateY(-15px) scale(1.1);}
+    100% { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+@keyframes rarePop {
+    0% { transform: translateY(80px) scale(0.3) rotate(-8deg); opacity: 0; }
+    50% { transform: translateY(-25px) scale(1.15) rotate(4deg); }
+    100% { transform: translateY(0) scale(1) rotate(0); opacity: 1; }
+}
+
+@keyframes legendaryPop {
+    0% { transform: translateY(5px) scale(0.2) rotate(-15deg); opacity: 0; }
+    70% { transform: translateY(12px) scale(0.5) rotate(-7200deg); opacity: 0.3; }
+    90% { transform: translateY(3px) scale(0) rotate(0deg); opacity: 0.5; }
+    100% { transform: translateY(0) scale(1) rotate(0deg); opacity: 1; }
+}
+
+/* Extra flash for higher rarities */
+.flying-card.rare::after,
+.flying-card.legendary::after {
+    content: '';
+    position: absolute;
+    inset: -20px;
+    background: radial-gradient(circle, rgba(255,255,255,0.9) 0%, transparent 70%);
+    opacity: 0;
+    pointer-events: none;
+    border-radius: 14px;
+}
+
+.flying-card.rare.show-flash::after { animation: rareFlash 0.8s forwards; }
+.flying-card.legendary.show-flash::after { animation: legendaryFlash 1s forwards; }
+
+@keyframes rareFlash {
+    0% { opacity: 0.7; transform: scale(0.8); }
+    100% { opacity: 0; transform: scale(1.4); }
+}
+
+@keyframes legendaryFlash {
+    0% { opacity: 0.9; transform: scale(0.2); }
+    50% { opacity: 0.4 }
+    100% { opacity: 0; transform: scale(1.6); }
+}
 
     .card-name {
         position: absolute;
@@ -397,7 +443,7 @@
 <h1>Hololive Packs</h1>
 
 <div class="pack-area" id="packArea">
-    <div class="pack" id="pack">Open Pack</div>
+    <div class="pack" id="pack">OPEN PACK</div>
 </div>
 
 <div class="cards-container" id="cardsContainer"></div>
@@ -899,15 +945,25 @@ document.getElementById('packArea').addEventListener('click', () => {
 
             flyingCards.push(cardEl);
 
+            const delay = 180 + i * 80;
+
             // Staggered reveal
             setTimeout(() => {
-                cardEl.style.transition = 'all 0.75s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                cardEl.style.transition = 'none';
+                // Trigger animation
+                cardEl.offsetHeight; // force reflow
+                
+                if (cardData.type === 'legendary') {
+                    cardEl.classList.add('show-flash');
+                } else if (cardData.type === 'rare') {
+                    cardEl.classList.add('show-flash');
+                }
+                
+                cardEl.style.transition = 'all 0.4s ease';
                 cardEl.style.opacity = '1';
-                cardEl.style.transform = 'translateY(0) scale(1)';
-            }, 180 + i * 100); // slight extra stagger
-
-            cardEl.onclick = () => showCard(cardData);
-        });
+                }, delay);
+                cardEl.onclick = () => showCard(cardData);
+                });
 
         cardsContainer.appendChild(topRow);
         cardsContainer.appendChild(bottomRow);
