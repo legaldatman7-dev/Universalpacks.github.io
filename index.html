@@ -161,7 +161,7 @@
 }
 
 .flying-card.legendary {
-    animation: legendaryPop 2.5s cubic-bezier(0.300, 0.100, 0.100, 3.275) forwards;
+    animation: legendaryPop 1.6s cubic-bezier(0.300, 0.100, 0.100, 3.275) forwards;
     box-shadow: 0 15px 40px rgba(255, 238, 0, 0.8), 0 0 50px #fffb00;
 }
 
@@ -480,7 +480,7 @@ let collection = {};        // { fullId: count }
 let packsOpened = 0;
 
 function saveGame() {
-    localStorage.setItem(SAVE_KEY, JSON.stringify({ packsOpened, collection }));
+    localStorage.setItem(SAVE_KEY, JSON.stringify({ collection }));
 }
 
 function loadGame() {
@@ -508,6 +508,7 @@ function resetProgress() {
 
 // ==================== CHARACTERS ====================
 const characters = [
+    // Hololive
   { id: 1, name: "Hakos Baelz",
     normal: "baelz_normal.jpg", rare: "baelz_rare.jpg", legendary: "baelz_legendary.jpg",
     normalStory: "The Embodiment of Chaos. A chaotic rat who brings fun and disorder everywhere she goes. Expect the unexpected when Bae is around!",
@@ -618,6 +619,7 @@ const characters = [
     normalStory: "The gentle and kind-hearted dragon spirit who loves music and dancing.",
     rareStory: "The powerful dragon spirit. Her presence fills the air with magic and joy."
   },
+    // Limbus Company
   { id: 23, name: "Ishmael",
     normal: "ishmael_normal.jpg", rare: "ishmael_rare.jpg", legendary: "ishmael_legendary.jpg",
     normalStory: "The gentle and kind-hearted dragon spirit who loves music and dancing.",
@@ -643,6 +645,7 @@ const characters = [
     normalStory: "The gentle and kind-hearted dragon spirit who loves music and dancing.",
     rareStory: "The powerful dragon spirit. Her presence fills the air with magic and joy."
   },
+    // Final Fantasy
   { id: 28, name: "Tifa Lockhart",
     normal: "tifa_normal.jpg", rare: "tifa_rare.jpg", legendary: "tifa_legendary.jpg",
     normalStory: "The gentle and kind-hearted dragon spirit who loves music and dancing.",
@@ -658,12 +661,13 @@ const characters = [
     normalStory: "The gentle and kind-hearted dragon spirit who loves music and dancing.",
     rareStory: "The powerful dragon spirit. Her presence fills the air with magic and joy."
   },
+    // My Hero Academia
   { id: 31, name: "Rumi Usagiyama",
       normal: "rumi_normal.jpg", rare: "rumi_rare.jpg", legendary: "rumi_legendary.jpg",
       normalStory: "The Rabbit Hero Mirko. Fierce, strong, and always ready for a fight.",
       rareStory: "Mirko at full power, kicking through any obstacle with unmatched ferocity.",
       legendaryStory: "The ultimate Rabbit Hero. Her speed and strength are legendary." },
-
+  
     { id: 32, name: "Momo Yaoyorozu",
       normal: "momo_normal.jpg", rare: "momo_rare.jpg", legendary: "momo_legendary.jpg",
       normalStory: "The Creation Hero. A brilliant mind capable of creating anything from her body.",
@@ -729,7 +733,7 @@ const characters = [
       normalStory: "Pixie-Bob of the Wild Wild Pussycats.",
       rareStory: "Her earth manipulation is incredibly powerful.",
       legendaryStory: "The legendary earth-shaping hero." },
-
+        // Bleach
     { id: 43, name: "Yoruichi Shihōin",
       normal: "yoruichi_normal.jpg", rare: "yoruichi_rare.jpg", legendary: "yoruichi_legendary.jpg",
       normalStory: "The Flash Goddess. Lightning-fast and deadly.",
@@ -771,7 +775,7 @@ const characters = [
       normalStory: "The explosive fireworks expert of the Shiba clan.",
       rareStory: "Her cannon techniques are devastating.",
       legendaryStory: "The legendary fireworks master." },
-
+        // One Piece
     { id: 50, name: "Nico Robin",
       normal: "robin_normal.jpg", rare: "robin_rare.jpg", legendary: "robin_legendary.jpg",
       normalStory: "The archaeologist of the Straw Hat Pirates.",
@@ -813,7 +817,7 @@ const characters = [
       normalStory: "The evil personality of Dr. Vegapunk.",
       rareStory: "Her technological genius is unmatched.",
       legendaryStory: "The Devil of the Future." },
-
+        // Jujutsu Kaisen
     { id: 57, name: "Maki Zenin",
       normal: "maki_normal.jpg", rare: "maki_rare.jpg", legendary: "maki_legendary.jpg",
       normalStory: "The heavenly restricted sorcerer. Pure physical power.",
@@ -842,25 +846,670 @@ const characters = [
       normal: "shoko_normal.jpg", rare: "shoko_rare.jpg", legendary: "shoko_legendary.jpg",
       normalStory: "The Reverse Cursed Technique master and school doctor.",
       rareStory: "Her healing abilities are miraculous.",
-      legendaryStory: "The ultimate healer." }
+      legendaryStory: "The ultimate healer." },
+      // Guilty Gear
+    { id: 62, name: "Ramlethal Valentine",
+    normal: "ramlethal_normal.jpg", rare: "ramlethal_rare.jpg", legendary: "ramlethal_legendary.jpg",
+    normalStory: "A Valentine who wields a giant sword and questions her own emotions.",
+    rareStory: "Her power grows as she learns what it means to feel.",
+    legendaryStory: "The fully awakened Valentine, a force of overwhelming strength and newfound humanity." },
+
+  { id: 63, name: "Baiken",
+    normal: "baiken_normal.jpg", rare: "baiken_rare.jpg", legendary: "baiken_legendary.jpg",
+    normalStory: "The one-armed vengeance-driven samurai seeking revenge against the Gears.",
+    rareStory: "Her blade sings with centuries of rage and skill.",
+    legendaryStory: "The ultimate wandering samurai. Her sword is legend." },
+
+  { id: 64, name: "Giovanna",
+    normal: "giovanna_normal.jpg", rare: "giovanna_rare.jpg", legendary: "giovanna_legendary.jpg",
+    normalStory: "A cheerful and energetic soldier bonded with her demon familiar.",
+    rareStory: "Her sync with her demon reaches new heights.",
+    legendaryStory: "The perfect fusion of human spirit and demonic power." },
+
+  { id: 65, name: "Testament",
+    normal: "testament_normal.jpg", rare: "testament_rare.jpg", legendary: "testament_legendary.jpg",
+    normalStory: "The androgynous Gear who wields scythes and familiars.",
+    rareStory: "Master of death and rebirth.",
+    legendaryStory: "The reaper who walks between life and death." },
+
+  { id: 66, name: "Jack-O Valentine",
+    normal: "jacko_normal.jpg", rare: "jacko_rare.jpg", legendary: "jacko_legendary.jpg",
+    normalStory: "The playful pumpkin-headed Valentine created to save humanity.",
+    rareStory: "Her chaotic energy becomes unstoppable.",
+    legendaryStory: "The Halloween Queen of the Valentines." },
+
+  { id: 67, name: "Unika",
+    normal: "unika_normal.jpg", rare: "unika_rare.jpg", legendary: "unika_legendary.jpg",
+    normalStory: "A mysterious and powerful new fighter.",
+    rareStory: "Her hidden potential begins to awaken.",
+    legendaryStory: "The ultimate form of Unika." },
+
+  { id: 68, name: "Millia Rage",
+    normal: "millia_normal.jpg", rare: "millia_rare.jpg", legendary: "millia_legendary.jpg",
+    normalStory: "The assassin who controls her hair as a deadly weapon.",
+    rareStory: "Her hair techniques reach godlike precision.",
+    legendaryStory: "The Empress of the Threads." },
+
+    // Hades
+  { id: 69, name: "Melinoe",
+    normal: "melinoe_normal.jpg", rare: "melinoe_rare.jpg", legendary: "melinoe_legendary.jpg",
+    normalStory: "The Princess of the Underworld, wielder of witchcraft and night.",
+    rareStory: "Her dominion over death and magic grows stronger.",
+    legendaryStory: "The rightful heir of the Underworld." },
+
+  { id: 70, name: "Nemesis",
+    normal: "nemesis_normal.jpg", rare: "nemesis_rare.jpg", legendary: "nemesis_legendary.jpg",
+    normalStory: "The bio-weapon with overwhelming power.",
+    rareStory: "Her pursuit becomes unstoppable.",
+    legendaryStory: "The ultimate Nemesis." },
+
+  { id: 71, name: "Aphrodite",
+    normal: "aphrodite_normal.jpg", rare: "aphrodite_rare.jpg", legendary: "aphrodite_legendary.jpg",
+    normalStory: "The Goddess of Love and Beauty.",
+    rareStory: "Her charm can sway gods and mortals alike.",
+    legendaryStory: "The eternal embodiment of desire." },
+
+  { id: 72, name: "Artemis",
+    normal: "artemis_normal.jpg", rare: "artemis_rare.jpg", legendary: "artemis_legendary.jpg",
+    normalStory: "The virgin goddess of the hunt.",
+    rareStory: "Her arrows never miss their mark.",
+    legendaryStory: "The Huntress of Olympus." },
+
+  { id: 73, name: "Hecate",
+    normal: "hecate_normal.jpg", rare: "hecate_rare.jpg", legendary: "hecate_legendary.jpg",
+    normalStory: "The goddess of witchcraft and crossroads.",
+    rareStory: "Mistress of the dark arts.",
+    legendaryStory: "The Triple Goddess of Magic." },
+
+  { id: 74, name: "Megeara",
+    normal: "megeara_normal.jpg", rare: "megeara_rare.jpg", legendary: "megeara_legendary.jpg",
+    normalStory: "One of the Erinyes, goddess of vengeance.",
+    rareStory: "Her wrath is terrifying.",
+    legendaryStory: "The Fury incarnate." },
+
+  // Persona
+  { id: 75, name: "Tae Takemi",
+    normal: "tae_normal.jpg", rare: "tae_rare.jpg", legendary: "tae_legendary.jpg",
+    normalStory: "The beautiful and slightly sadistic doctor.",
+    rareStory: "Her medical genius knows no bounds.",
+    legendaryStory: "The Reaper of the Clinic." },
+
+  { id: 76, name: "Naoto Shirogane",
+    normal: "naoto_normal.jpg", rare: "naoto_rare.jpg", legendary: "naoto_legendary.jpg",
+    normalStory: "The young detective prince(ss).",
+    rareStory: "Her logical mind pierces any mystery.",
+    legendaryStory: "The ultimate detective." },
+
+  { id: 77, name: "Makoto Nijima",
+    normal: "makoto_normal.jpg", rare: "makoto_rare.jpg", legendary: "makoto_legendary.jpg",
+    normalStory: "The student council president with a powerful Persona.",
+    rareStory: "Her sense of justice burns bright.",
+    legendaryStory: "Queen of the Phantom Thieves." },
+
+  { id: 78, name: "Sae Nijima",
+    normal: "sae_normal.jpg", rare: "sae_rare.jpg", legendary: "sae_legendary.jpg",
+    normalStory: "The ruthless prosecutor.",
+    rareStory: "Her intellect is as sharp as her will.",
+    legendaryStory: "The unyielding Shadow Ruler." },
+
+  { id: 79, name: "Elizabeth",
+    normal: "elizabeth_normal.jpg", rare: "elizabeth_rare.jpg", legendary: "elizabeth_legendary.jpg",
+    normalStory: "The mysterious attendant of the Velvet Room.",
+    rareStory: "Her power rivals gods.",
+    legendaryStory: "The strongest attendant." },
+
+  { id: 80, name: "Margaret",
+    normal: "margaret_normal.jpg", rare: "margaret_rare.jpg", legendary: "margaret_legendary.jpg",
+    normalStory: "The elegant and powerful Velvet Room attendant.",
+    rareStory: "Her grace hides immense strength.",
+    legendaryStory: "The golden butterfly." },
+
+  { id: 81, name: "Chidori Yoshino",
+    normal: "chidori_normal.jpg", rare: "chidori_rare.jpg", legendary: "chidori_legendary.jpg",
+    normalStory: "The quiet and artistic member of Strega.",
+    rareStory: "Her connection to death is profound.",
+    legendaryStory: "The rose of death." },
+
+  { id: 82, name: "Caroline and Justine",
+    normal: "caroline_justine_normal.jpg", rare: "caroline_justine_rare.jpg", legendary: "caroline_justine_legendary.jpg",
+    normalStory: "The twin wardens of the Velvet Room.",
+    rareStory: "Together they are unstoppable.",
+    legendaryStory: "The Lavenza fusion." },
+
+  { id: 83, name: "Sumire Yoshizawa",
+    normal: "sumire_normal.jpg", rare: "sumire_rare.jpg", legendary: "sumire_legendary.jpg",
+    normalStory: "The talented gymnast with a tragic past.",
+    rareStory: "Violet awakens to her true self.",
+    legendaryStory: "The shining star of the Thieves." },
+
+  { id: 84, name: "Mitsuru Kirijo",
+    normal: "mitsuru_normal.jpg", rare: "mitsuru_rare.jpg", legendary: "mitsuru_legendary.jpg",
+    normalStory: "The elegant heiress and Ice Queen.",
+    rareStory: "Her leadership and power are unmatched.",
+    legendaryStory: "The Empress of ice and steel." },
+
+  { id: 85, name: "Ichiko Ohya",
+    normal: "ohya_normal.jpg", rare: "ohya_rare.jpg", legendary: "ohya_legendary.jpg",
+    normalStory: "The hard-drinking journalist.",
+    rareStory: "Her investigative skills are legendary.",
+    legendaryStory: "The truth seeker." },
+
+  // Danganronpa
+  { id: 86, name: "Junko Enoshima",
+    normal: "junko_normal.jpg", rare: "junko_rare.jpg", legendary: "junko_legendary.jpg",
+    normalStory: "The Ultimate Despair.",
+    rareStory: "Her despair spreads like wildfire.",
+    legendaryStory: "The Queen of Despair." },
+
+  { id: 87, name: "Celestia Ludenburg",
+    normal: "celestia_normal.jpg", rare: "celestia_rare.jpg", legendary: "celestia_legendary.jpg",
+    normalStory: "The Ultimate Gambler.",
+    rareStory: "Her lies are as elegant as her style.",
+    legendaryStory: "The Queen of Liars." },
+
+  { id: 88, name: "Mukuro Ikusaba",
+    normal: "mukuro_normal.jpg", rare: "mukuro_rare.jpg", legendary: "mukuro_legendary.jpg",
+    normalStory: "The Ultimate Soldier and Junko's sister.",
+    rareStory: "Her combat prowess is terrifying.",
+    legendaryStory: "The Fenrir mercenary." },
+
+  { id: 89, name: "Kyoko Kirigiri",
+    normal: "kyoko_normal.jpg", rare: "kyoko_rare.jpg", legendary: "kyoko_legendary.jpg",
+    normalStory: "The cool and collected Ultimate Detective.",
+    rareStory: "Nothing escapes her deduction.",
+    legendaryStory: "The perfect detective." },
+
+  { id: 90, name: "Aoi Asahina",
+    normal: "aoi_normal.jpg", rare: "aoi_rare.jpg", legendary: "aoi_legendary.jpg",
+    normalStory: "The Ultimate Swimmer with endless optimism.",
+    rareStory: "Her spirit never breaks.",
+    legendaryStory: "The unbreakable donut lover." },
+
+  { id: 91, name: "Peko Pekoyama",
+    normal: "peko_normal.jpg", rare: "peko_rare.jpg", legendary: "peko_legendary.jpg",
+    normalStory: "The Ultimate Swordswoman.",
+    rareStory: "Her blade is an extension of her soul.",
+    legendaryStory: "The perfect tool." },
+
+  { id: 92, name: "Akane Owari",
+    normal: "akane_normal.jpg", rare: "akane_rare.jpg", legendary: "akane_legendary.jpg",
+    normalStory: "The wild and powerful Ultimate Gymnast.",
+    rareStory: "Her strength is monstrous.",
+    legendaryStory: "The apex predator." },
+
+  { id: 93, name: "Mahiru Koizumi",
+    normal: "mahiru_normal.jpg", rare: "mahiru_rare.jpg", legendary: "mahiru_legendary.jpg",
+    normalStory: "The Ultimate Photographer.",
+    rareStory: "She captures truth with her lens.",
+    legendaryStory: "The eye that sees all." },
+
+  // Baldur's Gate 3
+  { id: 94, name: "Karlach",
+    normal: "karlach_normal.jpg", rare: "karlach_rare.jpg", legendary: "karlach_legendary.jpg",
+    normalStory: "The hot-headed tiefling barbarian with a burning heart.",
+    rareStory: "Her rage fuels unstoppable power.",
+    legendaryStory: "The mightiest engine of vengeance." },
+
+  { id: 95, name: "Shadowheart",
+    normal: "shadowheart_normal.jpg", rare: "shadowheart_rare.jpg", legendary: "shadowheart_legendary.jpg",
+    normalStory: "The mysterious half-elf cleric of Shar.",
+    rareStory: "Her faith and darkness intertwine.",
+    legendaryStory: "The Dark Justiciar." },
+
+  { id: 96, name: "Orin the Red",
+    normal: "orin_normal.jpg", rare: "orin_rare.jpg", legendary: "orin_legendary.jpg",
+    normalStory: "The deranged doppelganger assassin.",
+    rareStory: "Her blades dance with bloodlust.",
+    legendaryStory: "The Slayer incarnate." },
+
+  { id: 97, name: "Minthara",
+    normal: "minthara_normal.jpg", rare: "minthara_rare.jpg", legendary: "minthara_legendary.jpg",
+    normalStory: "The ruthless drow paladin.",
+    rareStory: "Her ambition knows no limits.",
+    legendaryStory: "The Absolute's chosen." },
+
+  { id: 98, name: "Mizora",
+    normal: "mizora_normal.jpg", rare: "mizora_rare.jpg", legendary: "mizora_legendary.jpg",
+    normalStory: "The seductive cambion handler.",
+    rareStory: "Her contracts bind souls eternally.",
+    legendaryStory: "The devil you know." },
+
+    // Helltaker
+  { id: 99, name: "Lucifer",
+    normal: "lucifer_normal.jpg", rare: "lucifer_rare.jpg", legendary: "lucifer_legendary.jpg",
+    normalStory: "The Morning Star, fallen but radiant.",
+    rareStory: "Pride and power incarnate.",
+    legendaryStory: "The Light Bringer." },
+
+  { id: 100, name: "Judgement",
+    normal: "judgement_normal.jpg", rare: "judgement_rare.jpg", legendary: "judgement_legendary.jpg",
+    normalStory: "The stern demon judge.",
+    rareStory: "Her hammer brings order to Hell.",
+    legendaryStory: "The High Prosecutor." },
+
+  { id: 101, name: "Pandemonica",
+    normal: "pandemonica_normal.jpg", rare: "pandemonica_rare.jpg", legendary: "pandemonica_legendary.jpg",
+    normalStory: "The exhausted but terrifying Secretary of Hell.",
+    rareStory: "Don't make her angry.",
+    legendaryStory: "The Queen of Stress." },
+
+  { id: 102, name: "Justice",
+    normal: "justice_normal.jpg", rare: "justice_rare.jpg", legendary: "justice_legendary.jpg",
+    normalStory: "The blindfolded motorcycle-riding demon.",
+    rareStory: "Her sense of justice is absolute.",
+    legendaryStory: "The Blind Justice." },
+
+  { id: 103, name: "Malina",
+    normal: "malina_normal.jpg", rare: "malina_rare.jpg", legendary: "malina_legendary.jpg",
+    normalStory: "The grumpy gamer demon.",
+    rareStory: "Her sarcasm is lethal.",
+    legendaryStory: "The Ultimate Gamer." },
+
+  { id: 104, name: "Zdraga",
+    normal: "zdraga_normal.jpg", rare: "zdraga_rare.jpg", legendary: "zdraga_legendary.jpg",
+    normalStory: "The chain-smoking backstabbing demon.",
+    rareStory: "Treachery is her art.",
+    legendaryStory: "The Betrayer." },
+
+  // Nier
+  { id: 105, name: "2B",
+    normal: "2b_normal.jpg", rare: "2b_rare.jpg", legendary: "2b_legendary.jpg",
+    normalStory: "The elegant android battle unit.",
+    rareStory: "Her blindfold hides immense power.",
+    legendaryStory: "Glory to Mankind." },
+
+  // Overwatch
+  { id: 106, name: "Tracer",
+    normal: "tracer_normal.jpg", rare: "tracer_rare.jpg", legendary: "tracer_legendary.jpg",
+    normalStory: "The energetic time-jumping hero.",
+    rareStory: "She never misses a beat.",
+    legendaryStory: "The fastest hero alive." },
+
+  { id: 107, name: "Widowmaker",
+    normal: "widowmaker_normal.jpg", rare: "widowmaker_rare.jpg", legendary: "widowmaker_legendary.jpg",
+    normalStory: "The cold and deadly sniper.",
+    rareStory: "No one escapes her sight.",
+    legendaryStory: "The perfect assassin." },
+
+  { id: 108, name: "Ashe",
+    normal: "ashe_normal.jpg", rare: "ashe_rare.jpg", legendary: "ashe_legendary.jpg",
+    normalStory: "The leader of the Deadlock Gang.",
+    rareStory: "Her aim and leadership are unmatched.",
+    legendaryStory: "The Queen of the Outlaws." },
+
+  { id: 109, name: "Mercy",
+    normal: "mercy_normal.jpg", rare: "mercy_rare.jpg", legendary: "mercy_legendary.jpg",
+    normalStory: "The guardian angel of Overwatch.",
+    rareStory: "Her healing touch saves lives.",
+    legendaryStory: "Heroes never die." },
+
+  { id: 110, name: "D.Va",
+    normal: "dva_normal.jpg", rare: "dva_rare.jpg", legendary: "dva_legendary.jpg",
+    normalStory: "The pro gamer and MEKA pilot.",
+    rareStory: "Gaming + combat = unstoppable.",
+    legendaryStory: "The ultimate streamer soldier." },
+
+  { id: 111, name: "Sombra",
+    normal: "sombra_normal.jpg", rare: "sombra_rare.jpg", legendary: "sombra_legendary.jpg",
+    normalStory: "The hacker who knows all your secrets.",
+    rareStory: "Everything is hackable.",
+    legendaryStory: "The ghost in the machine." },
+
+  { id: 112, name: "Kiriko",
+    normal: "kiriko_normal.jpg", rare: "kiriko_rare.jpg", legendary: "kiriko_legendary.jpg",
+    normalStory: "The fox spirit healer and ninja.",
+    rareStory: "Her protection is absolute.",
+    legendaryStory: "The protector of Kanezaka." },
+
+     // League of Legends
+  { id: 113, name: "Akali",
+    normal: "akali_normal.jpg", rare: "akali_rare.jpg", legendary: "akali_legendary.jpg",
+    normalStory: "The rogue assassin of the K/DA.",
+    rareStory: "She strikes from the shadows.",
+    legendaryStory: "The Fist of Shadow." },
+
+  { id: 114, name: "Evelynn",
+    normal: "evelynn_normal.jpg", rare: "evelynn_rare.jpg", legendary: "evelynn_legendary.jpg",
+    normalStory: "The demon who feeds on agony.",
+    rareStory: "Pain is her greatest pleasure.",
+    legendaryStory: "The Widowmaker of souls." },
+
+  { id: 115, name: "Jinx",
+    normal: "jinx_normal.jpg", rare: "jinx_rare.jpg", legendary: "jinx_legendary.jpg",
+    normalStory: "The manic powder monkey of Zaun.",
+    rareStory: "Chaos is her playground.",
+    legendaryStory: "The loose cannon." },
+
+  { id: 116, name: "Vi",
+    normal: "vi_normal.jpg", rare: "vi_rare.jpg", legendary: "vi_legendary.jpg",
+    normalStory: "The punch-first enforcer of Piltover.",
+    rareStory: "Her gauntlets bring justice.",
+    legendaryStory: "The Piltover Enforcer." },
+
+  { id: 117, name: "Caitlyn",
+    normal: "caitlyn_normal.jpg", rare: "caitlyn_rare.jpg", legendary: "caitlyn_legendary.jpg",
+    normalStory: "The sharp-shooting sheriff of Piltover.",
+    rareStory: "Her aim is impeccable.",
+    legendaryStory: "The top hat enforcer." },
+
+    // Tomb Raider
+    { id: 118, name: "Lara Croft",
+    normal: "lara_croft_normal.jpg", rare: "lara_croft_rare.jpg", legendary: "lara_croft_legendary.jpg",
+    normalStory: "The legendary tomb raider and adventurer.",
+    rareStory: "Her skills and determination are unmatched.",
+    legendaryStory: "The ultimate treasure hunter and survivor." },
+
+    // Re:Zero
+  { id: 119, name: "Ram",
+    normal: "ram_normal.jpg", rare: "ram_rare.jpg", legendary: "ram_legendary.jpg",
+    normalStory: "The sharp-tongued pink-haired oni maid.",
+    rareStory: "Her wind magic and loyalty are fierce.",
+    legendaryStory: "The powerful oni sister." },
+
+  { id: 120, name: "Crusch Karsten",
+    normal: "crusch_normal.jpg", rare: "crusch_rare.jpg", legendary: "crusch_legendary.jpg",
+    normalStory: "The noble and honorable warrior princess.",
+    rareStory: "Her divine protection makes her unstoppable.",
+    legendaryStory: "The Lioness of the Kingdom." },
+
+  { id: 121, name: "Priscilla Barielle",
+    normal: "priscilla_normal.jpg", rare: "priscilla_rare.jpg", legendary: "priscilla_legendary.jpg",
+    normalStory: "The radiant and arrogant candidate for the throne.",
+    rareStory: "Her charisma and power shine brilliantly.",
+    legendaryStory: "The Sun Priestess." },
+
+    // Chainsaw Man
+  { id: 122, name: "Makima",
+    normal: "makima_normal.jpg", rare: "makima_rare.jpg", legendary: "makima_legendary.jpg",
+    normalStory: "The enigmatic and terrifying Control Devil.",
+    rareStory: "She pulls the strings of everyone around her.",
+    legendaryStory: "The ultimate dominator." },
+
+  { id: 123, name: "Himeno",
+    normal: "himeno_normal.jpg", rare: "himeno_rare.jpg", legendary: "himeno_legendary.jpg",
+    normalStory: "The cool and experienced Devil Hunter.",
+    rareStory: "Her bond with the Ghost Devil grows stronger.",
+    legendaryStory: "The veteran who gave everything." },
+
+  { id: 124, name: "Power",
+    normal: "power_normal.jpg", rare: "power_rare.jpg", legendary: "power_legendary.jpg",
+    normalStory: "The wild and bloodthirsty Blood Fiend.",
+    rareStory: "Her chaotic energy knows no bounds.",
+    legendaryStory: "The Empress of Blood." },
+
+  { id: 125, name: "Quanxi",
+    normal: "quanxi_normal.jpg", rare: "quanxi_rare.jpg", legendary: "quanxi_legendary.jpg",
+    normalStory: "The stoic and overwhelmingly powerful assassin.",
+    rareStory: "Her harem and strength are legendary.",
+    legendaryStory: "The ultimate hybrid warrior." },
+
+  { id: 126, name: "Yoru",
+    normal: "yoru_normal.jpg", rare: "yoru_rare.jpg", legendary: "yoru_legendary.jpg",
+    normalStory: "The War Devil seeking her lost power.",
+    rareStory: "She brings conflict wherever she goes.",
+    legendaryStory: "The Goddess of War." },
+
+  { id: 127, name: "Fami",
+    normal: "fami_normal.jpg", rare: "fami_rare.jpg", legendary: "fami_legendary.jpg",
+    normalStory: "The mysterious Famine Devil.",
+    rareStory: "She manipulates hunger and desire.",
+    legendaryStory: "The Horseman of Famine." },
+
+  { id: 128, name: "Reze",
+    normal: "reze_normal.jpg", rare: "reze_rare.jpg", legendary: "reze_legendary.jpg",
+    normalStory: "The Bomb Girl with a charming yet deadly smile.",
+    rareStory: "Her explosions light up the battlefield.",
+    legendaryStory: "The walking bomb." },
+
+  // ===================== GODDESS OF VICTORY: NIKKE =====================
+  { id: 129, name: "Anis",
+    normal: "anis_normal.jpg", rare: "anis_rare.jpg", legendary: "anis_legendary.jpg",
+    normalStory: "The laid-back and heavy artillery Nikke.",
+    rareStory: "Her firepower is devastating.",
+    legendaryStory: "The explosive queen of squad counters." },
+
+  { id: 130, name: "Bay",
+    normal: "bay_normal.jpg", rare: "bay_rare.jpg", legendary: "bay_legendary.jpg",
+    normalStory: "The energetic shotgun user.",
+    rareStory: "She brings the boom.",
+    legendaryStory: "The shotgun legend." },
+
+  { id: 131, name: "Blanc",
+    normal: "blanc_normal.jpg", rare: "blanc_rare.jpg", legendary: "blanc_legendary.jpg",
+    normalStory: "The elegant bunny girl Nikke.",
+    rareStory: "Her grace hides great power.",
+    legendaryStory: "The White Rabbit." },
+
+  { id: 132, name: "Centi",
+    normal: "centi_normal.jpg", rare: "centi_rare.jpg", legendary: "centi_legendary.jpg",
+    normalStory: "The cheerful hammer-wielding tank.",
+    rareStory: "She smashes through any obstacle.",
+    legendaryStory: "The unbreakable Centi." },
+
+  { id: 133, name: "Brid",
+    normal: "brid_normal.jpg", rare: "brid_rare.jpg", legendary: "brid_legendary.jpg",
+    normalStory: "The serious and loyal squad leader.",
+    rareStory: "Her sense of duty is unbreakable.",
+    legendaryStory: "The perfect soldier." },
+
+  { id: 134, name: "Crow",
+    normal: "crow_normal.jpg", rare: "crow_rare.jpg", legendary: "crow_legendary.jpg",
+    normalStory: "The cunning and rebellious Nikke.",
+    rareStory: "She plays by her own rules.",
+    legendaryStory: "The Queen of Shadows." },
+
+  { id: 135, name: "D",
+    normal: "d_normal.jpg", rare: "d_rare.jpg", legendary: "d_legendary.jpg",
+    normalStory: "The mysterious and powerful Nikke.",
+    rareStory: "Her secrets run deep.",
+    legendaryStory: "The enigma." },
+
+  { id: 136, name: "Dolla",
+    normal: "dolla_normal.jpg", rare: "dolla_rare.jpg", legendary: "dolla_legendary.jpg",
+    normalStory: "The rich and stylish supporter.",
+    rareStory: "Money solves everything.",
+    legendaryStory: "The wealthy elite." },
+
+  { id: 137, name: "Delta",
+    normal: "delta_normal.jpg", rare: "delta_rare.jpg", legendary: "delta_legendary.jpg",
+    normalStory: "The stoic and powerful fighter.",
+    rareStory: "Her strength is overwhelming.",
+    legendaryStory: "The apex predator." },
+
+  { id: 138, name: "Elegg",
+    normal: "elegg_normal.jpg", rare: "elegg_rare.jpg", legendary: "elegg_legendary.jpg",
+    normalStory: "The gamer girl with electric powers.",
+    rareStory: "She shocks the competition.",
+    legendaryStory: "The ultimate gamer Nikke." },
+
+  { id: 139, name: "Exia",
+    normal: "exia_normal.jpg", rare: "exia_rare.jpg", legendary: "exia_legendary.jpg",
+    normalStory: "The speedy and cheerful delivery Nikke.",
+    rareStory: "Nothing can slow her down.",
+    legendaryStory: "The fastest runner." },
+
+  { id: 140, name: "Frima",
+    normal: "frima_normal.jpg", rare: "frima_rare.jpg", legendary: "frima_legendary.jpg",
+    normalStory: "The sleepy and powerful Nikke.",
+    rareStory: "Even half-asleep she's dangerous.",
+    legendaryStory: "The sleepy titan." },
+
+  { id: 141, name: "Guilty",
+    normal: "guilty_normal.jpg", rare: "guilty_rare.jpg", legendary: "guilty_legendary.jpg",
+    normalStory: "The criminal with immense power.",
+    rareStory: "Her chains bind everything.",
+    legendaryStory: "The chained queen." },
+
+  { id: 142, name: "Harran",
+    normal: "harran_normal.jpg", rare: "harran_rare.jpg", legendary: "harran_legendary.jpg",
+    normalStory: "The seductive and dangerous Nikke.",
+    rareStory: "Her allure is lethal.",
+    legendaryStory: "The desert rose." },
+
+  { id: 143, name: "Helm",
+    normal: "helm_normal.jpg", rare: "helm_rare.jpg", legendary: "helm_legendary.jpg",
+    normalStory: "The naval commander Nikke.",
+    rareStory: "She rules the seas.",
+    legendaryStory: "The Admiral." },
+
+  { id: 144, name: "Label",
+    normal: "label_normal.jpg", rare: "label_rare.jpg", legendary: "label_legendary.jpg",
+    normalStory: "The tactical and composed Nikke.",
+    rareStory: "Her strategies are flawless.",
+    legendaryStory: "The master tactician." },
+
+  { id: 145, name: "Ludmilla",
+    normal: "ludmilla_normal.jpg", rare: "ludmilla_rare.jpg", legendary: "ludmilla_legendary.jpg",
+    normalStory: "The elegant and refined Nikke.",
+    rareStory: "Her grace is matched by her power.",
+    legendaryStory: "The winter rose." },
+
+  { id: 146, name: "Marciana",
+    normal: "marciana_normal.jpg", rare: "marciana_rare.jpg", legendary: "marciana_legendary.jpg",
+    normalStory: "The strict teacher-type Nikke.",
+    rareStory: "She enforces discipline.",
+    legendaryStory: "The headmistress." },
+
+  { id: 147, name: "Mana",
+    normal: "mana_normal.jpg", rare: "mana_rare.jpg", legendary: "mana_legendary.jpg",
+    normalStory: "The corporate and ambitious Nikke.",
+    rareStory: "She climbs the ladder with style.",
+    legendaryStory: "The executive." },
+
+  { id: 148, name: "Maiden",
+    normal: "maiden_normal.jpg", rare: "maiden_rare.jpg", legendary: "maiden_legendary.jpg",
+    normalStory: "The pure and powerful Nikke.",
+    rareStory: "Her light purifies all.",
+    legendaryStory: "The holy maiden." },
+
+  { id: 149, name: "Maxwell",
+    normal: "maxwell_normal.jpg", rare: "maxwell_rare.jpg", legendary: "maxwell_legendary.jpg",
+    normalStory: "The genius inventor Nikke.",
+    rareStory: "Her creations change the battlefield.",
+    legendaryStory: "The mad scientist." },
+
+  { id: 150, name: "Moran",
+    normal: "moran_normal.jpg", rare: "moran_rare.jpg", legendary: "moran_legendary.jpg",
+    normalStory: "The bold and fiery Nikke.",
+    rareStory: "Her passion burns bright.",
+    legendaryStory: "The flame of passion." },
+
+  { id: 151, name: "Milk",
+    normal: "milk_normal.jpg", rare: "milk_rare.jpg", legendary: "milk_legendary.jpg",
+    normalStory: "The cute and cheerful Nikke.",
+    rareStory: "Her sweetness hides strength.",
+    legendaryStory: "The idol of hope." },
+
+  { id: 152, name: "Nihilister",
+    normal: "nihilister_normal.jpg", rare: "nihilister_rare.jpg", legendary: "nihilister_legendary.jpg",
+    normalStory: "The mysterious and powerful entity.",
+    rareStory: "She brings nothingness.",
+    legendaryStory: "The Void." },
+
+  { id: 153, name: "Privaty",
+    normal: "privaty_normal.jpg", rare: "privaty_rare.jpg", legendary: "privaty_legendary.jpg",
+    normalStory: "The serious and dutiful Nikke.",
+    rareStory: "She protects with everything she has.",
+    legendaryStory: "The guardian." },
+
+  { id: 154, name: "Quency",
+    normal: "quency_normal.jpg", rare: "quency_rare.jpg", legendary: "quency_legendary.jpg",
+    normalStory: "The fashionable and stylish Nikke.",
+    rareStory: "She always looks perfect.",
+    legendaryStory: "The fashion icon." },
+
+  { id: 155, name: "Rosanna",
+    normal: "rosanna_normal.jpg", rare: "rosanna_rare.jpg", legendary: "rosanna_legendary.jpg",
+    normalStory: "The mafia-style elegant Nikke.",
+    rareStory: "She rules with class and power.",
+    legendaryStory: "The Don." },
+
+  { id: 156, name: "Red Hood",
+    normal: "red_hood_normal.jpg", rare: "red_hood_rare.jpg", legendary: "red_hood_legendary.jpg",
+    normalStory: "The legendary wolf in red.",
+    rareStory: "Her howl shakes the battlefield.",
+    legendaryStory: "The Big Bad Wolf." },
+
+  { id: 157, name: "Rouge",
+    normal: "rouge_normal.jpg", rare: "rouge_rare.jpg", legendary: "rouge_legendary.jpg",
+    normalStory: "The mysterious and seductive Nikke.",
+    rareStory: "She plays with hearts and minds.",
+    legendaryStory: "The temptress." },
+
+  { id: 158, name: "Rumani",
+    normal: "rumani_normal.jpg", rare: "rumani_rare.jpg", legendary: "rumani_legendary.jpg",
+    normalStory: "The cheerful supporter.",
+    rareStory: "She lifts everyone's spirits.",
+    legendaryStory: "The heart of the team." },
+
+  { id: 159, name: "Sakura",
+    normal: "sakura_normal.jpg", rare: "sakura_rare.jpg", legendary: "sakura_legendary.jpg",
+    normalStory: "The graceful samurai Nikke.",
+    rareStory: "Her blade is poetry in motion.",
+    legendaryStory: "The Cherry Blossom Blade." },
+
+  { id: 160, name: "Snow White",
+    normal: "snow_white_normal.jpg", rare: "snow_white_rare.jpg", legendary: "snow_white_legendary.jpg",
+    normalStory: "The fairy tale sniper.",
+    rareStory: "Her shots are legendary.",
+    legendaryStory: "The fairest of them all." },
+
+  { id: 161, name: "Sin",
+    normal: "sin_normal.jpg", rare: "sin_rare.jpg", legendary: "sin_legendary.jpg",
+    normalStory: "The sinful and alluring Nikke.",
+    rareStory: "She tempts fate itself.",
+    legendaryStory: "The embodiment of sin." },
+
+  { id: 162, name: "Scarlet",
+    normal: "scarlet_normal.jpg", rare: "scarlet_rare.jpg", legendary: "scarlet_legendary.jpg",
+    normalStory: "The elegant swordmaster.",
+    rareStory: "Her sword dances like wine.",
+    legendaryStory: "The finest vintage." },
+
+  { id: 163, name: "Sugar",
+    normal: "sugar_normal.jpg", rare: "sugar_rare.jpg", legendary: "sugar_legendary.jpg",
+    normalStory: "The sweet and powerful Nikke.",
+    rareStory: "She brings the sugar rush.",
+    legendaryStory: "The candy queen." },
+
+  { id: 164, name: "Velvet",
+    normal: "velvet_normal.jpg", rare: "velvet_rare.jpg", legendary: "velvet_legendary.jpg",
+    normalStory: "The luxurious and commanding Nikke.",
+    rareStory: "She rules with velvet gloves.",
+    legendaryStory: "The velvet throne." },
+
+  { id: 165, name: "Volume",
+    normal: "volume_normal.jpg", rare: "volume_rare.jpg", legendary: "volume_legendary.jpg",
+    normalStory: "The music-loving supporter.",
+    rareStory: "Her beats boost everyone.",
+    legendaryStory: "The DJ of the battlefield." },
+
+  { id: 166, name: "Yulha",
+    normal: "yulha_normal.jpg", rare: "yulha_rare.jpg", legendary: "yulha_legendary.jpg",
+    normalStory: "The elegant and refined Nikke.",
+    rareStory: "Her poise is unmatched.",
+    legendaryStory: "The noble rose." }
 ];
 // ==================== CARD LOGIC ====================
-const TOTAL_UNIQUE_CARDS = 183;
+const TOTAL_UNIQUE_CARDS = 498;
 
 function getRandomCard() {
     const char = characters[Math.floor(Math.random() * characters.length)];
     const roll = Math.random();
     
-    let type = 'basic', image = char.normal, story = char.normalStory;
-    
-    if (roll < 0.04) {
+    let type = 'basic';
+    let image = char.normal;
+    let story = char.normalStory || "A mysterious character from another world.";
+
+    if (roll < 0.04) {                    // 4% Legendary
         type = 'legendary';
-        image = char.legendary;
-        story = char.legendaryStory || char.rareStory;
-    } else if (roll < 0.18) {
+        image = char.legendary || char.rare || char.normal;   // Fallback chain
+        story = char.legendaryStory || char.rareStory || char.normalStory;
+    } 
+    else if (roll < 0.18) {               // 14% Rare (18% - 4%)
         type = 'rare';
-        image = char.rare;
-        story = char.rareStory;
+        image = char.rare || char.normal;                     // Fallback to normal
+        story = char.rareStory || char.normalStory;
     }
     
     const offset = type === 'legendary' ? 200 : type === 'rare' ? 100 : 0;
@@ -910,6 +1559,7 @@ document.getElementById('packArea').addEventListener('click', () => {
             const cardData = getRandomCard();
             collection[cardData.fullId] = (collection[cardData.fullId] || 0) + 1;
             newCards.push(cardData);
+            saveGame();
         }
             
         // Create two rows: 2 on top, 3 on bottom
