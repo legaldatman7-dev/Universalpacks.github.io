@@ -155,7 +155,7 @@
     max-width: 440px;
 }
 
-@media (max-width: 480px) {
+@media only screen and (max-width: 600px) {
     .cards-container {
         gap: 16px;
         margin: 60px 10px 40px;
@@ -170,6 +170,19 @@
     .flying-card, .card {
         width: 138px;
         height: 195px;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .cards-container {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 24px;
+    }
+    .card-row {
+        flex-direction: row;
+        gap: 24px;
+        max-width: none;
     }
 }
 
@@ -840,11 +853,15 @@ document.getElementById('packArea').addEventListener('click', () => {
 
             cardEl.style.opacity = '0';
             cardEl.style.transform = 'translateY(40px) scale(0.7)';
-
-            if (i < 2) {
-                topRow.appendChild(cardEl);
+            
+            if (window.matchMedia('(max-width: 600px)').matches) {
+                if (i < 2) {
+                    topRow.appendChild(cardEl);
+                } else {
+                    bottomRow.appendChild(cardEl);
+                }
             } else {
-                bottomRow.appendChild(cardEl);
+                topRow.appendChild(cardEl);
             }
 
             flyingCards.push(cardEl);
