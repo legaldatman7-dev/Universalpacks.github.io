@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <title>Hololive Arcane Packs</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <style>
     :root {
         --accent: #ff66cc;
@@ -137,13 +138,40 @@
         text-shadow: 0 2px 6px rgba(0,0,0,0.95);
     }
 
+.cards-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    margin: 80px 20px 60px;
+    min-height: 460px;
+}
+
+.card-row {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+    width: 100%;
+    max-width: 440px;
+}
+
+@media (max-width: 480px) {
     .cards-container {
-        display: flex; 
-        flex-wrap: wrap; 
-        gap: 18px; 
-        justify-content: center; 
-        margin: 30px 0;
+        gap: 16px;
+        margin: 60px 10px 40px;
+        min-height: 380px;
     }
+    .card-row {
+        gap: 12px;
+    }
+    .card-row:first-child {
+        max-width: 310px;   /* 2 cards */
+    }
+    .flying-card, .card {
+        width: 138px;
+        height: 195px;
+    }
+}
 
     /* Library */
     .library-card {
@@ -227,7 +255,7 @@
         border: 3px solid #ff99ff;
     }
 
-        @media (min-width: 700px) {
+    @media (min-width: 700px) {
         .modal-content {
             flex-direction: row;
             max-width: 1100px;
@@ -273,7 +301,7 @@
         margin-top: 15px;
     }
 
-        @media (min-width: 600px) {
+    @media (min-width: 600px) {
         .library-grid {
             grid-template-columns: repeat(3, 1fr); /* 3 columns on tablets and up */
         }
@@ -296,14 +324,15 @@
 
     .craft-btn:hover { background: linear-gradient(#00ff88, #00cc66); }
 
-    @media (max-width: 300px) {
+/* Mobile pack adjustments */
+@media (max-width: 480px) {
         h1 { font-size: 1.85rem; }
-        .pack-area { width: 300px; height: 300px; }
-        .pack { width: 190px; height: 260px; font-size: 26px; }
-        .flying-card, .card { width: 30px; height: 30px; }
-        .cards-container { gap: 5px; }
-        .card-name { font-size: 9px; padding: 8px 5px 8px; }
-        .stats { font-size: 1px; }
+        .pack { font-size: 28px; height: 265px; width: 190px; }
+        .pack-area { width: 190px; height: 285px; }
+        .flying-card, .card { width: 138px; height: 194px; }
+        .card-row { gap: 12px; }
+        .cards-container { gap: 12px; min-height: 420px; }
+        .card-name { font-size: 12.8px; padding: 11px 6px 8px; }
     }
 </style>
 </head>
@@ -322,7 +351,7 @@
 
 <p class="stats">
     Packs opened: <strong><span id="packsOpened">0</span></strong> | 
-    Cards Collected: <strong><span id="collectionCount">0</span></strong> / <span id="totalCards">90</span>
+    Cards Collected: <strong><span id="collectionCount">0</span></strong> / <span id="totalCards">183</span>
 </p>
 
 <div class="cards-container" id="cardsContainer"></div>
@@ -343,7 +372,7 @@
 <!-- Library Modal -->
 <div class="library-modal" id="libraryModal">
     <div class="library-content">
-        <h2>📚 Collection Library <span id="libraryProgress">(0 / 90)</span></h2>
+        <h2>📚 Collection Library <span id="libraryProgress">(0 / 183)</span></h2>
         <button onclick="closeLibrary()" style="float:right;">Close</button>
         <button onclick="showCraftingHelp()" style="margin: 10px 0;">ℹ️ How Crafting Works</button>
         
@@ -726,7 +755,7 @@ const characters = [
       legendaryStory: "The ultimate healer." }
 ];
 // ==================== CARD LOGIC ====================
-const TOTAL_UNIQUE_CARDS = 90;
+const TOTAL_UNIQUE_CARDS = 183;
 
 function getRandomCard() {
     const char = characters[Math.floor(Math.random() * characters.length)];
@@ -783,42 +812,60 @@ document.getElementById('packArea').addEventListener('click', () => {
         packEl.classList.remove('shaking');
         packEl.classList.add('opening');
 
+        // Inside the setTimeout after pack shaking
         const newCards = [];
         for (let i = 0; i < 5; i++) {
             const cardData = getRandomCard();
             collection[cardData.fullId] = (collection[cardData.fullId] || 0) + 1;
             newCards.push(cardData);
         }
+            
+        // Create two rows: 2 on top, 3 on bottom
+        const topRow = document.createElement('div');
+        topRow.className = 'card-row';
 
-        // Create flying cards
-        newCards.forEach((cardData, index) => {
-            const flying = document.createElement('div');
-            flying.className = `flying-card ${cardData.type}`;
-            flying.innerHTML = `
+        const bottomRow = document.createElement('div');
+        bottomRow.className = 'card-row';
+
+        newCards.forEach((cardData, i) => {
+            const cardEl = document.createElement('div');
+            cardEl.className = `flying-card ${cardData.type}`;
+            cardEl.innerHTML = `
                 <img src="images/${cardData.image}" alt="${cardData.name}">
                 <div class="card-name">
                     ${cardData.name}<br>
                     <small>${cardData.type === 'legendary' ? '◆ Legendary' : cardData.type === 'rare' ? '★ Rare' : ''}</small>
                 </div>
             `;
-            
-            flying.style.position = '0px';
-            flying.style.left = '-2000px';
-            cardsContainer.appendChild(flying);
-            flyingCards.push(flying);
 
+            cardEl.style.opacity = '0';
+            cardEl.style.transform = 'translateY(40px) scale(0.7)';
+
+            if (i < 2) {
+                topRow.appendChild(cardEl);
+            } else {
+                bottomRow.appendChild(cardEl);
+            }
+
+            flyingCards.push(cardEl);
+
+            // Staggered reveal
             setTimeout(() => {
-                flying.style.transition = 'all 0.9s cubic-bezier(0.23, 1, 0.32, 1)';
-                flying.style.left = `${(index - 2) * 100}px`;
-                flying.style.top = '0px';
-                flying.classList.add('show');
-                
-                setTimeout(() => flying.onclick = () => showCard(cardData), 1100);
-            }, 180 + index * 90);
+                cardEl.style.transition = 'all 0.75s cubic-bezier(0.34, 1.56, 0.64, 1)';
+                cardEl.style.opacity = '1';
+                cardEl.style.transform = 'translateY(0) scale(1)';
+            }, 180 + i * 85);
+
+            cardEl.onclick = () => showCard(cardData);
         });
+
+        cardsContainer.appendChild(topRow);
+        cardsContainer.appendChild(bottomRow);
 
         updateCollectionCount();
         saveGame();
+
+        setTimeout(() => packEl.classList.remove('opening'), 1500);
 
         setTimeout(() => packEl.classList.remove('opening'), 1500);
     }, 600);
