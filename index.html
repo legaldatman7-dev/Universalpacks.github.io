@@ -227,6 +227,20 @@
         border: 3px solid #ff99ff;
     }
 
+        @media (min-width: 700px) {
+        .modal-content {
+            flex-direction: row;
+            max-width: 1100px;
+        }
+    }
+
+    @media (min-width: 700px) {
+        .modal-card {
+            width: 380px;
+            max-height: none;
+        }
+    }
+
     .modal-card img {
         max-width: 100%;
         max-height: 520px;
@@ -259,6 +273,12 @@
         margin-top: 15px;
     }
 
+        @media (min-width: 600px) {
+        .library-grid {
+            grid-template-columns: repeat(3, 1fr); /* 3 columns on tablets and up */
+        }
+    }
+
     .craft-btn {
         position: absolute;
         bottom: 8px;
@@ -277,9 +297,13 @@
     .craft-btn:hover { background: linear-gradient(#00ff88, #00cc66); }
 
     @media (max-width: 480px) {
-        h1 { font-size: 5rem; }
-        .pack { font-size: 28px; height: 280px; }
-        .flying-card, .card { width: 74px; height: 104px; }
+        h1 { font-size: 1.85rem; }
+        .pack-area { width: 300px; height: 300px; }
+        .pack { width: 190px; height: 260px; font-size: 26px; }
+        .flying-card, .card { width: 96px; height: 135px; }
+        .cards-container { gap: 5px; }
+        .card-name { font-size: 9px; padding: 8px 5px 8px; }
+        .stats { font-size: 1px; }
     }
 </style>
 </head>
