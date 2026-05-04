@@ -1674,7 +1674,7 @@ function openLibrary() {
 function appendLibraryCard(char, type, count) {
     const offset = type === 'legendary' ? 200 : type === 'rare' ? 100 : 0;
     const fullId = char.id + offset;
-    const imageFile = char.legendary : char.normal, char.rare : char.normal, char.normal : char.normal;
+    const imageFile = char.legendary || char.rare || char.normal : char.normal;
 
     const div = document.createElement('div');
     div.className = `library-card ${type}`;
