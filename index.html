@@ -419,7 +419,7 @@
         z-index: 20;
     }
 
-    .craft-btn:hover { background: linear-gradient(#00ff88, #00cc66); }
+    .craft-btn:hover { background: linear-gradient(#00ff88, #00cc66); transform: translateX(-50%) scale(1.1);; }
 
 /* Mobile pack adjustments */
 @media (max-width: 480px) {
@@ -1488,7 +1488,260 @@ const characters = [
     normal: "yulha_normal.jpg", rare: "yulha_rare.jpg", legendary: "yulha_legendary.jpg",
     normalStory: "The elegant and refined Nikke.",
     rareStory: "Her poise is unmatched.",
-    legendaryStory: "The noble rose." }
+    legendaryStory: "The noble rose." },
+
+      // Call of the night
+    { id: 167, name: "Nazuna Nanakusa",
+      normal: "nazuna_nanakusa_normal.jpg", rare: "nazuna_nanakusa_rare.jpg", legendary: "nazuna_nanakusa_legendary.jpg",
+      normalStory: "The stylish and seductive vampire from Hyakuya High. Loves fashion and late-night snacks.",
+      rareStory: "Her vampiric powers fully awakened, blending elegance with deadly charm.",
+      legendaryStory: "The ultimate night queen. Her presence commands both fear and desire." },
+
+    { id: 168, name: "Kyouko Mejiro",
+      normal: "kyouko_mejiro_normal.jpg", rare: "kyouko_mejiro_rare.jpg", legendary: "kyouko_mejiro_legendary.jpg",
+      normalStory: "The elegant and refined student with a sharp tongue.",
+      rareStory: "Her composure hides immense inner strength.",
+      legendaryStory: "The flawless Mejiro heiress at her peak." },
+
+    { id: 169, name: "Kiku Hoshimi",
+      normal: "kiku_hoshimi_normal.jpg", rare: "kiku_hoshimi_rare.jpg", legendary: "kiku_hoshimi_legendary.jpg",
+      normalStory: "The graceful star idol with a celestial aura.",
+      rareStory: "Her stage presence shines like a supernova.",
+      legendaryStory: "The eternal idol whose light never fades." },
+
+    { id: 170, name: "Kabura Honda",
+      normal: "kabura_honda_normal.jpg", rare: "kabura_honda_rare.jpg", legendary: "kabura_honda_legendary.jpg",
+      normalStory: "The energetic and reliable archer.",
+      rareStory: "Her arrows fly with unmatched precision.",
+      legendaryStory: "The legendary bowmaster." },
+
+    { id: 171, name: "Nico Hirata",
+      normal: "nico_hirata_normal.jpg", rare: "nico_hirata_rare.jpg", legendary: "nico_hirata_legendary.jpg",
+      normalStory: "The cheerful and supportive friend who always brings smiles.",
+      rareStory: "Her positivity becomes an unstoppable force.",
+      legendaryStory: "The heart of the group." },
+
+    // Mato seihei no Slave
+    { id: 172, name: "Fubuki Azuma",
+      normal: "fubuki_azuma_normal.jpg", rare: "fubuki_azuma_rare.jpg", legendary: "fubuki_azuma_legendary.jpg",
+      normalStory: "The cool and composed wind user.",
+      rareStory: "Her gusts can topple armies.",
+      legendaryStory: "The Blizzard Sovereign." },
+
+    { id: 173, name: "Ren Yamashiro",
+      normal: "ren_yamashiro_normal.jpg", rare: "ren_yamashiro_rare.jpg", legendary: "ren_yamashiro_legendary.jpg",
+      normalStory: "The fiery and determined leader.",
+      rareStory: "Her resolve burns brighter than any flame.",
+      legendaryStory: "The unyielding flame of justice." },
+
+    { id: 174, name: "Tenka Izumo",
+      normal: "tenka_izumo_normal.jpg", rare: "tenka_izumo_rare.jpg", legendary: "tenka_izumo_legendary.jpg",
+      normalStory: "The powerful and elegant swordswoman.",
+      rareStory: "Her blade cuts through fate itself.",
+      legendaryStory: "The peerless sword saint." },
+
+    { id: 175, name: "Mira Kamiunten",
+      normal: "mira_kamiunten_normal.jpg", rare: "mira_kamiunten_rare.jpg", legendary: "mira_kamiunten_legendary.jpg",
+      normalStory: "The mysterious and graceful fighter.",
+      rareStory: "Her movements flow like water.",
+      legendaryStory: "The divine dancer of battle." },
+
+    { id: 176, name: "Kuusetse",
+      normal: "kuusetse_normal.jpg", rare: "kuusetse_rare.jpg", legendary: "kuusetse_legendary.jpg",
+      normalStory: "The enigmatic warrior from distant lands.",
+      rareStory: "Her power grows with every secret revealed.",
+      legendaryStory: "The void walker." },
+
+    { id: 177, name: "Fuukuma",
+      normal: "fuukuma_normal.jpg", rare: "fuukuma_rare.jpg", legendary: "fuukuma_legendary.jpg",
+      normalStory: "The playful wind spirit.",
+      rareStory: "Her gales bring both joy and destruction.",
+      legendaryStory: "The storm incarnate." },
+
+    { id: 178, name: "Jouryuu",
+      normal: "jouryuu_normal.jpg", rare: "jouryuu_rare.jpg", legendary: "jouryuu_legendary.jpg",
+      normalStory: "The dragon-blooded fighter.",
+      rareStory: "Her draconic power awakens.",
+      legendaryStory: "The true dragon sovereign." },
+
+    { id: 179, name: "Naruhime",
+      normal: "naruhime_normal.jpg", rare: "naruhime_rare.jpg", legendary: "naruhime_legendary.jpg",
+      normalStory: "The gentle yet powerful princess.",
+      rareStory: "Her royal authority commands respect.",
+      legendaryStory: "The divine princess." },
+
+    { id: 180, name: "Shikoku",
+      normal: "shikoku_normal.jpg", rare: "shikoku_rare.jpg", legendary: "shikoku_legendary.jpg",
+      normalStory: "The mysterious shrine maiden.",
+      rareStory: "Her spiritual power is immense.",
+      legendaryStory: "The guardian of the four lands." },
+
+    // JoJo's Bizarre Adventure
+    { id: 181, name: "Jolyne Cujoh",
+      normal: "jolyne_normal.jpg", rare: "jolyne_rare.jpg", legendary: "jolyne_legendary.jpg",
+      normalStory: "The fearless daughter of Jotaro with the string Stand Stone Free.",
+      rareStory: "Her threads of fate can unravel any enemy.",
+      legendaryStory: "The unbreakable Jolyne Cujoh." },
+
+    { id: 182, name: "Trish Una",
+      normal: "trish_normal.jpg", rare: "trish_rare.jpg", legendary: "trish_legendary.jpg",
+      normalStory: "The daughter of the Boss with Spice Girl.",
+      rareStory: "Her Stand softens reality itself.",
+      legendaryStory: "The princess of Passione." },
+
+    { id: 183, name: "Hot Pants",
+      normal: "hot_pants_normal.jpg", rare: "hot_pants_rare.jpg", legendary: "hot_pants_legendary.jpg",
+      normalStory: "The nun with the powerful Cream Starter.",
+      rareStory: "Her flesh manipulation is terrifying.",
+      legendaryStory: "The saint of the race." },
+
+    { id: 184, name: "Lisa Lisa",
+      normal: "lisa_lisa_normal.jpg", rare: "lisa_lisa_rare.jpg", legendary: "lisa_lisa_legendary.jpg",
+      normalStory: "The elegant Hamon master and teacher.",
+      rareStory: "Her scarf and Hamon are deadly.",
+      legendaryStory: "The legendary Hamon warrior." },
+
+    { id: 185, name: "Ermes Costello",
+      normal: "ermes_normal.jpg", rare: "ermes_rare.jpg", legendary: "ermes_legendary.jpg",
+      normalStory: "The vengeful prisoner with Kiss.",
+      rareStory: "Her duplicates bring double the pain.",
+      legendaryStory: "The fist of vengeance." },
+
+    { id: 186, name: "Kei Nijimura",
+      normal: "kei_nijimura_normal.jpg", rare: "kei_nijimura_rare.jpg", legendary: "kei_nijimura_legendary.jpg",
+      normalStory: "The mysterious Stand user.",
+      rareStory: "Her abilities bend the rules of reality.",
+      legendaryStory: "The hidden Nijimura." },
+
+    { id: 187, name: "Mariah",
+      normal: "mariah_normal.jpg", rare: "mariah_rare.jpg", legendary: "mariah_legendary.jpg",
+      normalStory: "The magnetic Stand user Bastet.",
+      rareStory: "Her magnetism pulls everything in.",
+      legendaryStory: "The queen of attraction." },
+
+      // Please don't milk me Merchant-San
+    { id: 188, name: "Philo",
+      normal: "philo_normal.jpg", rare: "philo_rare.jpg", legendary: "philo_legendary.jpg",
+      normalStory: "The young and curious Stand user.",
+      rareStory: "Her potential is limitless.",
+      legendaryStory: "The future of the bloodline." },
+
+    // One Punch Man
+    { id: 189, name: "Tatsumaki",
+      normal: "tatsumaki_normal.jpg", rare: "tatsumaki_rare.jpg", legendary: "tatsumaki_legendary.jpg",
+      normalStory: "The terrifying esper known as the Tornado of Terror.",
+      rareStory: "Her psychic power can lift cities.",
+      legendaryStory: "The strongest esper alive." },
+
+    { id: 190, name: "Fubuki",
+      normal: "fubuki_normal.jpg", rare: "fubuki_rare.jpg", legendary: "fubuki_legendary.jpg",
+      normalStory: "The elegant Blizzard of Hell.",
+      rareStory: "Her psychic abilities rival legends.",
+      legendaryStory: "The Queen of the Blizzard Group." },
+
+    { id: 191, name: "Do-S",
+      normal: "do_s_normal.jpg", rare: "do_s_rare.jpg", legendary: "do_s_legendary.jpg",
+      normalStory: "The sadistic monster girl with a whip.",
+      rareStory: "Her domination knows no bounds.",
+      legendaryStory: "The ultimate dominatrix monster." },
+
+    { id: 192, name: "Psychos",
+      normal: "psychos_normal.jpg", rare: "psychos_rare.jpg", legendary: "psychos_legendary.jpg",
+      normalStory: "The powerful psychic and monster.",
+      rareStory: "Her mind can shatter reality.",
+      legendaryStory: "The awakened psychic horror." },
+
+    { id: 193, name: "Mizuki",
+      normal: "mizuki_normal.jpg", rare: "mizuki_rare.jpg", legendary: "mizuki_legendary.jpg",
+      normalStory: "The fierce monster hunter.",
+      rareStory: "Her combat prowess is unmatched.",
+      legendaryStory: "The apex monster slayer." },
+
+    { id: 194, name: "Mosquito Girl",
+      normal: "mosquito_girl_normal.jpg", rare: "mosquito_girl_rare.jpg", legendary: "mosquito_girl_legendary.jpg",
+      normalStory: "The bloodthirsty mosquito monster.",
+      rareStory: "Her swarm is overwhelming.",
+      legendaryStory: "The queen of the swarm." },
+
+    // Apex Legends
+    { id: 195, name: "Loba",
+      normal: "loba_normal.jpg", rare: "loba_rare.jpg", legendary: "loba_legendary.jpg",
+      normalStory: "The master thief who steals from the rich.",
+      rareStory: "Her teleportation bracelet makes her untouchable.",
+      legendaryStory: "The queen of thieves." },
+
+    { id: 196, name: "Wattson",
+      normal: "wattson_normal.jpg", rare: "wattson_rare.jpg", legendary: "wattson_legendary.jpg",
+      normalStory: "The brilliant engineer and fence master.",
+      rareStory: "Her electric traps dominate the battlefield.",
+      legendaryStory: "The ultimate defender." },
+
+    { id: 197, name: "Wraith",
+      normal: "wraith_normal.jpg", rare: "wraith_rare.jpg", legendary: "wraith_legendary.jpg",
+      normalStory: "The dimensional warrior who hears the voices.",
+      rareStory: "She bends space and time to her will.",
+      legendaryStory: "The void walker legend." },
+
+    // Gachiakuta
+    { id: 198, name: "Amo Empool",
+      normal: "amo_empool_normal.jpg", rare: "amo_empool_rare.jpg", legendary: "amo_empool_legendary.jpg",
+      normalStory: "The mysterious and powerful entity.",
+      rareStory: "Reality bends around her.",
+      legendaryStory: "The enigmatic force." },
+
+    { id: 199, name: "Riyo Reaper",
+      normal: "riyo_reaper_normal.jpg", rare: "riyo_reaper_rare.jpg", legendary: "riyo_reaper_legendary.jpg",
+      normalStory: "The grim reaper with a cheerful twist.",
+      rareStory: "Death follows her every step.",
+      legendaryStory: "The reaper of souls." },
+
+    { id: 200, name: "Semiu Grier",
+      normal: "semiu_grier_normal.jpg", rare: "semiu_grier_rare.jpg", legendary: "semiu_grier_legendary.jpg",
+      normalStory: "The tactical and composed fighter.",
+      rareStory: "Her strategies are flawless.",
+      legendaryStory: "The master tactician." },
+    
+    { id: 201, name: "Kyouka Nijiku",
+      normal: "kyouka_nijiku_normal.jpg", rare: "kyouka_nijiku_rare.jpg", legendary: "kyouka_nijiku_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 202, name: "Cthoni Andor",
+      normal: "cthoni_andor_normal.jpg", rare: "cthoni_andor_rare.jpg", legendary: "cthoni_andor_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 203, name: "Too Lily",
+      normal: "too_lily_normal.jpg", rare: "too_lily_rare.jpg", legendary: "too_lily_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 204, name: "Noerde Hew Amazo",
+      normal: "noerde_normal.jpg", rare: "noerde_rare.jpg", legendary: "noerde_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 205, name: "Kyouka Nijiku",
+      normal: "kyouka_nijiku_normal.jpg", rare: "kyouka_nijiku_rare.jpg", legendary: "kyouka_nijiku_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 206, name: "Momoa Rukel",
+      normal: "momoa_normal.jpg", rare: "momoa_rare.jpg", legendary: "momoa_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 207, name: "Mildretta",
+      normal: "mildretta_normal.jpg", rare: "mildretta_rare.jpg", legendary: "mildretta_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
 ];
 // ==================== CARD LOGIC ====================
 const TOTAL_UNIQUE_CARDS = 498;
