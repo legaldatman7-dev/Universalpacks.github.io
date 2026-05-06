@@ -97,10 +97,10 @@
             transition: all 0.3s;
             position: 100px;
         }
-    }
-
-    .pack:hover {
-        box-shadow: 0 25px 60px rgba(255,100,220,0.8);
+        .card:hover {
+            transform: translateY(-15px) scale(1.08);
+            box-shadow: 0 15px 40px rgba(255, 255, 0, 0.8), 0 0 35px #fffb00;
+        }
     }
 
     /* Cards */
@@ -126,10 +126,6 @@
         box-shadow: 0 10px 30px rgba(0,0,0,0.7), 0 0 30px #fbff00;
     }
 
-    .flying-card:hover, .card:hover {
-        transform: translateY(-15px) scale(1.08);
-    }
-
     .flying-card .image-container,
     .card .image-container {
         width: 100%;
@@ -148,6 +144,11 @@
         object-fit: contain;
         padding: 4px;
         box-sizing: border-box;
+    }
+
+    .card:hover {
+        transform: translateY(-15px) scale(1.08);
+        box-shadow: 0 15px 40px rgba(255, 255, 0, 0.8), 0 0 35px #fffb00;
     }
 
     /* Rarity-specific animations */
@@ -238,6 +239,21 @@
     justify-content: center;
     width: 100%;
     max-width: 440px;
+}
+
+.flying-card.basic:hover, .card.basic:hover {
+    transform: translateY(-150px) scale(1.08);
+    box-shadow: 0 10px 30px rgba(0,0,0,0.7), 0 0 25px #aaaaaa;
+}
+
+.flying-card.rare:hover, .card.rare:hover {
+    transform: translateY(-150px) scale(1.08);
+    box-shadow: 0 10px 30px rgba(255, 0, 234, 0.7), 0 0 40px #ff00f2;
+}
+
+.flying-card.legendary:hover, .card.legendary:hover {
+    transform: translateY(-150px) scale(1.08);
+    box-shadow: 15px 25px 50px rgba(255, 238, 0, 0.8), 0 0 50px #fffb00;
 }
 
 @media only screen and (max-width: 600px) {
@@ -508,7 +524,7 @@ function resetProgress() {
 
 // ==================== CHARACTERS ====================
 const characters = [
-    // Hololive
+    // Hololive || 1 - 22
   { id: 1, name: "Hakos Baelz",
     normal: "baelz_normal.jpg", rare: "baelz_rare.jpg", legendary: "baelz_legendary.jpg",
     normalStory: "The Embodiment of Chaos. A chaotic rat who brings fun and disorder everywhere she goes. Expect the unexpected when Bae is around!",
@@ -619,7 +635,7 @@ const characters = [
     normalStory: "The gentle and kind-hearted dragon spirit who loves music and dancing.",
     rareStory: "The powerful dragon spirit. Her presence fills the air with magic and joy."
   },
-    // Limbus Company
+    // Limbus Company || 23 - 27
   { id: 23, name: "Ishmael",
     normal: "ishmael_normal.jpg", rare: "ishmael_rare.jpg", legendary: "ishmael_legendary.jpg",
     normalStory: "The gentle and kind-hearted dragon spirit who loves music and dancing.",
@@ -645,7 +661,7 @@ const characters = [
     normalStory: "The gentle and kind-hearted dragon spirit who loves music and dancing.",
     rareStory: "The powerful dragon spirit. Her presence fills the air with magic and joy."
   },
-    // Final Fantasy
+    // Final Fantasy || 28 - 30
   { id: 28, name: "Tifa Lockhart",
     normal: "tifa_normal.jpg", rare: "tifa_rare.jpg", legendary: "tifa_legendary.jpg",
     normalStory: "The gentle and kind-hearted dragon spirit who loves music and dancing.",
@@ -661,7 +677,7 @@ const characters = [
     normalStory: "The gentle and kind-hearted dragon spirit who loves music and dancing.",
     rareStory: "The powerful dragon spirit. Her presence fills the air with magic and joy."
   },
-    // My Hero Academia
+    // My Hero Academia || 31 - 42
   { id: 31, name: "Rumi Usagiyama",
       normal: "rumi_normal.jpg", rare: "rumi_rare.jpg", legendary: "rumi_legendary.jpg",
       normalStory: "The Rabbit Hero Mirko. Fierce, strong, and always ready for a fight.",
@@ -733,7 +749,8 @@ const characters = [
       normalStory: "Pixie-Bob of the Wild Wild Pussycats.",
       rareStory: "Her earth manipulation is incredibly powerful.",
       legendaryStory: "The legendary earth-shaping hero." },
-        // Bleach
+
+      // Bleach || 43 - 49
     { id: 43, name: "Yoruichi Shihōin",
       normal: "yoruichi_normal.jpg", rare: "yoruichi_rare.jpg", legendary: "yoruichi_legendary.jpg",
       normalStory: "The Flash Goddess. Lightning-fast and deadly.",
@@ -775,7 +792,8 @@ const characters = [
       normalStory: "The explosive fireworks expert of the Shiba clan.",
       rareStory: "Her cannon techniques are devastating.",
       legendaryStory: "The legendary fireworks master." },
-        // One Piece
+
+        // One Piece || 50 - 56
     { id: 50, name: "Nico Robin",
       normal: "robin_normal.jpg", rare: "robin_rare.jpg", legendary: "robin_legendary.jpg",
       normalStory: "The archaeologist of the Straw Hat Pirates.",
@@ -817,7 +835,8 @@ const characters = [
       normalStory: "The evil personality of Dr. Vegapunk.",
       rareStory: "Her technological genius is unmatched.",
       legendaryStory: "The Devil of the Future." },
-        // Jujutsu Kaisen
+
+      // Jujutsu Kaisen || 57 - 61
     { id: 57, name: "Maki Zenin",
       normal: "maki_normal.jpg", rare: "maki_rare.jpg", legendary: "maki_legendary.jpg",
       normalStory: "The heavenly restricted sorcerer. Pure physical power.",
@@ -847,7 +866,8 @@ const characters = [
       normalStory: "The Reverse Cursed Technique master and school doctor.",
       rareStory: "Her healing abilities are miraculous.",
       legendaryStory: "The ultimate healer." },
-      // Guilty Gear
+
+      // Guilty Gear || 62 - 68
     { id: 62, name: "Ramlethal Valentine",
     normal: "ramlethal_normal.jpg", rare: "ramlethal_rare.jpg", legendary: "ramlethal_legendary.jpg",
     normalStory: "A Valentine who wields a giant sword and questions her own emotions.",
@@ -890,7 +910,7 @@ const characters = [
     rareStory: "Her hair techniques reach godlike precision.",
     legendaryStory: "The Empress of the Threads." },
 
-    // Hades
+    // Hades || 69 - 74
   { id: 69, name: "Melinoe",
     normal: "melinoe_normal.jpg", rare: "melinoe_rare.jpg", legendary: "melinoe_legendary.jpg",
     normalStory: "The Princess of the Underworld, wielder of witchcraft and night.",
@@ -927,7 +947,7 @@ const characters = [
     rareStory: "Her wrath is terrifying.",
     legendaryStory: "The Fury incarnate." },
 
-  // Persona
+  // Persona || 75 - 85
   { id: 75, name: "Tae Takemi",
     normal: "tae_normal.jpg", rare: "tae_rare.jpg", legendary: "tae_legendary.jpg",
     normalStory: "The beautiful and slightly sadistic doctor.",
@@ -994,7 +1014,7 @@ const characters = [
     rareStory: "Her investigative skills are legendary.",
     legendaryStory: "The truth seeker." },
 
-  // Danganronpa
+  // Danganronpa || 86 - 93
   { id: 86, name: "Junko Enoshima",
     normal: "junko_normal.jpg", rare: "junko_rare.jpg", legendary: "junko_legendary.jpg",
     normalStory: "The Ultimate Despair.",
@@ -1043,7 +1063,7 @@ const characters = [
     rareStory: "She captures truth with her lens.",
     legendaryStory: "The eye that sees all." },
 
-  // Baldur's Gate 3
+  // Baldur's Gate 3 || 94 - 98
   { id: 94, name: "Karlach",
     normal: "karlach_normal.jpg", rare: "karlach_rare.jpg", legendary: "karlach_legendary.jpg",
     normalStory: "The hot-headed tiefling barbarian with a burning heart.",
@@ -1074,7 +1094,7 @@ const characters = [
     rareStory: "Her contracts bind souls eternally.",
     legendaryStory: "The devil you know." },
 
-    // Helltaker
+    // Helltaker || 99 - 104
   { id: 99, name: "Lucifer",
     normal: "lucifer_normal.jpg", rare: "lucifer_rare.jpg", legendary: "lucifer_legendary.jpg",
     normalStory: "The Morning Star, fallen but radiant.",
@@ -1111,14 +1131,14 @@ const characters = [
     rareStory: "Treachery is her art.",
     legendaryStory: "The Betrayer." },
 
-  // Nier
+  // Nier Automata || 105
   { id: 105, name: "2B",
     normal: "2b_normal.jpg", rare: "2b_rare.jpg", legendary: "2b_legendary.jpg",
     normalStory: "The elegant android battle unit.",
     rareStory: "Her blindfold hides immense power.",
     legendaryStory: "Glory to Mankind." },
 
-  // Overwatch
+  // Overwatch || 106 - 112
   { id: 106, name: "Tracer",
     normal: "tracer_normal.jpg", rare: "tracer_rare.jpg", legendary: "tracer_legendary.jpg",
     normalStory: "The energetic time-jumping hero.",
@@ -1161,7 +1181,7 @@ const characters = [
     rareStory: "Her protection is absolute.",
     legendaryStory: "The protector of Kanezaka." },
 
-     // League of Legends
+     // League of Legends || 113 - 117
   { id: 113, name: "Akali",
     normal: "akali_normal.jpg", rare: "akali_rare.jpg", legendary: "akali_legendary.jpg",
     normalStory: "The rogue assassin of the K/DA.",
@@ -1192,14 +1212,14 @@ const characters = [
     rareStory: "Her aim is impeccable.",
     legendaryStory: "The top hat enforcer." },
 
-    // Tomb Raider
+    // Tomb Raider || 118
     { id: 118, name: "Lara Croft",
     normal: "lara_croft_normal.jpg", rare: "lara_croft_rare.jpg", legendary: "lara_croft_legendary.jpg",
     normalStory: "The legendary tomb raider and adventurer.",
     rareStory: "Her skills and determination are unmatched.",
     legendaryStory: "The ultimate treasure hunter and survivor." },
 
-    // Re:Zero
+    // Re:Zero || 119 - 121
   { id: 119, name: "Ram",
     normal: "ram_normal.jpg", rare: "ram_rare.jpg", legendary: "ram_legendary.jpg",
     normalStory: "The sharp-tongued pink-haired oni maid.",
@@ -1218,7 +1238,7 @@ const characters = [
     rareStory: "Her charisma and power shine brilliantly.",
     legendaryStory: "The Sun Priestess." },
 
-    // Chainsaw Man
+    // Chainsaw Man || 122 - 128
   { id: 122, name: "Makima",
     normal: "makima_normal.jpg", rare: "makima_rare.jpg", legendary: "makima_legendary.jpg",
     normalStory: "The enigmatic and terrifying Control Devil.",
@@ -1261,7 +1281,7 @@ const characters = [
     rareStory: "Her explosions light up the battlefield.",
     legendaryStory: "The walking bomb." },
 
-  // ===================== GODDESS OF VICTORY: NIKKE =====================
+  // GODDESS OF VICTORY: NIKKE || 129 - 166
   { id: 129, name: "Anis",
     normal: "anis_normal.jpg", rare: "anis_rare.jpg", legendary: "anis_legendary.jpg",
     normalStory: "The laid-back and heavy artillery Nikke.",
@@ -1490,7 +1510,7 @@ const characters = [
     rareStory: "Her poise is unmatched.",
     legendaryStory: "The noble rose." },
 
-      // Call of the night
+      // Call of the night || 167 - 171
     { id: 167, name: "Nazuna Nanakusa",
       normal: "nazuna_normal.jpg", rare: "nazuna_rare.jpg", legendary: "nazuna_legendary.jpg",
       normalStory: "The stylish and seductive vampire from Hyakuya High. Loves fashion and late-night snacks.",
@@ -1521,7 +1541,7 @@ const characters = [
       rareStory: "Her positivity becomes an unstoppable force.",
       legendaryStory: "The heart of the group." },
 
-    // Mato seihei no Slave
+    // Mato seihei no Slave || 172 - 180
     { id: 172, name: "Fubuki Azuma",
       normal: "fubuki_azuma_normal.jpg", rare: "fubuki_azuma_rare.jpg", legendary: "fubuki_azuma_legendary.jpg",
       normalStory: "The cool and composed wind user.",
@@ -1576,7 +1596,7 @@ const characters = [
       rareStory: "Her spiritual power is immense.",
       legendaryStory: "The guardian of the four lands." },
 
-    // JoJo's Bizarre Adventure
+    // JoJo's Bizarre Adventure || 181 - 187
     { id: 181, name: "Jolyne Cujoh",
       normal: "jolyne_normal.jpg", rare: "jolyne_rare.jpg", legendary: "jolyne_legendary.jpg",
       normalStory: "The fearless daughter of Jotaro with the string Stand Stone Free.",
@@ -1619,14 +1639,14 @@ const characters = [
       rareStory: "Her magnetism pulls everything in.",
       legendaryStory: "The queen of attraction." },
 
-      // Please don't milk me Merchant-San
+      // Please don't milk me Merchant-San || 188
     { id: 188, name: "Philo",
       normal: "philo_normal.jpg", rare: "philo_rare.jpg", legendary: "philo_legendary.jpg",
       normalStory: "The young and curious Stand user.",
       rareStory: "Her potential is limitless.",
       legendaryStory: "The future of the bloodline." },
 
-    // One Punch Man
+    // One Punch Man || 189 - 194
     { id: 189, name: "Tatsumaki",
       normal: "tatsumaki_normal.jpg", rare: "tatsumaki_rare.jpg", legendary: "tatsumaki_legendary.jpg",
       normalStory: "The terrifying esper known as the Tornado of Terror.",
@@ -1663,7 +1683,7 @@ const characters = [
       rareStory: "Her swarm is overwhelming.",
       legendaryStory: "The queen of the swarm." },
 
-    // Apex Legends
+    // Apex Legends || 195 - 197
     { id: 195, name: "Loba",
       normal: "loba_normal.jpg", rare: "loba_rare.jpg", legendary: "loba_legendary.jpg",
       normalStory: "The master thief who steals from the rich.",
@@ -1682,7 +1702,7 @@ const characters = [
       rareStory: "She bends space and time to her will.",
       legendaryStory: "The void walker legend." },
 
-    // Gachiakuta
+    // Gachiakuta || 198 - 206
     { id: 198, name: "Amo Empool",
       normal: "amo_normal.jpg", rare: "amo_rare.jpg", legendary: "amo_legendary.jpg",
       normalStory: "The mysterious and powerful entity.",
@@ -1738,7 +1758,7 @@ const characters = [
       legendaryStory: "" },
 ];
 // ==================== CARD LOGIC ====================
-const TOTAL_UNIQUE_CARDS = 498;
+const TOTAL_UNIQUE_CARDS = 618;
 
 function getRandomCard() {
     const char = characters[Math.floor(Math.random() * characters.length)];
