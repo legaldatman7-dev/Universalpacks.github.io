@@ -44,30 +44,35 @@
         box-shadow: 0 12px 25px rgba(170, 0, 255, 0.6);
     }
 
-            .pack-area {
-            margin: 40px auto;
-            width: 180px;
-            height: 240px;
-            position: relative;
-        }
-        .pack {
-            width: 180px; 
-            height: 240px;
-            background: linear-gradient(135deg, #6600cc, #ff00aa);
-            border: 12px solid gold;
-            border-radius: 24px;
-            display: flex; 
-            align-items: center; 
-            justify-content: center;
-            font-size: 34px; 
-            font-weight: bold; 
-            color: white;
-            box-shadow: 0 20px 50px rgba(255,0,200,0.7);
-            cursor: pointer;
-            user-select: none;
-            transition: all 0.3s;
-            position: 100px;
-        }
+    .pack-area {
+      margin: 40px auto;
+      width: 180px;
+      height: 240px;
+      position: relative;
+    }
+    
+    .pack {
+      width: 180px; 
+      height: 240px;
+      background: linear-gradient(135deg, #6600cc, #ff00aa);
+      border: 12px solid gold;
+      border-radius: 24px;
+      display: flex; 
+      align-items: center; 
+      justify-content: center;
+      font-size: 34px; 
+      font-weight: bold; 
+      color: white;
+      box-shadow: 0 20px 50px rgba(255,0,200,0.7);
+      cursor: pointer;
+      user-select: none;
+      transition: all 0.3s;
+      position: 100px;
+    }
+
+    .pack:hover, .pack-area:hover {
+        transform: scale(0.95);
+    }
 
 
     @media only screen and (min-width: 1200px) {
@@ -332,12 +337,12 @@
 
     .library-card.basic { border: 2px solid #aaaaaa; }
     .library-card.rare { 
-        border: 3px solid #ffd700; 
-        box-shadow: 0 0 20px #ffd700; 
+        border: 3px solid #ff00ff; 
+        box-shadow: 0 0 20px #ff00ff; 
     }
     .library-card.legendary { 
-        border: 4px solid #ff00ff; 
-        box-shadow: 0 0 25px #ff00ff; 
+        border: 4px solid #ffd700; 
+        box-shadow: 0 0 25px #ffd700; 
     }
 
     .library-card:hover {
@@ -397,26 +402,71 @@
         overflow-y: auto;
     }
 
-    .library-content {
-        background: #1a0033;
-        padding: 20px;
-        border-radius: 20px;
-        width: 100%;
-        max-width: 1000px;
-        max-height: 92vh;
-        overflow-y: auto;
-    }
+ .library-modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.96);
+    z-index: 300;
+    align-items: center;
+    justify-content: center;
+    padding: 15px;
+}
+
+.library-content {
+    background: #1a0033;
+    padding: 20px 20px 30px;
+    border-radius: 20px;
+    width: 100%;
+    max-width: 1100px;
+    max-height: 92vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(255, 0, 200, 0.5);
+    border: 3px solid #ff99ff;
+}
+
+.sticky-close-btn {
+    position: fixed !important;
+    top: 25px;
+    right: 25px;
+    z-index: 10000;
+    padding: 12px 20px;
+    font-size: 18px;
+    font-weight: bold;
+    background: linear-gradient(#cc0000, #ff3333);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(0,0,0,0.6);
+    transition: all 0.2s;
+}
+
+.sticky-close-btn:hover {
+    background: linear-gradient(#ff3333, #ff5555);
+    transform: scale(1.08);
+}
+
+/* Make sure scrolling works nicely */
+.library-content::-webkit-scrollbar {
+    width: 8px;
+}
+.library-content::-webkit-scrollbar-thumb {
+    background: #ff66cc;
+    border-radius: 4px;
+}
 
     .library-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
         gap: 16px;
-        margin-top: 15px;
+        margin-top: 20px;
     }
 
     @media (min-width: 600px) {
         .library-grid {
-            grid-template-columns: repeat(3, 1fr); /* 3 columns on tablets and up */
+            grid-template-columns: repeat(6, 1fr); /* 6 columns on tablets and up */
         }
     }
 
@@ -453,10 +503,10 @@
 
 <div>
     <button onclick="openLibrary()">📚 Library</button>
-    <button onclick="resetProgress()" style="background: #cc0000; margin-left: 10px;">Reset Progress</button>
+    <button onclick="resetProgress()" style="background:#cc0000;">Reset Progress</button>
 </div>
 
-<h1>Lisa's Card Utopia</h1>
+<h1>Pack Opening</h1>
 
 <div class="pack-area" id="packArea">
     <div class="pack" id="pack">Open Pack</div>
@@ -466,13 +516,13 @@
 
 <!-- Card Modal -->
 <div class="modal" id="modal">
-    <div class="modal-content">
-        <div class="modal-card" id="modalCard"></div>
-        <div class="story-panel">
+    <div class="modal-content" style="display:flex; max-width:900px;">
+        <div id="modalCard" style="padding:20px; text-align:center;"></div>
+        <div style="padding:30px; flex:1; text-align:left;">
             <h2 id="modalName"></h2>
-            <button onclick="closeModal()">← Back</button>
-            <button onclick="inspectCard()">Inspect Closely</button>
-            <div id="story" class="typewriter"></div>
+            <div id="story"></div>
+            <br>
+            <button onclick="closeModal()">Close</button>
         </div>
     </div>
 </div>
@@ -480,51 +530,17 @@
 <!-- Library Modal -->
 <div class="library-modal" id="libraryModal">
     <div class="library-content">
-        <h2>📚 Collection Library <span id="libraryProgress">(0 / 183)</span></h2>
-        <button onclick="closeLibrary()" style="float:right;">Close</button>
-        <button onclick="showCraftingHelp()" style="margin: 10px 0;">ℹ️ How Crafting Works</button>
-        
+        <button onclick="closeLibrary()" class="sticky-close-btn">✕ Close</button>
+        <h2>📚 Collection <span id="libraryProgress">(0 / 0)</span></h2>
         <div class="library-grid" id="libraryGrid"></div>
     </div>
 </div>
 
 <script>
-// ==================== SAVE & LOAD ====================
-const SAVE_KEY = 'hololivePacksSave_v2';
-
-let collection = {};        // { fullId: count }
-let packsOpened = 0;
-
-function saveGame() {
-    localStorage.setItem(SAVE_KEY, JSON.stringify({ collection }));
-}
-
-function loadGame() {
-    const saved = localStorage.getItem(SAVE_KEY);
-    if (!saved) return;
-    
-    try {
-        const data = JSON.parse(saved);
-        packsOpened = data.packsOpened || 0;
-        collection = data.collection || {};
-        updateCollectionCount();
-    } catch (e) {
-        console.error("Save load failed", e);
-    }
-}
-
-function resetProgress() {
-    if (confirm("Delete ALL progress and start over?")) {
-        localStorage.removeItem(SAVE_KEY);
-        collection = {};
-        packsOpened = 0;
-        updateCollectionCount();
-    }
-}
 
 // ==================== CHARACTERS ====================
 const characters = [
-    // Hololive || 1 - 22
+    // Hololive
   { id: 1, name: "Hakos Baelz",
     normal: "baelz_normal.jpg", rare: "baelz_rare.jpg", legendary: "baelz_legendary.jpg",
     normalStory: "The Embodiment of Chaos. A chaotic rat who brings fun and disorder everywhere she goes. Expect the unexpected when Bae is around!",
@@ -635,7 +651,7 @@ const characters = [
     normalStory: "The gentle and kind-hearted dragon spirit who loves music and dancing.",
     rareStory: "The powerful dragon spirit. Her presence fills the air with magic and joy."
   },
-    // Limbus Company || 23 - 27
+    // Limbus Company
   { id: 23, name: "Ishmael",
     normal: "ishmael_normal.jpg", rare: "ishmael_rare.jpg", legendary: "ishmael_legendary.jpg",
     normalStory: "The gentle and kind-hearted dragon spirit who loves music and dancing.",
@@ -661,7 +677,7 @@ const characters = [
     normalStory: "The gentle and kind-hearted dragon spirit who loves music and dancing.",
     rareStory: "The powerful dragon spirit. Her presence fills the air with magic and joy."
   },
-    // Final Fantasy || 28 - 30
+    // Final Fantasy
   { id: 28, name: "Tifa Lockhart",
     normal: "tifa_normal.jpg", rare: "tifa_rare.jpg", legendary: "tifa_legendary.jpg",
     normalStory: "The gentle and kind-hearted dragon spirit who loves music and dancing.",
@@ -677,7 +693,7 @@ const characters = [
     normalStory: "The gentle and kind-hearted dragon spirit who loves music and dancing.",
     rareStory: "The powerful dragon spirit. Her presence fills the air with magic and joy."
   },
-    // My Hero Academia || 31 - 42
+    // My Hero Academia
   { id: 31, name: "Rumi Usagiyama",
       normal: "rumi_normal.jpg", rare: "rumi_rare.jpg", legendary: "rumi_legendary.jpg",
       normalStory: "The Rabbit Hero Mirko. Fierce, strong, and always ready for a fight.",
@@ -749,8 +765,7 @@ const characters = [
       normalStory: "Pixie-Bob of the Wild Wild Pussycats.",
       rareStory: "Her earth manipulation is incredibly powerful.",
       legendaryStory: "The legendary earth-shaping hero." },
-
-      // Bleach || 43 - 49
+        // Bleach
     { id: 43, name: "Yoruichi Shihōin",
       normal: "yoruichi_normal.jpg", rare: "yoruichi_rare.jpg", legendary: "yoruichi_legendary.jpg",
       normalStory: "The Flash Goddess. Lightning-fast and deadly.",
@@ -792,8 +807,7 @@ const characters = [
       normalStory: "The explosive fireworks expert of the Shiba clan.",
       rareStory: "Her cannon techniques are devastating.",
       legendaryStory: "The legendary fireworks master." },
-
-        // One Piece || 50 - 56
+        // One Piece
     { id: 50, name: "Nico Robin",
       normal: "robin_normal.jpg", rare: "robin_rare.jpg", legendary: "robin_legendary.jpg",
       normalStory: "The archaeologist of the Straw Hat Pirates.",
@@ -835,8 +849,7 @@ const characters = [
       normalStory: "The evil personality of Dr. Vegapunk.",
       rareStory: "Her technological genius is unmatched.",
       legendaryStory: "The Devil of the Future." },
-
-      // Jujutsu Kaisen || 57 - 61
+        // Jujutsu Kaisen
     { id: 57, name: "Maki Zenin",
       normal: "maki_normal.jpg", rare: "maki_rare.jpg", legendary: "maki_legendary.jpg",
       normalStory: "The heavenly restricted sorcerer. Pure physical power.",
@@ -866,8 +879,7 @@ const characters = [
       normalStory: "The Reverse Cursed Technique master and school doctor.",
       rareStory: "Her healing abilities are miraculous.",
       legendaryStory: "The ultimate healer." },
-
-      // Guilty Gear || 62 - 68
+      // Guilty Gear
     { id: 62, name: "Ramlethal Valentine",
     normal: "ramlethal_normal.jpg", rare: "ramlethal_rare.jpg", legendary: "ramlethal_legendary.jpg",
     normalStory: "A Valentine who wields a giant sword and questions her own emotions.",
@@ -910,7 +922,7 @@ const characters = [
     rareStory: "Her hair techniques reach godlike precision.",
     legendaryStory: "The Empress of the Threads." },
 
-    // Hades || 69 - 74
+    // Hades
   { id: 69, name: "Melinoe",
     normal: "melinoe_normal.jpg", rare: "melinoe_rare.jpg", legendary: "melinoe_legendary.jpg",
     normalStory: "The Princess of the Underworld, wielder of witchcraft and night.",
@@ -947,7 +959,7 @@ const characters = [
     rareStory: "Her wrath is terrifying.",
     legendaryStory: "The Fury incarnate." },
 
-  // Persona || 75 - 85
+  // Persona
   { id: 75, name: "Tae Takemi",
     normal: "tae_normal.jpg", rare: "tae_rare.jpg", legendary: "tae_legendary.jpg",
     normalStory: "The beautiful and slightly sadistic doctor.",
@@ -1014,7 +1026,7 @@ const characters = [
     rareStory: "Her investigative skills are legendary.",
     legendaryStory: "The truth seeker." },
 
-  // Danganronpa || 86 - 93
+  // Danganronpa
   { id: 86, name: "Junko Enoshima",
     normal: "junko_normal.jpg", rare: "junko_rare.jpg", legendary: "junko_legendary.jpg",
     normalStory: "The Ultimate Despair.",
@@ -1063,7 +1075,7 @@ const characters = [
     rareStory: "She captures truth with her lens.",
     legendaryStory: "The eye that sees all." },
 
-  // Baldur's Gate 3 || 94 - 98
+  // Baldur's Gate 3
   { id: 94, name: "Karlach",
     normal: "karlach_normal.jpg", rare: "karlach_rare.jpg", legendary: "karlach_legendary.jpg",
     normalStory: "The hot-headed tiefling barbarian with a burning heart.",
@@ -1094,7 +1106,7 @@ const characters = [
     rareStory: "Her contracts bind souls eternally.",
     legendaryStory: "The devil you know." },
 
-    // Helltaker || 99 - 104
+    // Helltaker
   { id: 99, name: "Lucifer",
     normal: "lucifer_normal.jpg", rare: "lucifer_rare.jpg", legendary: "lucifer_legendary.jpg",
     normalStory: "The Morning Star, fallen but radiant.",
@@ -1131,14 +1143,14 @@ const characters = [
     rareStory: "Treachery is her art.",
     legendaryStory: "The Betrayer." },
 
-  // Nier Automata || 105
+  // Nier
   { id: 105, name: "2B",
     normal: "2b_normal.jpg", rare: "2b_rare.jpg", legendary: "2b_legendary.jpg",
     normalStory: "The elegant android battle unit.",
     rareStory: "Her blindfold hides immense power.",
     legendaryStory: "Glory to Mankind." },
 
-  // Overwatch || 106 - 112
+  // Overwatch
   { id: 106, name: "Tracer",
     normal: "tracer_normal.jpg", rare: "tracer_rare.jpg", legendary: "tracer_legendary.jpg",
     normalStory: "The energetic time-jumping hero.",
@@ -1181,7 +1193,7 @@ const characters = [
     rareStory: "Her protection is absolute.",
     legendaryStory: "The protector of Kanezaka." },
 
-     // League of Legends || 113 - 117
+     // League of Legends
   { id: 113, name: "Akali",
     normal: "akali_normal.jpg", rare: "akali_rare.jpg", legendary: "akali_legendary.jpg",
     normalStory: "The rogue assassin of the K/DA.",
@@ -1212,14 +1224,14 @@ const characters = [
     rareStory: "Her aim is impeccable.",
     legendaryStory: "The top hat enforcer." },
 
-    // Tomb Raider || 118
+    // Tomb Raider
     { id: 118, name: "Lara Croft",
     normal: "lara_croft_normal.jpg", rare: "lara_croft_rare.jpg", legendary: "lara_croft_legendary.jpg",
     normalStory: "The legendary tomb raider and adventurer.",
     rareStory: "Her skills and determination are unmatched.",
     legendaryStory: "The ultimate treasure hunter and survivor." },
 
-    // Re:Zero || 119 - 121
+    // Re:Zero
   { id: 119, name: "Ram",
     normal: "ram_normal.jpg", rare: "ram_rare.jpg", legendary: "ram_legendary.jpg",
     normalStory: "The sharp-tongued pink-haired oni maid.",
@@ -1238,7 +1250,7 @@ const characters = [
     rareStory: "Her charisma and power shine brilliantly.",
     legendaryStory: "The Sun Priestess." },
 
-    // Chainsaw Man || 122 - 128
+    // Chainsaw Man
   { id: 122, name: "Makima",
     normal: "makima_normal.jpg", rare: "makima_rare.jpg", legendary: "makima_legendary.jpg",
     normalStory: "The enigmatic and terrifying Control Devil.",
@@ -1281,7 +1293,7 @@ const characters = [
     rareStory: "Her explosions light up the battlefield.",
     legendaryStory: "The walking bomb." },
 
-  // GODDESS OF VICTORY: NIKKE || 129 - 166
+  // ===================== GODDESS OF VICTORY: NIKKE =====================
   { id: 129, name: "Anis",
     normal: "anis_normal.jpg", rare: "anis_rare.jpg", legendary: "anis_legendary.jpg",
     normalStory: "The laid-back and heavy artillery Nikke.",
@@ -1510,7 +1522,7 @@ const characters = [
     rareStory: "Her poise is unmatched.",
     legendaryStory: "The noble rose." },
 
-      // Call of the night || 167 - 171
+      // Call of the night
     { id: 167, name: "Nazuna Nanakusa",
       normal: "nazuna_normal.jpg", rare: "nazuna_rare.jpg", legendary: "nazuna_legendary.jpg",
       normalStory: "The stylish and seductive vampire from Hyakuya High. Loves fashion and late-night snacks.",
@@ -1541,7 +1553,7 @@ const characters = [
       rareStory: "Her positivity becomes an unstoppable force.",
       legendaryStory: "The heart of the group." },
 
-    // Mato seihei no Slave || 172 - 180
+    // Mato seihei no Slave
     { id: 172, name: "Fubuki Azuma",
       normal: "fubuki_azuma_normal.jpg", rare: "fubuki_azuma_rare.jpg", legendary: "fubuki_azuma_legendary.jpg",
       normalStory: "The cool and composed wind user.",
@@ -1596,7 +1608,7 @@ const characters = [
       rareStory: "Her spiritual power is immense.",
       legendaryStory: "The guardian of the four lands." },
 
-    // JoJo's Bizarre Adventure || 181 - 187
+    // JoJo's Bizarre Adventure
     { id: 181, name: "Jolyne Cujoh",
       normal: "jolyne_normal.jpg", rare: "jolyne_rare.jpg", legendary: "jolyne_legendary.jpg",
       normalStory: "The fearless daughter of Jotaro with the string Stand Stone Free.",
@@ -1639,14 +1651,14 @@ const characters = [
       rareStory: "Her magnetism pulls everything in.",
       legendaryStory: "The queen of attraction." },
 
-      // Please don't milk me Merchant-San || 188
+      // Please don't milk me Merchant-San
     { id: 188, name: "Philo",
       normal: "philo_normal.jpg", rare: "philo_rare.jpg", legendary: "philo_legendary.jpg",
       normalStory: "The young and curious Stand user.",
       rareStory: "Her potential is limitless.",
       legendaryStory: "The future of the bloodline." },
 
-    // One Punch Man || 189 - 194
+    // One Punch Man
     { id: 189, name: "Tatsumaki",
       normal: "tatsumaki_normal.jpg", rare: "tatsumaki_rare.jpg", legendary: "tatsumaki_legendary.jpg",
       normalStory: "The terrifying esper known as the Tornado of Terror.",
@@ -1683,7 +1695,7 @@ const characters = [
       rareStory: "Her swarm is overwhelming.",
       legendaryStory: "The queen of the swarm." },
 
-    // Apex Legends || 195 - 197
+    // Apex Legends
     { id: 195, name: "Loba",
       normal: "loba_normal.jpg", rare: "loba_rare.jpg", legendary: "loba_legendary.jpg",
       normalStory: "The master thief who steals from the rich.",
@@ -1702,7 +1714,7 @@ const characters = [
       rareStory: "She bends space and time to her will.",
       legendaryStory: "The void walker legend." },
 
-    // Gachiakuta || 198 - 206
+    // Gachiakuta
     { id: 198, name: "Amo Empool",
       normal: "amo_normal.jpg", rare: "amo_rare.jpg", legendary: "amo_legendary.jpg",
       normalStory: "The mysterious and powerful entity.",
@@ -1756,36 +1768,308 @@ const characters = [
       normalStory: "",
       rareStory: "",
       legendaryStory: "" },
+
+    { id: 207, name: "Frenni Fazclair",
+      normal: "frenni_normal.jpg", rare: "frenni_rare.jpg", legendary: "frenni_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 208, name: "Fexa",
+      normal: "fexa_normal.jpg", rare: "fexa_rare.jpg", legendary: "fexa_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 209, name: "Marie",
+      normal: "marie_normal.jpg", rare: "marie_rare.jpg", legendary: "marie_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 210, name: "Frieren",
+      normal: "frieren_normal.jpg", rare: "frieren_rare.jpg", legendary: "frieren_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 211, name: "Fern",
+      normal: "fern_normal.jpg", rare: "fern_rare.jpg", legendary: "fern_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 212, name: "Ruby Rose",
+      normal: "ruby_normal.jpg", rare: "ruby_rare.jpg", legendary: "ruby_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 213, name: "Yang Xiao Long",
+      normal: "yang_normal.jpg", rare: "yang_rare.jpg", legendary: "yang_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 214, name: "Blake Belladona",
+      normal: "blake_normal.jpg", rare: "blake_rare.jpg", legendary: "blake_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 215, name: "Neopolitan",
+      normal: "neo_normal.jpg", rare: "neopolitan_rare.jpg", legendary: "neopolitan_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 216, name: "Cinder Fall",
+      normal: "cinder_normal.jpg", rare: "cinder_rare.jpg", legendary: "cinder_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 217, name: "Winter Schnee",
+      normal: "winter_normal.jpg", rare: "winter_rare.jpg", legendary: "winter_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 218, name: "Lucy Kushinada",
+      normal: "lucy_normal.jpg", rare: "lucy_rare.jpg", legendary: "lucy_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 219, name: "Rebecca",
+      normal: "rebecca_normal.jpg", rare: "rebecca_rare.jpg", legendary: "rebecca_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 220, name: "Kiwi",
+      normal: "kiwi_normal.jpg", rare: "kiwi_rare.jpg", legendary: "kiwi_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 221, name: "Yor Forger",
+      normal: "yor_normal.jpg", rare: "yor_rare.jpg", legendary: "yor_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 222, name: "Pomni",
+      normal: "pomni_normal.jpg", rare: "pomni_rare.jpg", legendary: "pomni_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 223, name: "Gemna",
+      normal: "gemna_normal.jpg", rare: "gemna_rare.jpg", legendary: "gemna_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 224, name: "Albedo",
+      normal: "albedo_normal.jpg", rare: "albedo_rare.jpg", legendary: "albedo_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 225, name: "Shalltear Bloodfallen",
+      normal: "shalltear_normal.jpg", rare: "shalltear_rare.jpg", legendary: "shalltear_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 226, name: "Princess Bubblegum",
+      normal: "bubblegum_normal.jpg", rare: "bubblegum_rare.jpg", legendary: "bubblegum_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 227, name: "Marceline",
+      normal: "marceline_normal.jpg", rare: "marceline_rare.jpg", legendary: "marceline_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 228, name: "Revy Lee",
+      normal: "revy_normal.jpg", rare: "revy_rare.jpg", legendary: "revy_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 229, name: "Ryuko Matoi",
+      normal: "ryuko_matoi_normal.jpg", rare: "ryuko_rare.jpg", legendary: "ryuko_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 230, name: "Satsuki Kiryuin",
+      normal: "satsuki_normal.jpg", rare: "satsuki_rare.jpg", legendary: "satsuki_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 231, name: "Nui Harime",
+      normal: "nui_normal.jpg", rare: "nui_rare.jpg", legendary: "nui_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 232, name: "Asuna Ichinose",
+      normal: "asuna_normal.jpg", rare: "asuna_rare.jpg", legendary: "asuna_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 233, name: "Karin kakudate",
+      normal: "karin_normal.jpg", rare: "karin_rare.jpg", legendary: "karin_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 234, name: "Altria Pendragon",
+      normal: "altria_normal.jpg", rare: "altria_rare.jpg", legendary: "altria_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 235, name: "Altria Pendragon Alter",
+      normal: "altria_alter_normal.jpg", rare: "altria_alter_rare.jpg", legendary: "altria_alter_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 236, name: "Jeanne d'Arc Alter",
+      normal: "jeanne_alter_normal.jpg", rare: "jeanne_alter_rare.jpg", legendary: "jeanne_alter_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 237, name: "Shuten Douji",
+      normal: "shuten_normal.jpg", rare: "shuten_rare.jpg", legendary: "shuten_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 238, name: "Minamoto-no-Raikou",
+      normal: "minamoto_normal.jpg", rare: "minamoto_rare.jpg", legendary: "minamoto_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 239, name: "Altria Pendragon Lancer",
+      normal: "altria_lancer_normal.jpg", rare: "altria_lancer_rare.jpg", legendary: "altria_lancer_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 240, name: "Altria Pendragon Lancer Alter",
+      normal: "altria_lancer_alter_normal.jpg", rare: "altria_lancer_alter_rare.jpg", legendary: "altria_lancer_alter_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 241, name: "BB",
+      normal: "bb_normal.jpg", rare: "bb_rare.jpg", legendary: "bb_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 242, name: "Ibuki Douji",
+      normal: "ibuki_normal.jpg", rare: "ibuki_rare.jpg", legendary: "ibuki_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 243, name: "Nitocris Alter",
+      normal: "nitocris_alter_normal.jpg", rare: "nitocris_alter_rare.jpg", legendary: "nitocris_alter_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 244, name: "Nightingale",
+      normal: "nightingale_normal.jpg", rare: "nightingale_rare.jpg", legendary: "nightingale_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
+
+    { id: 245, name: "Carmilla",
+      normal: "carmilla_normal.jpg", rare: "carmilla_rare.jpg", legendary: "carmilla_legendary.jpg",
+      normalStory: "",
+      rareStory: "",
+      legendaryStory: "" },
 ];
 // ==================== CARD LOGIC ====================
-const TOTAL_UNIQUE_CARDS = 618;
+console.log("Total characters:", characters.length);
+console.log("Expected unique:", characters.length * 3);
 
+// Check for duplicate IDs
+const idSet = new Set();
+characters.forEach(c => {
+    if (idSet.has(c.id)) console.warn("Duplicate ID:", c.id, c.name);
+    idSet.add(c.id);
+});
+
+// ==================== SAVE / LOAD ====================
+const SAVE_KEY = 'hololivePacksSave_v4';  // bumped version
+
+let collection = {}; // e.g. { "1_basic": 3, "1_rare": 1, "42_legendary": 5 }
+
+function getCardKey(charId, type) {
+    return `${charId}_${type}`;
+}
+
+function saveGame() {
+    localStorage.setItem(SAVE_KEY, JSON.stringify({ collection }));
+}
+
+function loadGame() {
+    const saved = localStorage.getItem(SAVE_KEY);
+    if (saved) {
+        try {
+            collection = JSON.parse(saved).collection || {};
+        } catch(e) {}
+    }
+}
+
+function resetProgress() {
+    if (confirm("Delete ALL progress?")) {
+        localStorage.removeItem(SAVE_KEY);
+        collection = {};
+        updateCollectionCount();
+        if (document.getElementById('libraryModal').style.display === 'flex') openLibrary();
+    }
+}
+
+// ==================== CARD GENERATION ====================
 function getRandomCard() {
     const char = characters[Math.floor(Math.random() * characters.length)];
     const roll = Math.random();
     
     let type = 'basic';
     let image = char.normal;
-    let story = char.normalStory || "A mysterious character from another world.";
+    let story = char.normalStory || "A mysterious character.";
 
     if (roll < 0.04) {                    // 4% Legendary
         type = 'legendary';
-        image = char.normal;   // Fallback chain
+        image = char.legendary || char.rare || char.normal;
         story = char.legendaryStory || char.rareStory || char.normalStory;
-    } 
-    else if (roll < 0.18) {               // 14% Rare (18% - 4%)
+    } else if (roll < 0.18) {             // 14% Rare (total 18%)
         type = 'rare';
-        image = char.normal;                     // Fallback to normal
+        image = char.rare || char.normal;
         story = char.rareStory || char.normalStory;
     }
-    
-    const offset = type === 'legendary' ? 200 : type === 'rare' ? 100 : 0;
-    const fullId = char.id + offset;
-    
-    return { ...char, type, image, story, fullId };
+
+    const key = getCardKey(char.id, type);
+
+    return { ...char, type, image, story, key };
 }
 
-// ==================== DOM ELEMENTS ====================
+// ==================== DOM ====================
 const packEl = document.getElementById('pack');
 const cardsContainer = document.getElementById('cardsContainer');
 const modal = document.getElementById('modal');
@@ -1795,221 +2079,189 @@ const storyEl = document.getElementById('story');
 const libraryModal = document.getElementById('libraryModal');
 const libraryGrid = document.getElementById('libraryGrid');
 
+let currentView = 'main';
 let currentCard = null;
-let flyingCards = [];
 
-// Load game
+// Load on start
 loadGame();
+updateCollectionCount();
 
-// ==================== PACK OPENING ====================
+// ==================== PACK OPENING ===================+
 document.getElementById('packArea').addEventListener('click', () => {
     if (packEl.classList.contains('shaking')) return;
 
-    // Clear old flying cards
-    flyingCards.forEach(c => c.remove());
-    flyingCards = [];
-
     packEl.classList.add('shaking');
-
+    
     setTimeout(() => {
         packEl.classList.remove('shaking');
-        packEl.classList.add('opening');
-
-        // === CLEAR PREVIOUS CARDS ===
         cardsContainer.innerHTML = '';
-        flyingCards.forEach(c => c.remove());
-        flyingCards = [];
 
-        // Open new pack
         const newCards = [];
         for (let i = 0; i < 5; i++) {
             const cardData = getRandomCard();
-            collection[cardData.fullId] = (collection[cardData.fullId] || 0) + 1;
+            collection[cardData.key] = (collection[cardData.key] || 0) + 1;
             newCards.push(cardData);
-            saveGame();
         }
-            
-        // Create two rows: 2 on top, 3 on bottom
-        const topRow = document.createElement('div');
-        topRow.className = 'card-row';
+        saveGame();
+        updateCollectionCount();
 
-        const bottomRow = document.createElement('div');
-        bottomRow.className = 'card-row';
-
-        newCards.forEach((cardData, i) => {
+        // Display cards
+        const row = document.createElement('div');
+        row.className = 'card-row';
+        
+        newCards.forEach((cardData) => {
             const cardEl = document.createElement('div');
             cardEl.className = `flying-card ${cardData.type}`;
             cardEl.innerHTML = `
                 <img src="images/${cardData.image}" alt="${cardData.name}">
                 <div class="card-name">
                     ${cardData.name}<br>
-                    <small>${cardData.type === 'legendary' ? '◆ Legendary' : cardData.type === 'rare' ? '★ Rare' : ''}</small>
+                    <small>${cardData.type.toUpperCase()}</small>
                 </div>
             `;
+            cardEl.onclick = () => showCard(cardData);
+            row.appendChild(cardEl);
+        });
 
-            cardEl.style.opacity = '0';
-            cardEl.style.transform = 'translateY(400px) scale(0.7)';
-            
-            if (window.matchMedia('(max-width: 600px)').matches) {
-                if (i < 2) {
-                    topRow.appendChild(cardEl);
-                } else {
-                    bottomRow.appendChild(cardEl);
-                }
-            } else {
-                topRow.appendChild(cardEl);
-            }
-
-            flyingCards.push(cardEl);
-
-            const delay = 180 + i * 80;
-
-            // Staggered reveal
-            setTimeout(() => {
-                cardEl.style.transition = 'none';
-                // Trigger animation
-                cardEl.offsetHeight; // force reflow
-                
-                if (cardData.type === 'legendary') {
-                    cardEl.classList.add('show-flash');
-                } else if (cardData.type === 'rare') {
-                    cardEl.classList.add('show-flash');
-                }
-                
-                cardEl.style.transition = 'all 0.4s ease';
-                cardEl.style.opacity = '1';
-                }, delay);
-                cardEl.onclick = () => showCard(cardData);
-                });
-
-        cardsContainer.appendChild(topRow);
-        cardsContainer.appendChild(bottomRow);
-
-        updateCollectionCount();
-        saveGame();
-
-        setTimeout(() => packEl.classList.remove('opening'), 1500);
-    });
+        cardsContainer.appendChild(row);
+    }, 400);
 });
 
 function updateCollectionCount() {
-    const count = Object.keys(collection).length;
-    document.getElementById('collectionCount').textContent = count;
-    saveGame();
+    let unlocked = 0;
+    const total = characters.length * 3;
+
+    characters.forEach(char => {
+        ['basic', 'rare', 'legendary'].forEach(type => {
+            const key = getCardKey(char.id, type);
+            if (collection[key] && collection[key] > 0) {
+                unlocked++;
+            }
+        });
+    });
+
+    const remaining = total - unlocked;
+    document.getElementById('libraryProgress').textContent = 
+        `(${unlocked} / ${total} — ${remaining} left)`;
 }
 
 // ==================== MODALS ====================
-function showCard(card) {
+function showCard(card, fromLibrary = false) {
     currentCard = card;
-    modalCard.innerHTML = `<img src="images/${card.image}" alt="${card.name}">`;
-    modalName.textContent = `${card.name} — ${card.type.charAt(0).toUpperCase() + card.type.slice(1)}`;
-    storyEl.textContent = '';
-    modal.style.display = 'flex';
-}
+    
+    if (fromLibrary) {
+        currentView = 'library';
+    } else {
+        currentView = 'main';
+    }
 
-function inspectCard() {
-    if (!currentCard) return;
-    storyEl.textContent = '';
-    let i = 0;
-    const text = currentCard.story;
-    const interval = setInterval(() => {
-        if (i < text.length) storyEl.textContent += text[i++];
-        else clearInterval(interval);
-    }, 35);
+    modalCard.innerHTML = `<img src="images/${card.image}" style="max-height:420px; border-radius:12px;">`;
+    modalName.textContent = `${card.name} — ${card.type.charAt(0).toUpperCase() + card.type.slice(1)}`;
+    storyEl.textContent = card.story || "No story available.";
+    modal.style.display = 'flex';
 }
 
 function closeModal() {
     modal.style.display = 'none';
+    
+    // Smart return
+    if (currentView === 'library') {
+        setTimeout(() => {
+            openLibrary();
+        }, 300); // small delay for smooth transition
+    }
 }
 
 // ==================== LIBRARY ====================
+
 function openLibrary() {
+    currentView = 'library';
     libraryGrid.innerHTML = '';
-
+    
     characters.forEach(char => {
-        appendLibraryCard(char, 'basic', collection[char.id] || 0);
-        appendLibraryCard(char, 'rare', collection[char.id + 100] || 0);
-        appendLibraryCard(char, 'legendary', collection[char.id + 200] || 0);
-    });
+        ['basic', 'rare', 'legendary'].forEach(type => {
+            const key = getCardKey(char.id, type);
+            const count = collection[key] || 0;
 
-    document.getElementById('libraryProgress').textContent = 
-        `(${Object.keys(collection).length} / ${TOTAL_UNIQUE_CARDS})`;
+            const div = document.createElement('div');
+            div.className = `library-card ${type}`;
+
+            let imageSrc = 'https://via.placeholder.com/150x210/111111/555555?text=?';
+            if (count > 0) {
+                if (type === 'legendary' && char.legendary) imageSrc = 'images/' + char.legendary;
+                else if (type === 'rare' && char.rare) imageSrc = 'images/' + char.rare;
+                else imageSrc = 'images/' + char.normal;
+            }
+
+            let html = `
+                <img src="${imageSrc}">
+                <div class="label">${char.name}<br><small>${type.toUpperCase()}</small></div>
+                ${count > 0 ? `<div class="count">×${count}</div>` : ''}
+            `;
+
+            if (type !== 'legendary' && count >= 5) {
+                const targetType = type === 'basic' ? 'Rare' : 'Legendary';
+                html += `
+                    <button class="craft-btn" onclick="event.stopImmediatePropagation(); craftCard(${char.id}, '${type}')">
+                        Craft ${targetType}
+                    </button>
+                `;
+            }
+
+            div.innerHTML = html;
+
+            if (count > 0) {
+                div.onclick = (e) => {
+                    if (e.target.tagName === 'BUTTON') return;
+                    
+                    const cardData = {
+                        ...char,
+                        type: type,
+                        image: type === 'legendary' ? (char.legendary || char.rare || char.normal) :
+                               type === 'rare' ? (char.rare || char.normal) : char.normal,
+                        story: type === 'legendary' ? (char.legendaryStory || char.rareStory || char.normalStory) :
+                               type === 'rare' ? (char.rareStory || char.normalStory) : char.normalStory
+                    };
+                    
+                    showCard(cardData, true); // true = from library
+                    closeLibrary();
+                };
+            }
+            libraryGrid.appendChild(div);
+        });
+    });
     
     libraryModal.style.display = 'flex';
-}
-
-function appendLibraryCard(char, type, count) {
-    const offset = type === 'legendary' ? 200 : type === 'rare' ? 100 : 0;
-    const fullId = char.id + offset;
-    const imageFile = char.normal;
-
-    const div = document.createElement('div');
-    div.className = `library-card ${type}`;
-
-    let html = `
-        <img src="${count > 0 ? 'images/' + imageFile : 'https://via.placeholder.com/160x225/111111/555555?text=?'}">
-        <div class="label">${char.name}<br><small>${type === 'legendary' ? '◆ Legendary' : type === 'rare' ? '★ Rare' : 'Basic'}</small></div>
-    `;
-
-    if (count > 0) {
-        html += `<div class="count">×${count}</div>`;
-    }
-
-    // Crafting button
-    if ((type === 'basic' || type === 'rare') && count >= 5) {
-        html += `
-            <button class="craft-btn" onclick="event.stopImmediatePropagation(); craftCard(${char.id}, '${type}')">
-                Craft ↑
-            </button>
-        `;
-    }
-
-    div.innerHTML = html;
-
-    if (count > 0) {
-        div.onclick = () => {
-            const cardData = {
-                ...char,
-                type,
-                image: imageFile,
-                story: type === 'legendary' ? (char.legendaryStory || char.rareStory) : 
-                       type === 'rare' ? char.rareStory : char.normalStory
-            };
-            showCard(cardData);
-            closeLibrary();
-        };
-    }
-
-    libraryGrid.appendChild(div);
-}
-
-function craftCard(charId, currentType) {
-    const currentOffset = currentType === 'basic' ? 0 : 100;
-    const nextOffset = currentType === 'basic' ? 100 : 200;
-    const currentFullId = charId + currentOffset;
-    const nextFullId = charId + nextOffset;
-
-    if ((collection[currentFullId] || 0) < 5) return alert("Need 5 copies to craft!");
-
-    collection[currentFullId] -= 5;
-    if (collection[currentFullId] <= 0) delete collection[currentFullId];
-
-    collection[nextFullId] = (collection[nextFullId] || 0) + 1;
-
-    alert(`✅ Crafted 1 ${currentType === 'basic' ? 'Rare' : 'Legendary'} card!`);
-    openLibrary();
-    updateCollectionCount();
-}
-
-function showCraftingHelp() {
-    alert("Crafting Rules:\n\n• 5 Basic → 1 Rare (same character)\n• 5 Rare → 1 Legendary (same character)");
 }
 
 function closeLibrary() {
     libraryModal.style.display = 'none';
 }
 
-// Keyboard support
+// ==================== CRAFTING ====================
+function craftCard(charId, fromType) {
+    const toType = fromType === 'basic' ? 'rare' : 'legendary';
+    const fromKey = getCardKey(charId, fromType);
+    const toKey = getCardKey(charId, toType);
+
+    const count = collection[fromKey] || 0;
+
+    if (count < 5) {
+        alert(`You need 5 ${fromType} cards to craft a ${toType}!`);
+        return;
+    }
+
+    if (confirm(`Craft 1 ${toType} using 5 ${fromType} cards?`)) {
+        collection[fromKey] -= 5;
+        collection[toKey] = (collection[toKey] || 0) + 1;
+
+        saveGame();
+        updateCollectionCount();
+        openLibrary(); // refresh library
+    }
+}
+
+// Escape key support
 document.addEventListener('keydown', e => {
     if (e.key === "Escape") {
         if (libraryModal.style.display === 'flex') closeLibrary();
