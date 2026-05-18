@@ -530,15 +530,54 @@
 <!-- Library Modal -->
 <div class="library-modal" id="libraryModal">
     <div class="library-content">
-        <button onclick="closeLibrary()" class="sticky-close-btn">✕ Close</button>
-        <h2>📚 Collection <span id="libraryProgress">(0 / 0)</span></h2>
-        <div class="library-grid" id="libraryGrid"></div>
+    <button onclick="closeLibrary()" class="sticky-close-btn">✕ Close</button>
+    <h2>📚 Collection <span id="libraryProgress">(0 / 0)</span></h2>
+    
+    <!-- NEW: Library Filters -->
+    <div id="libraryFilters" style="margin: 15px 0 25px; padding: 15px; background: rgba(255,255,255,0.05); border-radius: 12px; display: flex; flex-wrap: wrap; gap: 12px; align-items: center; justify-content: center;">
+        <div>
+            <label style="color:#ff99ff; margin-right:6px; font-weight:600;">Status:</label>
+            <select id="statusFilter" onchange="renderLibrary()" style="padding:8px 12px; border-radius:8px; background:#220033; color:#eee; border:1px solid #ff66cc;">
+                <option value="all">All Cards</option>
+                <option value="unlocked">Unlocked Only</option>
+                <option value="missing">Not Unlocked</option>
+            </select>
+        </div>
+        
+        <div>
+            <label style="color:#ff99ff; margin-right:6px; font-weight:600;">Franchise:</label>
+            <select id="franchiseFilter" onchange="renderLibrary()" style="padding:8px 12px; border-radius:8px; background:#220033; color:#eee; border:1px solid #ff66cc;">
+                <!-- Populated automatically by JavaScript -->
+            </select>
+        </div>
+        
+        <div>
+            <label style="color:#ff99ff; margin-right:6px; font-weight:600;">Rarity:</label>
+            <select id="rarityFilter" onchange="renderLibrary()" style="padding:8px 12px; border-radius:8px; background:#220033; color:#eee; border:1px solid #ff66cc;">
+                <option value="all">All Rarities</option>
+                <option value="basic">Basic</option>
+                <option value="rare">Rare</option>
+                <option value="legendary">Legendary</option>
+            </select>
+        </div>
+        
+        <div>
+            <label style="color:#ff99ff; margin-right:6px; font-weight:600;">Sort by:</label>
+            <select id="sortOrder" onchange="renderLibrary()" style="padding:8px 12px; border-radius:8px; background:#220033; color:#eee; border:1px solid #ff66cc;">
+                <option value="id">ID (default)</option>
+                <option value="name">Name (A-Z)</option>
+            </select>
+        </div>
+        
+        <button onclick="resetLibraryFilters()" style="padding:8px 16px; background:linear-gradient(#cc0000,#ff3333); color:white; border:none; border-radius:8px; cursor:pointer;">Reset Filters</button>
     </div>
+    
+    <div class="library-grid" id="libraryGrid"></div>
 </div>
 
-<script>
 
-// ==================== CHARACTERS ====================
+<script>
+// ==================== Characters ====================
 const characters = [
     // Hololive
   { id: 1, name: "Hakos Baelz",
@@ -2003,6 +2042,44 @@ const characters = [
       rareStory: "",
       legendaryStory: "" },
 ];
+
+// ==================== FRANCHISE HELPER ====================
+function getFranchise(id) {
+    if (id >= 1 && id <= 22) return "Hololive";
+    if (id >= 23 && id <= 27) return "Limbus Company";
+    if (id >= 28 && id <= 30) return "Final Fantasy";
+    if (id >= 31 && id <= 42) return "My Hero Academia";
+    if (id >= 43 && id <= 49) return "Bleach";
+    if (id >= 50 && id <= 56) return "One Piece";
+    if (id >= 57 && id <= 61) return "Jujutsu Kaisen";
+    if (id >= 62 && id <= 68) return "Guilty Gear";
+    if (id >= 69 && id <= 74) return "Hades";
+    if (id >= 75 && id <= 85) return "Persona";
+    if (id >= 86 && id <= 93) return "Danganronpa";
+    if (id >= 94 && id <= 98) return "Baldur's Gate 3";
+    if (id >= 99 && id <= 104) return "Helltaker";
+    if (id === 105) return "Nier";
+    if (id >= 106 && id <= 112) return "Overwatch";
+    if (id >= 113 && id <= 117) return "League of Legends";
+    if (id === 118) return "Tomb Raider";
+    if (id >= 119 && id <= 121) return "Re:Zero";
+    if (id >= 122 && id <= 128) return "Chainsaw Man";
+    if (id >= 129 && id <= 166) return "Goddess of Victory: Nikke";
+    if (id >= 167 && id <= 171) return "Call of the Night";
+    if (id >= 172 && id <= 180) return "Mato Seihei no Slave";
+    if (id >= 181 && id <= 187) return "JoJo's Bizarre Adventure";
+    if (id === 188) return "Please Don't Milk Me Merchant-San";
+    if (id >= 189 && id <= 194) return "One Punch Man";
+    if (id >= 195 && id <= 197) return "Apex Legends";
+    if (id >= 198 && id <= 200) return "Gachiakuta";
+    return "Other"; // all remaining characters (Frieren, RWBY, Fate, etc.)
+}
+
+// ==================== FRANCHISE HELPER (now uses sheet) ====================
+function getFranchise(char) {
+    return char.franchise || "Other";
+}
+
 // ==================== CARD LOGIC ====================
 console.log("Total characters:", characters.length);
 console.log("Expected unique:", characters.length * 3);
@@ -2174,64 +2251,133 @@ function closeModal() {
 
 // ==================== LIBRARY ====================
 
+// Helper to create a single library card element (avoids code duplication)
+function createLibraryCard(char, type) {
+    const key = getCardKey(char.id, type);
+    const count = collection[key] || 0;
+    const div = document.createElement('div');
+    div.className = `library-card ${type}`;
+
+    let imageSrc = 'https://via.placeholder.com/150x210/111111/555555?text=?';
+    if (count > 0) {
+        if (type === 'legendary' && char.legendary) imageSrc = 'images/' + char.legendary;
+        else if (type === 'rare' && char.rare) imageSrc = 'images/' + char.rare;
+        else imageSrc = 'images/' + char.normal;
+    }
+
+    let html = `
+        <img src="${imageSrc}">
+        <div class="label">${char.name}<br><small>${type.toUpperCase()}</small></div>
+        ${count > 0 ? `<div class="count">×${count}</div>` : ''}
+    `;
+
+    if (type !== 'legendary' && count >= 5) {
+        const targetType = type === 'basic' ? 'Rare' : 'Legendary';
+        html += `
+            <button class="craft-btn" onclick="event.stopImmediatePropagation(); craftCard(${char.id}, '${type}')">
+                Craft ${targetType}
+            </button>
+        `;
+    }
+
+    div.innerHTML = html;
+
+    if (count > 0) {
+        div.onclick = (e) => {
+            if (e.target.tagName === 'BUTTON') return;
+            const cardData = {
+                ...char,
+                type: type,
+                image: type === 'legendary' ? (char.legendary || char.rare || char.normal) :
+                       type === 'rare' ? (char.rare || char.normal) : char.normal,
+                story: type === 'legendary' ? (char.legendaryStory || char.rareStory || char.normalStory) :
+                       type === 'rare' ? (char.rareStory || char.normalStory) : char.normalStory
+            };
+            showCard(cardData, true);
+            closeLibrary();
+        };
+    }
+    return div;
+}
+
+// NEW: Main render function with full filtering + sorting
 function openLibrary() {
     currentView = 'library';
-    libraryGrid.innerHTML = '';
+    if (characters.length === 0) {
+        // Still loading? Show a message
+        libraryGrid.innerHTML = `<div style="grid-column:1/-1;padding:60px;color:#ff99ff;">Loading characters from Google Sheet...</div>`;
+    }
+    populateFranchiseFilter();
+    renderLibrary();
+    libraryModal.style.display = 'flex';
+}
+
+function populateFranchiseFilter() {
+    const select = document.getElementById('franchiseFilter');
+    const franchises = new Set(characters.map(c => getFranchise(c)));
     
-    characters.forEach(char => {
+    select.innerHTML = '<option value="all">All Franchises</option>';
+    Array.from(franchises).sort().forEach(f => {
+        const opt = document.createElement('option');
+        opt.value = f;
+        opt.textContent = f;
+        select.appendChild(opt);
+    });
+}
+
+function renderLibrary() {
+    // (same as before — no changes needed here)
+    const statusFilter = document.getElementById('statusFilter').value;
+    const franchiseFilter = document.getElementById('franchiseFilter').value;
+    const rarityFilter = document.getElementById('rarityFilter').value;
+    const sortOrder = document.getElementById('sortOrder').value;
+
+    const grid = document.getElementById('libraryGrid');
+    grid.innerHTML = '';
+
+    let filteredChars = characters.filter(char => {
+        const charFranchise = getFranchise(char);
+        if (franchiseFilter !== 'all' && charFranchise !== franchiseFilter) return false;
+        return true;
+    });
+
+    if (sortOrder === 'name') {
+        filteredChars.sort((a, b) => a.name.localeCompare(b.name));
+    } else {
+        filteredChars.sort((a, b) => a.id - b.id);
+    }
+
+    filteredChars.forEach(char => {
         ['basic', 'rare', 'legendary'].forEach(type => {
+            if (rarityFilter !== 'all' && type !== rarityFilter) return;
+
             const key = getCardKey(char.id, type);
             const count = collection[key] || 0;
+            const isUnlocked = count > 0;
 
-            const div = document.createElement('div');
-            div.className = `library-card ${type}`;
+            if (statusFilter === 'unlocked' && !isUnlocked) return;
+            if (statusFilter === 'missing' && isUnlocked) return;
 
-            let imageSrc = 'https://via.placeholder.com/150x210/111111/555555?text=?';
-            if (count > 0) {
-                if (type === 'legendary' && char.legendary) imageSrc = 'images/' + char.legendary;
-                else if (type === 'rare' && char.rare) imageSrc = 'images/' + char.rare;
-                else imageSrc = 'images/' + char.normal;
-            }
-
-            let html = `
-                <img src="${imageSrc}">
-                <div class="label">${char.name}<br><small>${type.toUpperCase()}</small></div>
-                ${count > 0 ? `<div class="count">×${count}</div>` : ''}
-            `;
-
-            if (type !== 'legendary' && count >= 5) {
-                const targetType = type === 'basic' ? 'Rare' : 'Legendary';
-                html += `
-                    <button class="craft-btn" onclick="event.stopImmediatePropagation(); craftCard(${char.id}, '${type}')">
-                        Craft ${targetType}
-                    </button>
-                `;
-            }
-
-            div.innerHTML = html;
-
-            if (count > 0) {
-                div.onclick = (e) => {
-                    if (e.target.tagName === 'BUTTON') return;
-                    
-                    const cardData = {
-                        ...char,
-                        type: type,
-                        image: type === 'legendary' ? (char.legendary || char.rare || char.normal) :
-                               type === 'rare' ? (char.rare || char.normal) : char.normal,
-                        story: type === 'legendary' ? (char.legendaryStory || char.rareStory || char.normalStory) :
-                               type === 'rare' ? (char.rareStory || char.normalStory) : char.normalStory
-                    };
-                    
-                    showCard(cardData, true); // true = from library
-                    closeLibrary();
-                };
-            }
-            libraryGrid.appendChild(div);
+            const cardEl = createLibraryCard(char, type);
+            grid.appendChild(cardEl);
         });
     });
-    
-    libraryModal.style.display = 'flex';
+
+    if (grid.children.length === 0) {
+        const empty = document.createElement('div');
+        empty.style.cssText = 'grid-column: 1 / -1; padding: 40px 20px; color: #ff99ff; font-size: 1.1rem; text-align:center;';
+        empty.innerHTML = `😢 No cards match your filters.<br><br>Try broadening your search!`;
+        grid.appendChild(empty);
+    }
+}
+
+// Reset all filters
+function resetLibraryFilters() {
+    document.getElementById('statusFilter').value = 'all';
+    document.getElementById('franchiseFilter').value = 'all';
+    document.getElementById('rarityFilter').value = 'all';
+    document.getElementById('sortOrder').value = 'id';
+    renderLibrary();
 }
 
 function closeLibrary() {
@@ -2245,7 +2391,6 @@ function craftCard(charId, fromType) {
     const toKey = getCardKey(charId, toType);
 
     const count = collection[fromKey] || 0;
-
     if (count < 5) {
         alert(`You need 5 ${fromType} cards to craft a ${toType}!`);
         return;
@@ -2254,10 +2399,9 @@ function craftCard(charId, fromType) {
     if (confirm(`Craft 1 ${toType} using 5 ${fromType} cards?`)) {
         collection[fromKey] -= 5;
         collection[toKey] = (collection[toKey] || 0) + 1;
-
         saveGame();
         updateCollectionCount();
-        openLibrary(); // refresh library
+        renderLibrary();
     }
 }
 
@@ -2268,6 +2412,13 @@ document.addEventListener('keydown', e => {
         else if (modal.style.display === 'flex') closeModal();
     }
 });
+
+// Auto-load characters when page opens
+window.addEventListener('load', async () => {
+    await loadCharactersFromSheet();
+    updateCollectionCount();   // refresh progress bar once data is loaded
+});
+
 </script>
 </body>
 </html>
