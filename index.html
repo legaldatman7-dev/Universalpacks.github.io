@@ -827,6 +827,21 @@ document.getElementById('packArea').addEventListener('click', () => {
     }, 400);
 });
 
+// Helper function to avoid code duplication
+function createCardElement(cardData) {
+    const cardEl = document.createElement('div');
+    cardEl.className = `flying-card ${cardData.type}`;
+    cardEl.innerHTML = `
+        <img src="images/${cardData.image}" alt="${cardData.name}">
+        <div class="card-name">
+            ${cardData.name}<br>
+            <small>${cardData.type.toUpperCase()}</small>
+        </div>
+    `;
+    cardEl.onclick = () => showCard(cardData);
+    return cardEl;
+}
+
 function updateCollectionCount() {
     let unlocked = 0;
     const total = characters.length * 3;
