@@ -134,13 +134,12 @@
     .flying-card .image-container,
     .card .image-container {
         width: 100%;
-        height: 100%;
-        max-width: fit-content;
-        max-height: fit-content;
-        position: relative;
+        height: 150px;
+        background: #111;
+        display: flex;
         align-items: center;
-        object-fit: contain;
-        background: #0a0a0a;
+        justify-content: center;
+        overflow: hidden;
     }
 
     .flying-card img,
@@ -578,7 +577,7 @@
 
 
 <script>
-// ==================== Characters ====================
+// ==================== GOOGLE SHEETS DATA ====================
 const characters = [
     // Hololive
   { id: 1, name: "Hakos Baelz",
@@ -2089,11 +2088,6 @@ function getFranchise(id) {
     return "Other"; // all remaining characters 
 }
 
-// ==================== FRANCHISE HELPER ====================
-function getFranchise(char) {
-    return char.franchise || "Other";
-}
-
 // ==================== CARD LOGIC ====================
 console.log("Total characters:", characters.length);
 console.log("Expected unique:", characters.length * 3);
@@ -2177,99 +2171,45 @@ let currentCard = null;
 loadGame();
 updateCollectionCount();
 
-let flyingCards = [];
-
-// ==================== PACK OPENING (Improved with 2-row system) ====================
+// ==================== PACK OPENING ===================+
 document.getElementById('packArea').addEventListener('click', () => {
-    const packEl = document.getElementById('pack');
     if (packEl.classList.contains('shaking')) return;
 
-    // Clear previous flying cards
-    flyingCards.forEach(c => c.remove());
-    flyingCards = [];
-
     packEl.classList.add('shaking');
-
+    
     setTimeout(() => {
         packEl.classList.remove('shaking');
-        packEl.classList.add('opening');
-
         cardsContainer.innerHTML = '';
 
         const newCards = [];
         for (let i = 0; i < 5; i++) {
             const cardData = getRandomCard();
-            const key = getCardKey(cardData.id, cardData.type);
-            collection[key] = (collection[key] || 0) + 1;
+            collection[cardData.key] = (collection[cardData.key] || 0) + 1;
             newCards.push(cardData);
         }
         saveGame();
         updateCollectionCount();
 
-        // === Create two rows ===
-        const topRow = document.createElement('div');
-        topRow.className = 'card-row';
-
-        const bottomRow = document.createElement('div');
-        bottomRow.className = 'card-row';
-
-        newCards.forEach((cardData, i) => {
+        // Display cards
+        const row = document.createElement('div');
+        row.className = 'card-row';
+        
+        newCards.forEach((cardData) => {
             const cardEl = document.createElement('div');
             cardEl.className = `flying-card ${cardData.type}`;
-            
             cardEl.innerHTML = `
-                <div class="image-container">
-                    <img src="images/${cardData.image}" alt="${cardData.name}">
-                </div>
+                <img src="images/${cardData.image}" alt="${cardData.name}">
                 <div class="card-name">
                     ${cardData.name}<br>
                     <small>${cardData.type.toUpperCase()}</small>
                 </div>
             `;
-
-            // Initial hidden state
-            cardEl.style.opacity = '0';
-            cardEl.style.transform = 'translateY(120px) scale(0.6)';
-
-            // Mobile: 2 top + 3 bottom
-            if (window.innerWidth <= 600) {
-                if (i < 2) {
-                    topRow.appendChild(cardEl);
-                } else {
-                    bottomRow.appendChild(cardEl);
-                }
-            } else {
-                // Desktop: single row
-                topRow.appendChild(cardEl);
-            }
-
-            flyingCards.push(cardEl);
-
-            // Staggered animation
-            const delay = 120 + i * 90;
-            setTimeout(() => {
-                cardEl.style.transition = 'all 0.55s cubic-bezier(0.175, 0.885, 0.32, 1.275)';
-                cardEl.style.opacity = '1';
-                cardEl.style.transform = 'translateY(0) scale(2)';
-
-                if (cardData.type === 'rare' || cardData.type === 'legendary') {
-                    cardEl.classList.add('show-flash');
-                }
-            }, delay);
-
             cardEl.onclick = () => showCard(cardData);
+            row.appendChild(cardEl);
         });
 
-        cardsContainer.appendChild(topRow);
-        if (window.innerWidth <= 600) {
-            cardsContainer.appendChild(bottomRow);
-        }
-
-        setTimeout(() => {
-            packEl.classList.remove('opening');
-        }, 1800);
-
-    }, 380);
+        cardsContainer.appendChild(row);
+    }, 400);
 });
 
 function updateCollectionCount() {
@@ -2382,7 +2322,7 @@ function openLibrary() {
 
 function populateFranchiseFilter() {
     const select = document.getElementById('franchiseFilter');
-    const franchises = new Set(characters.map(c => getFranchise(c)));
+    const franchises = new Set(characters.map(c => getFranchise(c.id)));
     
     select.innerHTML = '<option value="all">All Franchises</option>';
     Array.from(franchises).sort().forEach(f => {
@@ -2394,7 +2334,6 @@ function populateFranchiseFilter() {
 }
 
 function renderLibrary() {
-    // (same as before — no changes needed here)
     const statusFilter = document.getElementById('statusFilter').value;
     const franchiseFilter = document.getElementById('franchiseFilter').value;
     const rarityFilter = document.getElementById('rarityFilter').value;
@@ -2404,11 +2343,15 @@ function renderLibrary() {
     grid.innerHTML = '';
 
     let filteredChars = characters.filter(char => {
-        const charFranchise = getFranchise(char);
-        if (franchiseFilter !== 'all' && charFranchise !== franchiseFilter) return false;
+        const charFranchise = getFranchise(char.id);   // ← Fixed here
+        
+        if (franchiseFilter !== 'all' && charFranchise !== franchiseFilter) 
+            return false;
+        
         return true;
     });
 
+    // Sorting
     if (sortOrder === 'name') {
         filteredChars.sort((a, b) => a.name.localeCompare(b.name));
     } else {
@@ -2434,7 +2377,7 @@ function renderLibrary() {
     if (grid.children.length === 0) {
         const empty = document.createElement('div');
         empty.style.cssText = 'grid-column: 1 / -1; padding: 40px 20px; color: #ff99ff; font-size: 1.1rem; text-align:center;';
-        empty.innerHTML = `😢 No cards match your filters.<br><br>Try broadening your search!`;
+        empty.innerHTML = `😢 No cards match your filters.`;
         grid.appendChild(empty);
     }
 }
