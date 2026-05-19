@@ -864,7 +864,7 @@ function createLibraryCard(char, type) {
     if (count > 0) {
         if (type === 'legendary' && char.legendary) imageSrc = 'images/' + char.legendary;
         else if (type === 'rare' && char.rare) imageSrc = 'images/' + char.rare;
-        else imageSrc = 'images/' + char.normal;
+        else imageSrc = 'images/' + char.basic;
     }
 
     let html = `
@@ -890,10 +890,10 @@ function createLibraryCard(char, type) {
             const cardData = {
                 ...char,
                 type: type,
-                image: type === 'legendary' ? (char.legendary || char.rare || char.normal) :
-                       type === 'rare' ? (char.rare || char.normal) : char.normal,
-                story: type === 'legendary' ? (char.legendaryStory || char.rareStory || char.normalStory) :
-                       type === 'rare' ? (char.rareStory || char.normalStory) : char.normalStory
+                image: type === 'legendary' ? (char.legendary || char.rare || char.basic) :
+                       type === 'rare' ? (char.rare || char.basic) : char.basic,
+                story: type === 'legendary' ? (char.legendaryStory || char.rareStory || char.basicStory) :
+                       type === 'rare' ? (char.rareStory || char.basicStory) : char.basicStory
             };
             showCard(cardData, true);
             closeLibrary();
