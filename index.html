@@ -765,9 +765,19 @@ let currentCard = null;
 loadGame();
 updateCollectionCount();
 
-// ==================== PACK OPENING ===================+
+// ==================== PACK OPENING ====================
 document.getElementById('packArea').addEventListener('click', () => {
     if (packEl.classList.contains('shaking')) return;
+
+    if (coins < PACK_COST) {
+        alert(`Not enough coins! You need ${PACK_COST} coins to open a pack.\n\nYou have ${coins} coins.`);
+        return;
+    }
+
+    // Deduct coins
+    coins -= PACK_COST;
+    saveGame();
+    updateCoinDisplay();
 
     packEl.classList.add('shaking');
     
@@ -778,31 +788,42 @@ document.getElementById('packArea').addEventListener('click', () => {
         const newCards = [];
         for (let i = 0; i < 5; i++) {
             const cardData = getRandomCard();
-            collection[cardData.key] = (collection[cardData.key] || 0) + 1;
-            newCards.push(cardData);
+            if (cardData) {
+                collection[cardData.key] = (collection[cardData.key] || 0) + 1;
+                newCards.push(cardData);
+            }
         }
         saveGame();
         updateCollectionCount();
 
-        // Display cards
-        const row = document.createElement('div');
-        row.className = 'card-row';
-        
-        newCards.forEach((cardData) => {
-            const cardEl = document.createElement('div');
-            cardEl.className = `flying-card ${cardData.type}`;
-            cardEl.innerHTML = `
-                <img src="images/${cardData.image}" alt="${cardData.name}">
-                <div class="card-name">
-                    ${cardData.name}<br>
-                    <small>${cardData.type.toUpperCase()}</small>
-                </div>
-            `;
-            cardEl.onclick = () => showCard(cardData);
-            row.appendChild(cardEl);
-        });
+        // === NEW: Smart Mobile Layout ===
+        const isMobile = window.innerWidth <= 600;
 
-        cardsContainer.appendChild(row);
+        if (isMobile) {
+            // First row: 3 cards
+            const row1 = document.createElement('div');
+            row1.className = 'card-row';
+            newCards.slice(0, 3).forEach(cardData => {
+                row1.appendChild(createCardElement(cardData));
+            });
+            cardsContainer.appendChild(row1);
+
+            // Second row: 2 cards
+            const row2 = document.createElement('div');
+            row2.className = 'card-row';
+            newCards.slice(3).forEach(cardData => {
+                row2.appendChild(createCardElement(cardData));
+            });
+            cardsContainer.appendChild(row2);
+        } else {
+            // Desktop: Single row with all 5
+            const row = document.createElement('div');
+            row.className = 'card-row';
+            newCards.forEach(cardData => {
+                row.appendChild(createCardElement(cardData));
+            });
+            cardsContainer.appendChild(row);
+        }
     }, 400);
 });
 
