@@ -866,10 +866,16 @@ function showCard(card, fromLibrary = false) {
         currentView = 'main';
     }
 
-    modalCard.innerHTML = `<img src="images/${card.image}" style="max-height:420px; border-radius:12px;">`;
+    const isMobile = window.innerWidth <= 800;
+
+    modalCard.innerHTML = `<img src="images/${card.image}" style="max-height:420px; max-width:100%; border-radius:12px;">`;
     modalName.textContent = `${card.name} — ${card.type.charAt(0).toUpperCase() + card.type.slice(1)}`;
     storyEl.textContent = card.story || "No story available.";
     modal.style.display = 'flex';
+
+    if (isMobile) {
+        modalCard.innerHTML = `<img src="images/${card.image}" style="max-height:420px; max-width:100%; border-radius:12px;">`;
+    }
 }
 
 function closeModal() {
